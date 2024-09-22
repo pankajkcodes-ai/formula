@@ -7,6 +7,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formula/bloc/questions/questions_bloc.dart';
+import 'package:formula/bloc/quizzes/countdown_time_bloc.dart';
 import 'package:formula/bloc/quizzes/quizzes_bloc.dart';
 import 'package:formula/bloc/sub_topic/sub_topic_bloc.dart';
 import 'package:formula/bloc/subject/subject_bloc.dart';
@@ -16,6 +17,7 @@ import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/res/strings.dart';
 import 'package:formula/routes/routes.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'firebase_options.dart';
@@ -40,9 +42,30 @@ Future<void> main() async {
 
   OneSignal.initialize(AppStrings.oneSignalAppId);
 
-// The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+  // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
   OneSignal.Notifications.requestPermission(true);
 
+  // IN APP UPDATE
+  InAppUpdate.checkForUpdate().then((updateInfo) {
+    if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
+      if (updateInfo.immediateUpdateAllowed) {
+        // Perform immediate update
+        InAppUpdate.performImmediateUpdate().then((appUpdateResult) {
+          if (appUpdateResult == AppUpdateResult.success) {
+            //App Update successful
+          }
+        });
+      } else if (updateInfo.flexibleUpdateAllowed) {
+        //Perform flexible update
+        InAppUpdate.startFlexibleUpdate().then((appUpdateResult) {
+          if (appUpdateResult == AppUpdateResult.success) {
+            //App Update successful
+            InAppUpdate.completeFlexibleUpdate();
+          }
+        });
+      }
+    }
+  });
   runApp(const MyApp());
 }
 
@@ -63,6 +86,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => ThemeBloc()),
           BlocProvider(create: (_) => QuizzesBloc()),
           BlocProvider(create: (_) => QuestionsBloc()),
+          BlocProvider(create: (_) => CountDownTimerBloc()),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {

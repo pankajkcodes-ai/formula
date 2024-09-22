@@ -181,9 +181,9 @@ class AppStyles {
     );
   }
 
-  BoxDecoration kBoxBorderDecoration() {
+  BoxDecoration kBoxBorderDecoration({double? radius }) {
     return BoxDecoration(
-        borderRadius: BorderRadius.circular(11),
+        borderRadius: BorderRadius.circular(radius ??11),
         border: Border.all(color: Colors.black, width: 1));
   }
 

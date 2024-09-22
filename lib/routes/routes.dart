@@ -4,6 +4,7 @@ import 'package:formula/model/subject_model.dart';
 import 'package:formula/model/topic_model.dart';
 import 'package:formula/views/04_quiz/quiz_details.dart';
 import 'package:formula/views/04_quiz/quiz_list.dart';
+import 'package:formula/views/04_quiz/quiz_solutions.dart';
 import 'package:formula/views/04_quiz/result_summary.dart';
 import 'package:formula/views/menu/feedback.dart';
 import 'package:formula/views/menu/notifications.dart';
@@ -55,13 +56,20 @@ class AppRoutes {
             builder: (BuildContext context, GoRouterState state) {
               final QuizzesModel quizModel = state.extra as QuizzesModel;
               return  QuizDetails(quizzesModel: quizModel,);
+            }), 
+        GoRoute(
+            name: RoutesName.quizSolutionsRoute,
+            path: RoutesName.quizSolutionsRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              final  Map<String,dynamic> data = state.extra as Map<String,dynamic>;
+              return  QuizSolutions(quizzesModel: data["quizModel"], resultModel: data["resultModel"],);
             }),
         GoRoute(
             name: RoutesName.resultSummaryRoute,
             path: RoutesName.resultSummaryRoute,
             builder: (BuildContext context, GoRouterState state) {
-              ResultModel resultSummary = state.extra as ResultModel;
-              return  ResultSummary(resultSummary: resultSummary,);
+              final  Map<String,dynamic> data = state.extra as Map<String,dynamic>;
+              return  ResultSummary(resultModel: data["resultModel"], quizzesModel: data["quizModel"],);
             }),
         GoRoute(
             name: RoutesName.topicsRoute,

@@ -10,5 +10,6 @@ class RoutesName {
   static const String rateUsRoute = '/rate-us-route';
   static const String quizListRoute = '/quiz-list-route';
   static const String quizDetailsRoute = '/quiz-details-route';
+  static const String quizSolutionsRoute = '/quiz-solutions-route';
   static const String resultSummaryRoute = '/result-summary-route';
 }

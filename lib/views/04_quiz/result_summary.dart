@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:formula/model/quizzes_model.dart';
 import 'package:formula/model/result_model.dart';
+import 'package:formula/res/resources.dart';
+import 'package:formula/routes/routes_path.dart';
+import 'package:go_router/go_router.dart';
 
 class ResultSummary extends StatefulWidget {
-  final ResultModel resultSummary;
-  const ResultSummary({super.key, required this.resultSummary});
+  final ResultModel resultModel;
+  final QuizzesModel quizzesModel;
+
+  const ResultSummary(
+      {super.key, required this.resultModel, required this.quizzesModel});
 
   @override
   State<ResultSummary> createState() => _ResultSummaryState();
@@ -26,47 +34,84 @@ class _ResultSummaryState extends State<ResultSummary> {
                 child: Image.asset('assets/images/leader-board.png')),
           ),
           Card(
-            child: ListTile(
-              leading: const Icon(Icons.question_mark),
-              title: const Text('Total Marks'),
-              trailing: Text('${widget.resultSummary.totalMarks}'),
+            child: Column(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.question_mark),
+                  title: const Text('Total Marks'),
+                  trailing: Text('${widget.resultModel.totalMarks}'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.done),
+                  title: const Text('Your Marks'),
+                  trailing: Text('${widget.resultModel.obtainMarks}'),
+                ),
+              ],
             ),
           ),
           Card(
-            child: ListTile(
-              leading: const Icon(Icons.done),
-              title: const Text('Your Marks'),
-              trailing: Text('${widget.resultSummary.obtainMarks}'),
+            child: Column(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.question_mark),
+                  title: const Text('Total Questions'),
+                  trailing: Text('${widget.resultModel.totalQuestions}'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.done),
+                  title: const Text('Correct Answers'),
+                  trailing: Text('${widget.resultModel.correctAnswers}'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.close),
+                  title: const Text('Wrong Answers'),
+                  trailing: Text('${widget.resultModel.wrongAnswers}'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.privacy_tip_outlined),
+                  title: const Text('Not Answered'),
+                  trailing: Text('${widget.resultModel.notAttempt}'),
+                ),
+              ],
             ),
           ),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.question_mark),
-              title: const Text('Total Questions'),
-              trailing: Text('${widget.resultSummary.totalQuestions}'),
+          SizedBox(height: 11),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {
+                    GoRouter.of(context)
+                        .pushNamed(RoutesName.quizSolutionsRoute, extra: {
+                      "quizModel": widget.quizzesModel,
+                      "resultModel": widget.resultModel,
+                    });
+                  },
+                  child: Container(
+                    height: Resources.dimens.height(context) * 0.06,
+                    width: Resources.dimens.width(context) * 0.4,
+                    decoration:
+                        Resources.styles.kBoxBorderDecoration(radius: 7),
+                    child: const Center(child: Text('Solution')),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                  },
+                  child: Container(
+                    height: Resources.dimens.height(context) * 0.06,
+                    width: Resources.dimens.width(context) * 0.4,
+                    decoration:
+                        Resources.styles.kBoxBorderDecoration(radius: 7),
+                    child: const Center(child: Text('Done')),
+                  ),
+                )
+              ],
             ),
-          ),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.done),
-              title: const Text('Correct Answers'),
-              trailing: Text('${widget.resultSummary.correctAnswers}'),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.close),
-              title: const Text('Wrong Answers'),
-              trailing: Text('${widget.resultSummary.wrongAnswers}'),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.privacy_tip_outlined),
-              title: const Text('Not Answered'),
-              trailing: Text('${widget.resultSummary.notAttempt}'),
-            ),
-          ),
+          )
         ],
       ),
     );

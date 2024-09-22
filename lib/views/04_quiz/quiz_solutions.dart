@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:formula/bloc/questions/questions_bloc.dart';
-import 'package:formula/bloc/quizzes/countdown_time_bloc.dart';
 import 'package:formula/model/quizzes_model.dart';
 import 'package:formula/model/result_model.dart';
 import 'package:formula/res/resources.dart';
@@ -14,16 +13,18 @@ import 'package:formula/routes/routes_path.dart';
 import 'package:formula/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 
-class QuizDetails extends StatefulWidget {
+class QuizSolutions extends StatefulWidget {
   final QuizzesModel quizzesModel;
+  final ResultModel resultModel;
 
-  const QuizDetails({super.key, required this.quizzesModel});
+  const QuizSolutions(
+      {super.key, required this.quizzesModel, required this.resultModel});
 
   @override
-  State<QuizDetails> createState() => _QuizDetailsState();
+  State<QuizSolutions> createState() => _QuizSolutionsState();
 }
 
-class _QuizDetailsState extends State<QuizDetails> {
+class _QuizSolutionsState extends State<QuizSolutions> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   int selectedQuestionIndex = 0;
   Map<int, String> selectedOptionIndices = {};
@@ -38,7 +39,7 @@ class _QuizDetailsState extends State<QuizDetails> {
   double totalMarks = 0;
   double obtainMarks = 0;
   double percentage = 0;
-  int totalTime = 0;
+  String totalTime = '';
 
   void calculateResult() {}
 
@@ -55,10 +56,9 @@ class _QuizDetailsState extends State<QuizDetails> {
     context
         .read<QuestionsBloc>()
         .add(QuestionsGetEvent(quizId: widget.quizzesModel.id!));
-    context.read<CountDownTimerBloc>().add(
-        StartTimer(int.parse(widget.quizzesModel.totalTime.toString()) * 60));
-
+    // startTimer();
     _pageController = PageController(initialPage: 0);
+    selectedOptionIndices = widget.resultModel.selectedOptionIndices;
   }
 
   @override
@@ -185,13 +185,12 @@ class _QuizDetailsState extends State<QuizDetails> {
                                     : selectedOptionIndices.containsKey(index)
                                         ? Colors.greenAccent
                                         : Colors.grey.shade400,
-                                radius: 25,
                                 child: Text('${index + 1}'),
                               ),
                             );
                           }),
                     ),
-                    submitButton(totalQuestions),
+                    doneButton(),
                   ],
                 ),
               )),
@@ -203,23 +202,24 @@ class _QuizDetailsState extends State<QuizDetails> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      print("select : $selectedOptionIndices");
-                      selectedOptionIndices.remove(selectedQuestionIndex);
-                      //selectedOptionIndices.clear();
+                      if (totalQuestions.length > selectedQuestionIndex) {
+                        selectedQuestionIndex = (selectedQuestionIndex - 1);
+                      }
                     });
+                    _goToPage(selectedQuestionIndex);
                   },
                   child: Container(
                     height: Resources.dimens.height(context) * 0.04,
                     width: Resources.dimens.width(context) * 0.3,
                     decoration: Resources.styles.kBoxBorderDecoration(),
-                    child: const Center(child: Text('Clear Response')),
+                    child: const Center(child: Text('Previous')),
                   ),
                 ),
                 SizedBox(
                   width: Resources.dimens.width(context) * 0.05,
                 ),
                 totalQuestions.length - 1 == selectedQuestionIndex
-                    ? submitButton(totalQuestions)
+                    ? doneButton()
                     : GestureDetector(
                         onTap: () {
                           print(
@@ -247,17 +247,10 @@ class _QuizDetailsState extends State<QuizDetails> {
             automaticallyImplyLeading: false,
             iconTheme: IconThemeData(
                 color: Theme.of(context).colorScheme.onBackground),
-            title: BlocBuilder<CountDownTimerBloc, CountDownTimerState>(
-              builder: (context, state) {
-                print("CountDownTimerBlocState : ${state.duration}");
-                totalTime =(int.parse(widget.quizzesModel.totalTime.toString()) * 60)- state.duration;
-
-                return Text(
-                  AppUtils.formatTime(state.duration),
-                  style: Resources.styles.kTextStyle16B5(
-                      Theme.of(context).colorScheme.onBackground),
-                );
-              },
+            title: Text(
+              "Total time : ${AppUtils.formatTime(widget.resultModel.totalTime)}",
+              style: Resources.styles
+                  .kTextStyle16B5(Theme.of(context).colorScheme.onBackground),
             ),
             actions: [
               IconButton(
@@ -389,6 +382,25 @@ class _QuizDetailsState extends State<QuizDetails> {
                       ),
                     ),
                   ),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "Solution  : ",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: Container(
+                      width: Resources.dimens.width(context),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 15),
+                      child: HtmlWidget(totalQuestions[index].solution),
+                    ),
+                  ),
                 ],
               );
             },
@@ -398,57 +410,16 @@ class _QuizDetailsState extends State<QuizDetails> {
     );
   }
 
-  GestureDetector submitButton(List totalQuestions) {
+  GestureDetector doneButton() {
     return GestureDetector(
       onTap: () {
-        print("selectedOptionIndices : ${selectedOptionIndices}");
-        print("selectedOptionIndices : ${selectedOptionIndices.keys.length}");
-
-        print("totalQuestions : $totalQuestions");
-        print("totalQuestions : ${totalQuestions.length}");
-        var notAttempt =
-            totalQuestions.length - selectedOptionIndices.keys.length;
-
-        var correctAnswers = 0;
-        var wrongAnswers = 0;
-        for (var e in selectedOptionIndices.entries) {
-          print("e : ${e.key} : ${e.value}");
-          if (e.value == totalQuestions[e.key].correctOption) {
-            correctAnswers++;
-          } else {
-            wrongAnswers++;
-          }
-        }
-
-        double obtainMarks = (double.parse(widget.quizzesModel.totalPoints.toString()) /
-            int.parse(
-                widget.quizzesModel.totalQuestions.toString())) *
-            correctAnswers;
-
-        context.read<CountDownTimerBloc>().add(ResetTimer());
-
-        GoRouter.of(context).pushNamed(RoutesName.resultSummaryRoute, extra: {
-          "resultModel": ResultModel(
-              totalMarks:
-                  double.parse(widget.quizzesModel.totalPoints.toString()),
-              obtainMarks:
-                  obtainMarks,
-              percentage: obtainMarks * 100 /totalMarks,
-              totalQuestions:
-                  int.parse(widget.quizzesModel.totalQuestions.toString()),
-              correctAnswers: correctAnswers,
-              wrongAnswers: wrongAnswers,
-              notAttempt: notAttempt,
-              totalTime: totalTime,
-              selectedOptionIndices: selectedOptionIndices),
-          "quizModel": widget.quizzesModel
-        });
+        Navigator.popUntil(context, (route) => route.isFirst);
       },
       child: Container(
         height: Resources.dimens.height(context) * 0.04,
         width: Resources.dimens.width(context) * 0.3,
         decoration: Resources.styles.kBoxBorderDecoration(),
-        child: const Center(child: Text('Submit')),
+        child: const Center(child: Text('Done')),
       ),
     );
   }

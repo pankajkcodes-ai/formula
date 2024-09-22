@@ -7,6 +7,7 @@ class ResultModel {
   final int wrongAnswers;
   final int notAttempt;
   final int totalTime;
+ final  Map<int, String> selectedOptionIndices;
 
   ResultModel(
       {required this.totalMarks,
@@ -16,7 +17,8 @@ class ResultModel {
       required this.correctAnswers,
       required this.wrongAnswers,
       required this.notAttempt,
-      required this.totalTime});
+      required this.totalTime,
+      required this.selectedOptionIndices});
 
   factory ResultModel.fromJson(Map<String, dynamic> json) {
     return ResultModel(
@@ -28,6 +30,7 @@ class ResultModel {
       wrongAnswers: json['wrongAnswers'],
       notAttempt: json['notAttempt'],
       totalTime: json['totalTime'],
+      selectedOptionIndices: json['selectedOptionIndices'],
     );
   }
 
@@ -41,6 +44,7 @@ class ResultModel {
       'wrongAnswers': wrongAnswers,
       'notAttempt': notAttempt,
       'totalTime': totalTime,
+      'selectedOptionIndices': selectedOptionIndices,
     };
   }
 
