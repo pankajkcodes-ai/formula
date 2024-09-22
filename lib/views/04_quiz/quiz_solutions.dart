@@ -280,106 +280,78 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                   SizedBox(
                     height: Resources.dimens.height(context) * 0.02,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedOptionIndices[index] = "optionA";
-                      });
-                    },
-                    child: Card(
-                      color: selectedOptionIndices[index] == "optionA" &&
-                              totalQuestions[index].correctOption == "optionA"
-                          ? Colors.green
-                          : selectedOptionIndices[index] == "optionA" &&
-                                  totalQuestions[index].correctOption !=
-                                      "optionA"
-                              ? Colors.red
-                              : Colors.transparent,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 15),
-                        child: HtmlWidget(totalQuestions[index].optionA),
-                      ),
+                  Card(
+                    color: selectedOptionIndices[index] == "optionA" &&
+                            totalQuestions[index].correctOption == "optionA"
+                        ? Colors.green
+                        : selectedOptionIndices[index] == "optionA" &&
+                                totalQuestions[index].correctOption !=
+                                    "optionA"
+                            ? Colors.red
+                            : Colors.transparent,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 15),
+                      child: HtmlWidget(totalQuestions[index].optionA),
                     ),
                   ),
                   SizedBox(
                     height: Resources.dimens.height(context) * 0.01,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedOptionIndices[index] = "optionB";
-                      });
-                    },
-                    child: Card(
-                      color: selectedOptionIndices[index] == "optionB" &&
-                              totalQuestions[index].correctOption == "optionB"
-                          ? Colors.green
-                          : selectedOptionIndices[index] == "optionB" &&
-                                  totalQuestions[index].correctOption !=
-                                      "optionB"
-                              ? Colors.red
-                              : Colors.transparent,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 15),
-                        child: HtmlWidget(totalQuestions[index].optionB),
-                        /*child: Text(
-                          'B. ${totalQuestions[index].optionB}',
-                        ),*/
-                      ),
+                  Card(
+                    color: selectedOptionIndices[index] == "optionB" &&
+                            totalQuestions[index].correctOption == "optionB"
+                        ? Colors.green
+                        : selectedOptionIndices[index] == "optionB" &&
+                                totalQuestions[index].correctOption !=
+                                    "optionB"
+                            ? Colors.red
+                            : Colors.transparent,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 15),
+                      child: HtmlWidget(totalQuestions[index].optionB),
+                      /*child: Text(
+                        'B. ${totalQuestions[index].optionB}',
+                      ),*/
                     ),
                   ),
                   const SizedBox(),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedOptionIndices[index] = "optionC";
-                      });
-                    },
-                    child: Card(
-                      color: selectedOptionIndices[index] == "optionC" &&
-                              totalQuestions[index].correctOption == "optionC"
-                          ? Colors.green
-                          : selectedOptionIndices[index] == "optionC" &&
-                                  totalQuestions[index].correctOption !=
-                                      "optionC"
-                              ? Colors.red
-                              : Colors.transparent,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 15),
-                        child: HtmlWidget(totalQuestions[index].optionC),
-                      ),
+                  Card(
+                    color: selectedOptionIndices[index] == "optionC" &&
+                            totalQuestions[index].correctOption == "optionC"
+                        ? Colors.green
+                        : selectedOptionIndices[index] == "optionC" &&
+                                totalQuestions[index].correctOption !=
+                                    "optionC"
+                            ? Colors.red
+                            : Colors.transparent,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 15),
+                      child: HtmlWidget(totalQuestions[index].optionC),
                     ),
                   ),
                   SizedBox(
                     height: Resources.dimens.height(context) * 0.01,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedOptionIndices[index] = "optionD";
-                      });
-                    },
-                    child: Card(
-                      color: selectedOptionIndices[index] == "optionD" &&
-                              totalQuestions[index].correctOption == "optionD"
-                          ? Colors.green
-                          : selectedOptionIndices[index] == "optionD" &&
-                                  totalQuestions[index].correctOption !=
-                                      "optionD"
-                              ? Colors.red
-                              : Colors.transparent,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 15),
-                        child: HtmlWidget(totalQuestions[index].optionD),
-                      ),
+                  Card(
+                    color: selectedOptionIndices[index] == "optionD" &&
+                            totalQuestions[index].correctOption == "optionD"
+                        ? Colors.green
+                        : selectedOptionIndices[index] == "optionD" &&
+                                totalQuestions[index].correctOption !=
+                                    "optionD"
+                            ? Colors.red
+                            : Colors.transparent,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 15),
+                      child: HtmlWidget(totalQuestions[index].optionD),
                     ),
                   ),
                   const Padding(

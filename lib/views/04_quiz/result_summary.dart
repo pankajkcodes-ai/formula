@@ -75,9 +75,9 @@ class _ResultSummaryState extends State<ResultSummary> {
               ],
             ),
           ),
-          SizedBox(height: 11),
+          const SizedBox(height: 11),
           Padding(
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(7.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -90,11 +90,28 @@ class _ResultSummaryState extends State<ResultSummary> {
                     });
                   },
                   child: Container(
-                    height: Resources.dimens.height(context) * 0.06,
+                    padding: EdgeInsets.all(10),
                     width: Resources.dimens.width(context) * 0.4,
                     decoration:
-                        Resources.styles.kBoxBorderDecoration(radius: 7),
-                    child: const Center(child: Text('Solution')),
+                        Resources.styles.kBoxBorderDecoration(radius: 2),
+                    child: const Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Solutions',
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 4.0),
+                            child: Icon(
+                                size: 14, Icons.arrow_forward_ios_rounded)),
+                      ],
+                    ),
                   ),
                 ),
                 InkWell(
@@ -102,11 +119,28 @@ class _ResultSummaryState extends State<ResultSummary> {
                     Navigator.popUntil(context, (route) => route.isFirst);
                   },
                   child: Container(
-                    height: Resources.dimens.height(context) * 0.06,
+                    padding: EdgeInsets.all(10),
                     width: Resources.dimens.width(context) * 0.4,
                     decoration:
-                        Resources.styles.kBoxBorderDecoration(radius: 7),
-                    child: const Center(child: Text('Done')),
+                    Resources.styles.kBoxBorderDecoration(radius: 2),
+                    child: const Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '      Done    ',
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 4.0),
+                            child: Icon(
+                                size: 14, Icons.arrow_forward_ios_rounded)),
+                      ],
+                    ),
                   ),
                 )
               ],
