@@ -16,6 +16,7 @@ import 'package:formula/bloc/topic/topic_bloc.dart';
 import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/res/strings.dart';
 import 'package:formula/routes/routes.dart';
+import 'package:formula/utils/utils.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -46,26 +47,7 @@ Future<void> main() async {
   OneSignal.Notifications.requestPermission(true);
 
   // IN APP UPDATE
-  InAppUpdate.checkForUpdate().then((updateInfo) {
-    if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
-      if (updateInfo.immediateUpdateAllowed) {
-        // Perform immediate update
-        InAppUpdate.performImmediateUpdate().then((appUpdateResult) {
-          if (appUpdateResult == AppUpdateResult.success) {
-            //App Update successful
-          }
-        });
-      } else if (updateInfo.flexibleUpdateAllowed) {
-        //Perform flexible update
-        InAppUpdate.startFlexibleUpdate().then((appUpdateResult) {
-          if (appUpdateResult == AppUpdateResult.success) {
-            //App Update successful
-            InAppUpdate.completeFlexibleUpdate();
-          }
-        });
-      }
-    }
-  });
+  AppUtils().checkForUpdates();
   runApp(const MyApp());
 }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formula/bloc/quizzes/quizzes_bloc.dart';
+import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/model/quizzes_model.dart';
 import 'package:formula/routes/routes.dart';
 import 'package:formula/routes/routes_path.dart';
@@ -65,9 +66,14 @@ class _QuizListState extends State<QuizList> {
                           GoRouter.of(context).push(RoutesName.quizDetailsRoute,
                               extra: totalQuizzes[index]);
                         },
-                        child: const Text("Start",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold)),
+                        child: PrefService.isQuizAttempted(
+                                totalQuizzes[index].id.toString())
+                            ? const Text("Attempt",
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold))
+                            : const Text("Start",
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold)),
                       )),
                 );
               },

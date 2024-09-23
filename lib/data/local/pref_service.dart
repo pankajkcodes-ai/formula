@@ -74,4 +74,27 @@ class PrefService {
   static Future<bool> remove(String key) async => await _prefs.remove(key);
 
   static Future<bool> clear() async => await _prefs.clear();
+
+
+
+  static void storeAttemptedQuizId(String quizId) async {
+
+    List<String>? attemptedQuizzes = _prefs.getStringList('attemptedQuizzes') ?? [];
+
+    // Add new quiz ID if it's not already in the list
+    if (!attemptedQuizzes.contains(quizId.toString())) {
+      attemptedQuizzes.add(quizId.toString());
+      await _prefs.setStringList('attemptedQuizzes', attemptedQuizzes);
+    }
+  }
+
+
+  static bool isQuizAttempted(String quizId)  {
+
+    List<String>? attemptedQuizzes = _prefs.getStringList('attemptedQuizzes') ?? [];
+
+    return attemptedQuizzes.contains(quizId.toString());
+  }
+
+
 }

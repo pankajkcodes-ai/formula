@@ -7,6 +7,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:formula/bloc/questions/questions_bloc.dart';
 import 'package:formula/bloc/quizzes/countdown_time_bloc.dart';
+import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/model/quizzes_model.dart';
 import 'package:formula/model/result_model.dart';
 import 'package:formula/res/resources.dart';
@@ -250,7 +251,9 @@ class _QuizDetailsState extends State<QuizDetails> {
             title: BlocBuilder<CountDownTimerBloc, CountDownTimerState>(
               builder: (context, state) {
                 print("CountDownTimerBlocState : ${state.duration}");
-                totalTime =(int.parse(widget.quizzesModel.totalTime.toString()) * 60)- state.duration;
+                totalTime =
+                    (int.parse(widget.quizzesModel.totalTime.toString()) * 60) -
+                        state.duration;
 
                 return Text(
                   AppUtils.formatTime(state.duration),
@@ -289,9 +292,11 @@ class _QuizDetailsState extends State<QuizDetails> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        selectedOptionIndices[index] = "optionA";
-                      });
+                      if (!selectedOptionIndices.containsKey(index)) {
+                        setState(() {
+                          selectedOptionIndices[index] = "optionA";
+                        });
+                      }
                     },
                     child: Card(
                       color: selectedOptionIndices[index] == "optionA" &&
@@ -315,9 +320,11 @@ class _QuizDetailsState extends State<QuizDetails> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        selectedOptionIndices[index] = "optionB";
-                      });
+                      if (!selectedOptionIndices.containsKey(index)) {
+                        setState(() {
+                          selectedOptionIndices[index] = "optionB";
+                        });
+                      }
                     },
                     child: Card(
                       color: selectedOptionIndices[index] == "optionB" &&
@@ -342,9 +349,11 @@ class _QuizDetailsState extends State<QuizDetails> {
                   const SizedBox(),
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        selectedOptionIndices[index] = "optionC";
-                      });
+                      if (!selectedOptionIndices.containsKey(index)) {
+                        setState(() {
+                          selectedOptionIndices[index] = "optionC";
+                        });
+                      }
                     },
                     child: Card(
                       color: selectedOptionIndices[index] == "optionC" &&
@@ -368,9 +377,11 @@ class _QuizDetailsState extends State<QuizDetails> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        selectedOptionIndices[index] = "optionD";
-                      });
+                      if (!selectedOptionIndices.containsKey(index)) {
+                        setState(() {
+                          selectedOptionIndices[index] = "optionD";
+                        });
+                      }
                     },
                     child: Card(
                       color: selectedOptionIndices[index] == "optionD" &&
@@ -400,9 +411,11 @@ class _QuizDetailsState extends State<QuizDetails> {
 
   GestureDetector submitButton(List totalQuestions) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         print("selectedOptionIndices : ${selectedOptionIndices}");
         print("selectedOptionIndices : ${selectedOptionIndices.keys.length}");
+
+        PrefService.storeAttemptedQuizId(widget.quizzesModel.id.toString());
 
         print("totalQuestions : $totalQuestions");
         print("totalQuestions : ${totalQuestions.length}");
@@ -420,10 +433,10 @@ class _QuizDetailsState extends State<QuizDetails> {
           }
         }
 
-        double obtainMarks = (double.parse(widget.quizzesModel.totalPoints.toString()) /
-            int.parse(
-                widget.quizzesModel.totalQuestions.toString())) *
-            correctAnswers;
+        double obtainMarks =
+            (double.parse(widget.quizzesModel.totalPoints.toString()) /
+                    int.parse(widget.quizzesModel.totalQuestions.toString())) *
+                correctAnswers;
 
         context.read<CountDownTimerBloc>().add(ResetTimer());
 
@@ -431,9 +444,8 @@ class _QuizDetailsState extends State<QuizDetails> {
           "resultModel": ResultModel(
               totalMarks:
                   double.parse(widget.quizzesModel.totalPoints.toString()),
-              obtainMarks:
-                  obtainMarks,
-              percentage: obtainMarks * 100 /totalMarks,
+              obtainMarks: obtainMarks,
+              percentage: obtainMarks * 100 / totalMarks,
               totalQuestions:
                   int.parse(widget.quizzesModel.totalQuestions.toString()),
               correctAnswers: correctAnswers,

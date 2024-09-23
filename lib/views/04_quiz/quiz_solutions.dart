@@ -140,22 +140,6 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                         ],
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 5),
-                      child: Row(
-                        children: [
-                          const CircleAvatar(
-                            backgroundColor: Colors.blueAccent,
-                            radius: 10,
-                          ),
-                          SizedBox(
-                            width: Resources.dimens.width(context) * 0.02,
-                          ),
-                          const Text('Current')
-                        ],
-                      ),
-                    ),
                     SizedBox(
                       height: Resources.dimens.height(context) * 0.00,
                     ),
@@ -180,9 +164,8 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                                 Navigator.pop(context);
                               },
                               child: CircleAvatar(
-                                backgroundColor: selectedQuestionIndex == index
-                                    ? Colors.blue
-                                    : selectedOptionIndices.containsKey(index)
+                                backgroundColor:
+                                    selectedOptionIndices.containsKey(index)
                                         ? Colors.greenAccent
                                         : Colors.grey.shade400,
                                 child: Text('${index + 1}'),
@@ -285,8 +268,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                             totalQuestions[index].correctOption == "optionA"
                         ? Colors.green
                         : selectedOptionIndices[index] == "optionA" &&
-                                totalQuestions[index].correctOption !=
-                                    "optionA"
+                                totalQuestions[index].correctOption != "optionA"
                             ? Colors.red
                             : Colors.transparent,
                     child: Container(
@@ -304,8 +286,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                             totalQuestions[index].correctOption == "optionB"
                         ? Colors.green
                         : selectedOptionIndices[index] == "optionB" &&
-                                totalQuestions[index].correctOption !=
-                                    "optionB"
+                                totalQuestions[index].correctOption != "optionB"
                             ? Colors.red
                             : Colors.transparent,
                     child: Container(
@@ -324,8 +305,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                             totalQuestions[index].correctOption == "optionC"
                         ? Colors.green
                         : selectedOptionIndices[index] == "optionC" &&
-                                totalQuestions[index].correctOption !=
-                                    "optionC"
+                                totalQuestions[index].correctOption != "optionC"
                             ? Colors.red
                             : Colors.transparent,
                     child: Container(
@@ -343,8 +323,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                             totalQuestions[index].correctOption == "optionD"
                         ? Colors.green
                         : selectedOptionIndices[index] == "optionD" &&
-                                totalQuestions[index].correctOption !=
-                                    "optionD"
+                                totalQuestions[index].correctOption != "optionD"
                             ? Colors.red
                             : Colors.transparent,
                     child: Container(
@@ -385,7 +364,10 @@ class _QuizSolutionsState extends State<QuizSolutions> {
   GestureDetector doneButton() {
     return GestureDetector(
       onTap: () {
-        Navigator.popUntil(context, (route) => route.isFirst);
+        Navigator.popUntil(context,
+            (route) => route.settings.name == RoutesName.quizListRoute);
+
+        GoRouter.of(context).pushReplacement(RoutesName.quizListRoute);
       },
       child: Container(
         height: Resources.dimens.height(context) * 0.04,

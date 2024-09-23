@@ -116,7 +116,11 @@ class _ResultSummaryState extends State<ResultSummary> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.popUntil(context, (route) => route.settings.name == RoutesName.quizListRoute);
+
+                    GoRouter.of(context).pushReplacement(RoutesName.quizListRoute);
+
+
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),
