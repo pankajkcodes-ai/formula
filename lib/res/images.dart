@@ -5,4 +5,5 @@ class AppImages {
 
   //Icon
   String mathIcon = "assets/icons/math.png";
+  String bookmarkIcon = "assets/icons/bookmarked.png";
 }

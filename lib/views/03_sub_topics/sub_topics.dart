@@ -33,7 +33,7 @@ class _SubTopicsState extends State<SubTopics> {
         toolbarHeight: Resources.dimens.height(context) * 0.08,
         title: Text(
           "${widget.topicModel.title}",
-          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
       ),
       body: Padding(

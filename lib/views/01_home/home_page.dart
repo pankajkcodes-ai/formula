@@ -79,8 +79,8 @@ class _HomePageState extends State<HomePage> {
       drawer: const DrawerPage(),
       appBar: AppBar(
         toolbarHeight: Resources.dimens.height(context) * 0.08,
-        actions: const [
-       /*   Padding(
+        actions: [
+          Padding(
             padding: const EdgeInsets.only(right: 18.0),
             child: IconButton(
                 onPressed: () {
@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(Theme.of(context).brightness == Brightness.dark
                     ? Icons.light_mode
                     : Icons.dark_mode)),
-          )*/
+          )
         ],
         title: Text(Resources.strings.appName, textAlign: TextAlign.center),
       ),
@@ -125,8 +125,8 @@ class _HomePageState extends State<HomePage> {
                         print("Data : ${data.subjects}");
                       }
                       return GridView.builder(
-                          itemCount: data.subjects.length,
-                          physics: BouncingScrollPhysics(),
+                          itemCount: data.subjects.length + 1,
+                          physics: const BouncingScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
@@ -134,44 +134,92 @@ class _HomePageState extends State<HomePage> {
                                   childAspectRatio: 1.1,
                                   crossAxisSpacing: 15),
                           itemBuilder: (BuildContext context, int index) {
+                            if (index < data.subjects.length) {
+                              return GestureDetector(
+                                onTap: () {
+                                  /// navigate based on the index
+                                  print(
+                                      "data.subjects : ${data.subjects[index]}");
+
+                                  if (data.subjects[index].title
+                                          .toString()
+                                          .toUpperCase() ==
+                                      "QUIZ") {
+                                    GoRouter.of(context).pushNamed(
+                                      RoutesName.quizListRoute,
+                                      extra: data.subjects[index],
+                                    );
+                                  } else if (data.subjects[index].title
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains("unit converter")) {
+                                    GoRouter.of(context).pushNamed(
+                                      RoutesName.htmlViewRoute,
+                                      extra: {
+                                        "url":
+                                            "https://examtest.in/formula/unit-converter/",
+                                        "title": "Unit Converter",
+                                      },
+                                    );
+                                  } else {
+                                    GoRouter.of(context).pushNamed(
+                                      RoutesName.topicsRoute,
+                                      extra: data.subjects[index],
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(11),
+                                      border: Border.all()),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(15),
+                                        child: Image.network(
+                                            height: 70,
+                                            width: 100,
+                                            "${AppUrls.baseUrl}/${data.subjects[index].icon}"),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            Resources.dimens.height(context) *
+                                                0.01,
+                                      ),
+                                      Text(
+                                          data.subjects[index].title.toString(),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold))
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
                             return GestureDetector(
-                              onTap: () {
-                                /// navigate based on the index
-                                print("data.subjects : ${data.subjects[index]}");
-
-                                if(data.subjects[index].title.toString().toUpperCase() == "QUIZ") {
-                                  GoRouter.of(context).pushNamed(
-                                    RoutesName.quizListRoute,
-                                    extra: data.subjects[index],
-                                  );
-
-                                }else{
-                                  GoRouter.of(context).pushNamed(
-                                    RoutesName.topicsRoute,
-                                    extra: data.subjects[index],
-                                  );
-                                }
-                              },
+                              onTap: () {},
                               child: Container(
-                                padding: EdgeInsets.all(4),
+                                padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(11),
                                     border: Border.all()),
                                 child: Column(
                                   children: [
                                     Container(
-                                      padding: const EdgeInsets.all(15),
-                                      child: Image.network(
-                                          height: 70,
-                                          width: 100,
-                                          "${AppUrls.baseUrl}/${data.subjects[index].icon}"),
+                                      padding: const EdgeInsets.all(11),
+                                      child: Image.asset(
+                                          filterQuality: FilterQuality.high,
+                                          height: 75,
+                                          Resources.images.bookmarkIcon),
                                     ),
                                     SizedBox(
                                       height: Resources.dimens.height(context) *
                                           0.01,
                                     ),
-                                    Text(
-                                      data.subjects[index].title.toString(),
+                                    const Text(
+                                      "Bookmarks",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
                                     )
                                   ],
                                 ),
@@ -195,7 +243,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
               )
             ],
           ),
