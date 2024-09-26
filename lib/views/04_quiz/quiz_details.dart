@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -30,6 +31,7 @@ class _QuizDetailsState extends State<QuizDetails> {
   Map<int, String> selectedOptionIndices = {};
 
   late PageController _pageController;
+  int _currentPage = 0;
 
   // CHECK CORRECT ANSWER
   int correctAnswers = 0;
@@ -60,11 +62,16 @@ class _QuizDetailsState extends State<QuizDetails> {
         StartTimer(int.parse(widget.quizzesModel.totalTime.toString()) * 60));
 
     _pageController = PageController(initialPage: 0);
+    _pageController.addListener(() {
+      setState(() {
+        _currentPage = _pageController.page!.round();
+      });
+    });
   }
 
   @override
   void dispose() {
-    // _pageController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -88,9 +95,6 @@ class _QuizDetailsState extends State<QuizDetails> {
         if (state is QuestionsGetState) {
           totalQuestions = state.questions;
         }
-
-        print("totalQuestions : $totalQuestions");
-
         return Scaffold(
           key: scaffoldKey,
           endDrawer: Drawer(
@@ -204,7 +208,9 @@ class _QuizDetailsState extends State<QuizDetails> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      print("select : $selectedOptionIndices");
+                      if (kDebugMode) {
+                        print("select : $selectedOptionIndices");
+                      }
                       selectedOptionIndices.remove(selectedQuestionIndex);
                       //selectedOptionIndices.clear();
                     });
@@ -250,7 +256,9 @@ class _QuizDetailsState extends State<QuizDetails> {
                 color: Theme.of(context).colorScheme.onBackground),
             title: BlocBuilder<CountDownTimerBloc, CountDownTimerState>(
               builder: (context, state) {
-                print("CountDownTimerBlocState : ${state.duration}");
+                if (kDebugMode) {
+                  print("CountDownTimerBlocState : ${state.duration}");
+                }
                 totalTime =
                     (int.parse(widget.quizzesModel.totalTime.toString()) * 60) -
                         state.duration;
@@ -263,6 +271,25 @@ class _QuizDetailsState extends State<QuizDetails> {
               },
             ),
             actions: [
+              totalQuestions.isNotEmpty
+                  ? PrefService.isQuestionBookmarked(
+                          totalQuestions[_currentPage].id.toString())
+                      ? IconButton(
+                          onPressed: () {
+                            PrefService.removeBookmarkQuestionId(
+                                totalQuestions[_currentPage].id.toString());
+                            setState(() {});
+                          },
+                          icon: const Icon(Icons.bookmark),
+                        )
+                      : IconButton(
+                          onPressed: () {
+                            PrefService.storeBookmarkQuestionId(
+                                totalQuestions[_currentPage].id.toString());
+                            setState(() {});
+                          },
+                          icon: const Icon(Icons.bookmark_border_outlined))
+                  : const SizedBox.shrink(),
               IconButton(
                   onPressed: () {
                     scaffoldKey.currentState?.openEndDrawer();

@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
       drawer: const DrawerPage(),
       appBar: AppBar(
         toolbarHeight: Resources.dimens.height(context) * 0.08,
-        actions: [
+        /*actions: [
           Padding(
             padding: const EdgeInsets.only(right: 18.0),
             child: IconButton(
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                     ? Icons.light_mode
                     : Icons.dark_mode)),
           )
-        ],
+        ],*/
         title: Text(Resources.strings.appName, textAlign: TextAlign.center),
       ),
       body: SafeArea(
@@ -157,7 +157,7 @@ class _HomePageState extends State<HomePage> {
                                       RoutesName.htmlViewRoute,
                                       extra: {
                                         "url":
-                                            "https://examtest.in/formula/unit-converter/",
+                                            "https://examtest.in/formula/public/unit-converter/",
                                         "title": "Unit Converter",
                                       },
                                     );
@@ -197,7 +197,12 @@ class _HomePageState extends State<HomePage> {
                               );
                             }
                             return GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                GoRouter.of(context).pushNamed(
+                                  RoutesName.qBookmarkListRoute,
+
+                                );
+                              },
                               child: Container(
                                 padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(

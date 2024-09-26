@@ -264,7 +264,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                     height: Resources.dimens.height(context) * 0.02,
                   ),
                   Card(
-                    color: selectedOptionIndices[index] == "optionA" &&
+                    color: //selectedOptionIndices[index] == "optionA" &&
                             totalQuestions[index].correctOption == "optionA"
                         ? Colors.green
                         : selectedOptionIndices[index] == "optionA" &&
@@ -282,7 +282,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                     height: Resources.dimens.height(context) * 0.01,
                   ),
                   Card(
-                    color: selectedOptionIndices[index] == "optionB" &&
+                    color: //selectedOptionIndices[index] == "optionB" &&
                             totalQuestions[index].correctOption == "optionB"
                         ? Colors.green
                         : selectedOptionIndices[index] == "optionB" &&
@@ -301,7 +301,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                   ),
                   const SizedBox(),
                   Card(
-                    color: selectedOptionIndices[index] == "optionC" &&
+                    color: //selectedOptionIndices[index] == "optionC" &&
                             totalQuestions[index].correctOption == "optionC"
                         ? Colors.green
                         : selectedOptionIndices[index] == "optionC" &&
@@ -319,7 +319,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                     height: Resources.dimens.height(context) * 0.01,
                   ),
                   Card(
-                    color: selectedOptionIndices[index] == "optionD" &&
+                    color:// selectedOptionIndices[index] == "optionD" &&
                             totalQuestions[index].correctOption == "optionD"
                         ? Colors.green
                         : selectedOptionIndices[index] == "optionD" &&

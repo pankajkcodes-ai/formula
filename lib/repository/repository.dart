@@ -81,8 +81,8 @@ class Repository {
       List<SubTopicModel> list = [];
       var url = AppUrls.subTopicEndPoint;
 
-      dynamic response =
-          await _apiServices.getApiResponse("$url?subject=${topicModel.subjectId}&topic=${topicModel.id}");
+      dynamic response = await _apiServices.getApiResponse(
+          "$url?subject=${topicModel.subjectId}&topic=${topicModel.id}");
 
       if (kDebugMode) {
         print("Response get brand name: $response");
@@ -113,8 +113,7 @@ class Repository {
       List<QuizzesModel> list = [];
       var url = AppUrls.quizzedEndPoint;
 
-      dynamic response =
-          await _apiServices.getApiResponse("$url?orderBy=desc");
+      dynamic response = await _apiServices.getApiResponse("$url?orderBy=desc");
 
       if (kDebugMode) {
         print("Response get brand name: $response");
@@ -126,7 +125,7 @@ class Repository {
 
       for (int i = 0; i < result.length; i++) {
         QuizzesModel data =
-        QuizzesModel.fromJson(result[i] as Map<String, dynamic>);
+            QuizzesModel.fromJson(result[i] as Map<String, dynamic>);
         list.add(data);
       }
 
@@ -138,14 +137,23 @@ class Repository {
       rethrow;
     }
   }
+
   // GET QUESTIONS
-  Future<List<QuestionModel>> getQuestions(String quizId) async {
+  Future<List<QuestionModel>> getQuestions(String quizId,
+      {List<String>? idList = const []}) async {
     try {
       List<QuestionModel> list = [];
       var url = AppUrls.questionsEndPoint;
 
-      dynamic response =
-          await _apiServices.getApiResponse("$url?quizId=$quizId");
+      if (quizId != "") {
+        url = "$url?quizId=$quizId";
+      } else if (idList!=null&& idList.isNotEmpty && quizId == "" ) {
+        url = "$url?idList=$idList";
+      }else {
+        url = "$url?quizId=-1";
+      }
+
+      dynamic response = await _apiServices.getApiResponse(url);
 
       if (kDebugMode) {
         print("Response get brand name: $response");
@@ -157,7 +165,7 @@ class Repository {
 
       for (int i = 0; i < result.length; i++) {
         QuestionModel data =
-        QuestionModel.fromJson(result[i] as Map<String, dynamic>);
+            QuestionModel.fromJson(result[i] as Map<String, dynamic>);
         list.add(data);
       }
 

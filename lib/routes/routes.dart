@@ -6,6 +6,8 @@ import 'package:formula/views/04_quiz/quiz_details.dart';
 import 'package:formula/views/04_quiz/quiz_list.dart';
 import 'package:formula/views/04_quiz/quiz_solutions.dart';
 import 'package:formula/views/04_quiz/result_summary.dart';
+import 'package:formula/views/bookmark/q_bookmark_details.dart';
+import 'package:formula/views/bookmark/q_bookmark_list.dart';
 import 'package:formula/views/menu/feedback.dart';
 import 'package:formula/views/menu/notifications.dart';
 import 'package:formula/views/splash/splash_screen.dart';
@@ -55,21 +57,31 @@ class AppRoutes {
             path: RoutesName.quizDetailsRoute,
             builder: (BuildContext context, GoRouterState state) {
               final QuizzesModel quizModel = state.extra as QuizzesModel;
-              return  QuizDetails(quizzesModel: quizModel,);
-            }), 
+              return QuizDetails(
+                quizzesModel: quizModel,
+              );
+            }),
         GoRoute(
             name: RoutesName.quizSolutionsRoute,
             path: RoutesName.quizSolutionsRoute,
             builder: (BuildContext context, GoRouterState state) {
-              final  Map<String,dynamic> data = state.extra as Map<String,dynamic>;
-              return  QuizSolutions(quizzesModel: data["quizModel"], resultModel: data["resultModel"],);
+              final Map<String, dynamic> data =
+                  state.extra as Map<String, dynamic>;
+              return QuizSolutions(
+                quizzesModel: data["quizModel"],
+                resultModel: data["resultModel"],
+              );
             }),
         GoRoute(
             name: RoutesName.resultSummaryRoute,
             path: RoutesName.resultSummaryRoute,
             builder: (BuildContext context, GoRouterState state) {
-              final  Map<String,dynamic> data = state.extra as Map<String,dynamic>;
-              return  ResultSummary(resultModel: data["resultModel"], quizzesModel: data["quizModel"],);
+              final Map<String, dynamic> data =
+                  state.extra as Map<String, dynamic>;
+              return ResultSummary(
+                resultModel: data["resultModel"],
+                quizzesModel: data["quizModel"],
+              );
             }),
         GoRoute(
             name: RoutesName.topicsRoute,
@@ -84,6 +96,19 @@ class AppRoutes {
             builder: (BuildContext context, GoRouterState state) {
               TopicModel subTopicModel = state.extra as TopicModel;
               return SubTopics(topicModel: subTopicModel);
+            }),
+        GoRoute(
+            name: RoutesName.qBookmarkListRoute,
+            path: RoutesName.qBookmarkListRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return const QuestionBookmarkList();
+            }),
+        GoRoute(
+            name: RoutesName.qBookmarkDetailsRoute,
+            path: RoutesName.qBookmarkDetailsRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              var id = state.extra as String;
+              return  QuestionBookmarkDetails(id: id);
             }),
         GoRoute(
             name: RoutesName.htmlViewRoute,

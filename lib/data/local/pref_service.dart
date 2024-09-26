@@ -75,11 +75,10 @@ class PrefService {
 
   static Future<bool> clear() async => await _prefs.clear();
 
-
-
+  // Store attempted quiz ID in shared preferences
   static void storeAttemptedQuizId(String quizId) async {
-
-    List<String>? attemptedQuizzes = _prefs.getStringList('attemptedQuizzes') ?? [];
+    List<String>? attemptedQuizzes =
+        _prefs.getStringList('attemptedQuizzes') ?? [];
 
     // Add new quiz ID if it's not already in the list
     if (!attemptedQuizzes.contains(quizId.toString())) {
@@ -88,13 +87,45 @@ class PrefService {
     }
   }
 
-
-  static bool isQuizAttempted(String quizId)  {
-
-    List<String>? attemptedQuizzes = _prefs.getStringList('attemptedQuizzes') ?? [];
+  // Check if quiz is attempted
+  static bool isQuizAttempted(String quizId) {
+    List<String>? attemptedQuizzes =
+        _prefs.getStringList('attemptedQuizzes') ?? [];
 
     return attemptedQuizzes.contains(quizId.toString());
   }
 
+  // Store question in shared preferences
+  static void storeBookmarkQuestionId(String questionId) async {
+    List<String>? bookmarkedQuestions =
+        _prefs.getStringList('bookmarkedQuestions') ?? [];
 
+    // Add new quiz ID if it's not already in the list
+    if (!bookmarkedQuestions.contains(questionId.toString())) {
+      bookmarkedQuestions.add(questionId.toString());
+      await _prefs.setStringList('bookmarkedQuestions', bookmarkedQuestions);
+    }
+  }
+
+  // Remove question from shared preferences
+  static void removeBookmarkQuestionId(String questionId) async {
+    List<String>? bookmarkedQuestions =
+        _prefs.getStringList('bookmarkedQuestions') ?? [];
+
+    bookmarkedQuestions.remove(questionId.toString());
+    await _prefs.setStringList('bookmarkedQuestions', bookmarkedQuestions);
+  }
+
+  // Check if question is bookmarked
+  static bool isQuestionBookmarked(String questionId) {
+    List<String>? bookmarkedQuestions =
+        _prefs.getStringList('bookmarkedQuestions') ?? [];
+
+    return bookmarkedQuestions.contains(questionId.toString());
+  }
+
+  // Get bookmarked questions
+  static dynamic getBookmarkedQuestions() {
+    return getStringList('bookmarkedQuestions');
+  }
 }

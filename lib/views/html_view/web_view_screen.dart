@@ -51,7 +51,7 @@ class _WebViewFormulaPageState extends State<WebViewFormulaPage> {
         toolbarHeight: Resources.dimens.height(context) * 0.08,
         title: Text(
           widget.title,
-          style: const TextStyle(fontSize: 12,fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
         ),
       ),
       body: SafeArea(

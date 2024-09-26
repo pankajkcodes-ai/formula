@@ -10,5 +10,6 @@ class QuestionsLoadingEvent extends QuestionsEvent {}
 class QuestionsGetEvent extends QuestionsEvent {
 
   final String quizId;
-  QuestionsGetEvent({required this.quizId});
+  final List<String>? idList;
+  QuestionsGetEvent({required this.quizId, this.idList});
 }

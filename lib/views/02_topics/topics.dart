@@ -54,6 +54,7 @@ class _TopicsState extends State<Topics> {
         toolbarHeight: Resources.dimens.height(context) * 0.08,
         title: Text(
           widget.subjectModel.title.toString(),
+
         ),
       ),
       body: Padding(

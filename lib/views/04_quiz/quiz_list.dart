@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formula/bloc/quizzes/quizzes_bloc.dart';
 import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/model/quizzes_model.dart';
+import 'package:formula/model/result_model.dart';
 import 'package:formula/routes/routes.dart';
 import 'package:formula/routes/routes_path.dart';
 import 'package:go_router/go_router.dart';
@@ -44,11 +45,14 @@ class _QuizListState extends State<QuizList> {
               itemCount: totalQuizzes.length,
               itemBuilder: (BuildContext context, int index) {
                 return Card(
+                  clipBehavior: Clip.none,
                   elevation: 5.0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: ListTile(
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 7.0),
                       title: Text(
                         "${totalQuizzes[index].title}",
                         style: const TextStyle(
@@ -61,20 +65,84 @@ class _QuizListState extends State<QuizList> {
                             " Qs. ${totalQuizzes[index].totalTime} min. ${totalQuizzes[index].totalPoints} Points",
                             style: const TextStyle(fontSize: 12)),
                       ),
-                      trailing: ElevatedButton(
-                        onPressed: () {
-                          GoRouter.of(context).push(RoutesName.quizDetailsRoute,
-                              extra: totalQuizzes[index]);
-                        },
-                        child: PrefService.isQuizAttempted(
-                                totalQuizzes[index].id.toString())
-                            ? const Text("Attempt",
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold))
-                            : const Text("Start",
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold)),
-                      )),
+                      trailing: PrefService.isQuizAttempted(
+                              totalQuizzes[index].id.toString())
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+
+                                    GoRouter.of(context).pushNamed(RoutesName.quizSolutionsRoute, extra: {
+                                      "resultModel": ResultModel(
+                                          totalMarks:0,
+                                          obtainMarks: 0,
+                                          percentage: 0,
+                                          totalQuestions:
+                                          totalQuizzes[index].totalQuestions!.length,
+                                          correctAnswers: 0,
+                                          wrongAnswers: 0,
+                                          notAttempt: 0,
+                                          totalTime: int.parse(totalQuizzes[index].totalTime.toString()),
+                                          selectedOptionIndices: {}),
+                                      "quizModel": totalQuizzes[index],
+                                    });
+
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 7.0, vertical: 1),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(),
+                                    ),
+                                    child: const Text("Solutions",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    GoRouter.of(context).push(
+                                        RoutesName.quizDetailsRoute,
+                                        extra: totalQuizzes[index]);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 7.0, vertical: 1),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(),
+                                    ),
+                                    child: const Text("ReAttempt",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : InkWell(
+                              onTap: () {
+                                GoRouter.of(context).push(
+                                    RoutesName.quizDetailsRoute,
+                                    extra: totalQuizzes[index]);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 7.0, vertical: 2),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(),
+                                ),
+                                child: const Text("Start",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            )),
                 );
               },
             );

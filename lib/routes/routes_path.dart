@@ -12,4 +12,6 @@ class RoutesName {
   static const String quizDetailsRoute = '/quiz-details-route';
   static const String quizSolutionsRoute = '/quiz-solutions-route';
   static const String resultSummaryRoute = '/result-summary-route';
+  static const String qBookmarkListRoute = '/q-bookmark-list-route';
+  static const String qBookmarkDetailsRoute = '/q-bookmark-details-route';
 }
