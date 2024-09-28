@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:formula/bloc/questions/questions_bloc.dart';
+import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/model/quizzes_model.dart';
 import 'package:formula/model/result_model.dart';
 import 'package:formula/res/resources.dart';
@@ -40,7 +41,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
   double obtainMarks = 0;
   double percentage = 0;
   String totalTime = '';
-
+  int _currentPage = 0;
   void calculateResult() {}
 
   void resetQuiz() {
@@ -58,6 +59,11 @@ class _QuizSolutionsState extends State<QuizSolutions> {
         .add(QuestionsGetEvent(quizId: widget.quizzesModel.id!));
     // startTimer();
     _pageController = PageController(initialPage: 0);
+    _pageController.addListener(() {
+      setState(() {
+        _currentPage = _pageController.page!.round();
+      });
+    });
     selectedOptionIndices = widget.resultModel.selectedOptionIndices;
   }
 
@@ -117,7 +123,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                                 SizedBox(
                                   width: Resources.dimens.width(context) * 0.02,
                                 ),
-                                const Text('Attempt')
+                                const Text('Correct')
                               ],
                             ),
                           ),
@@ -137,6 +143,22 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                               ],
                             ),
                           ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 5),
+                      child: Row(
+                        children: [
+                          const CircleAvatar(
+                            backgroundColor: Colors.red,
+                            radius: 10,
+                          ),
+                          SizedBox(
+                            width: Resources.dimens.width(context) * 0.02,
+                          ),
+                          const Text('Incorrect')
                         ],
                       ),
                     ),
@@ -164,9 +186,17 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                                 Navigator.pop(context);
                               },
                               child: CircleAvatar(
-                                backgroundColor:
-                                    selectedOptionIndices.containsKey(index)
-                                        ? Colors.greenAccent
+                                backgroundColor: selectedOptionIndices
+                                            .containsKey(index) &&
+                                        selectedOptionIndices[index] ==
+                                            totalQuestions[index].correctOption
+                                    ? Colors.greenAccent
+                                    : selectedOptionIndices
+                                                .containsKey(index) &&
+                                            selectedOptionIndices[index] !=
+                                                totalQuestions[index]
+                                                    .correctOption
+                                        ? Colors.red
                                         : Colors.grey.shade400,
                                 child: Text('${index + 1}'),
                               ),
@@ -234,14 +264,33 @@ class _QuizSolutionsState extends State<QuizSolutions> {
               "Total time : ${AppUtils.formatTime(widget.resultModel.totalTime)}",
               style: Resources.styles
                   .kTextStyle16B5(Theme.of(context).colorScheme.onBackground),
-            ),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    scaffoldKey.currentState?.openEndDrawer();
-                  },
-                  icon: const Icon(Icons.menu)),
-            ],
+            ),  actions: [
+            totalQuestions.isNotEmpty
+                ? PrefService.isQuestionBookmarked(
+                totalQuestions[_currentPage].id.toString())
+                ? IconButton(
+              onPressed: () {
+                PrefService.removeBookmarkQuestionId(
+                    totalQuestions[_currentPage].id.toString());
+                setState(() {});
+              },
+              icon: const Icon(Icons.bookmark),
+            )
+                : IconButton(
+                onPressed: () {
+                  PrefService.storeBookmarkQuestionId(
+                      totalQuestions[_currentPage].id.toString());
+                  setState(() {});
+                },
+                icon: const Icon(Icons.bookmark_border_outlined))
+                : const SizedBox.shrink(),
+            IconButton(
+                onPressed: () {
+                  scaffoldKey.currentState?.openEndDrawer();
+                },
+                icon: const Icon(Icons.menu)),
+          ],
+
           ),
           body: PageView.builder(
             physics: const NeverScrollableScrollPhysics(),
@@ -265,12 +314,13 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                   ),
                   Card(
                     color: //selectedOptionIndices[index] == "optionA" &&
-                            totalQuestions[index].correctOption == "optionA"
-                        ? Colors.green
-                        : selectedOptionIndices[index] == "optionA" &&
-                                totalQuestions[index].correctOption != "optionA"
-                            ? Colors.red
-                            : Colors.transparent,
+                        totalQuestions[index].correctOption == "optionA"
+                            ? Colors.green
+                            : selectedOptionIndices[index] == "optionA" &&
+                                    totalQuestions[index].correctOption !=
+                                        "optionA"
+                                ? Colors.red
+                                : Colors.transparent,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(
@@ -283,12 +333,13 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                   ),
                   Card(
                     color: //selectedOptionIndices[index] == "optionB" &&
-                            totalQuestions[index].correctOption == "optionB"
-                        ? Colors.green
-                        : selectedOptionIndices[index] == "optionB" &&
-                                totalQuestions[index].correctOption != "optionB"
-                            ? Colors.red
-                            : Colors.transparent,
+                        totalQuestions[index].correctOption == "optionB"
+                            ? Colors.green
+                            : selectedOptionIndices[index] == "optionB" &&
+                                    totalQuestions[index].correctOption !=
+                                        "optionB"
+                                ? Colors.red
+                                : Colors.transparent,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(
@@ -302,12 +353,13 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                   const SizedBox(),
                   Card(
                     color: //selectedOptionIndices[index] == "optionC" &&
-                            totalQuestions[index].correctOption == "optionC"
-                        ? Colors.green
-                        : selectedOptionIndices[index] == "optionC" &&
-                                totalQuestions[index].correctOption != "optionC"
-                            ? Colors.red
-                            : Colors.transparent,
+                        totalQuestions[index].correctOption == "optionC"
+                            ? Colors.green
+                            : selectedOptionIndices[index] == "optionC" &&
+                                    totalQuestions[index].correctOption !=
+                                        "optionC"
+                                ? Colors.red
+                                : Colors.transparent,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(
@@ -319,13 +371,14 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                     height: Resources.dimens.height(context) * 0.01,
                   ),
                   Card(
-                    color:// selectedOptionIndices[index] == "optionD" &&
-                            totalQuestions[index].correctOption == "optionD"
-                        ? Colors.green
-                        : selectedOptionIndices[index] == "optionD" &&
-                                totalQuestions[index].correctOption != "optionD"
-                            ? Colors.red
-                            : Colors.transparent,
+                    color: // selectedOptionIndices[index] == "optionD" &&
+                        totalQuestions[index].correctOption == "optionD"
+                            ? Colors.green
+                            : selectedOptionIndices[index] == "optionD" &&
+                                    totalQuestions[index].correctOption !=
+                                        "optionD"
+                                ? Colors.red
+                                : Colors.transparent,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(

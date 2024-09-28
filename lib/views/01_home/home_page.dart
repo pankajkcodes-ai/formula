@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
       drawer: const DrawerPage(),
       appBar: AppBar(
         toolbarHeight: Resources.dimens.height(context) * 0.08,
-        /*actions: [
+        actions: [
           Padding(
             padding: const EdgeInsets.only(right: 18.0),
             child: IconButton(
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                     ? Icons.light_mode
                     : Icons.dark_mode)),
           )
-        ],*/
+        ],
         title: Text(Resources.strings.appName, textAlign: TextAlign.center),
       ),
       body: SafeArea(

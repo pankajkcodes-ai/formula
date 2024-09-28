@@ -17,17 +17,18 @@ import 'package:formula/routes/routes_path.dart';
 import 'package:formula/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 
-class QuizDetails extends StatefulWidget {
+class QuizReattempt extends StatefulWidget {
   final QuizzesModel quizzesModel;
   final bool? isReAttempt;
-  const QuizDetails(
+
+  const QuizReattempt(
       {super.key, required this.quizzesModel, this.isReAttempt});
 
   @override
-  State<QuizDetails> createState() => _QuizDetailsState();
+  State<QuizReattempt> createState() => _QuizReattemptState();
 }
 
-class _QuizDetailsState extends State<QuizDetails> {
+class _QuizReattemptState extends State<QuizReattempt> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   int selectedQuestionIndex = 0;
   Map<int, String> selectedOptionIndices = {};
@@ -334,7 +335,7 @@ class _QuizDetailsState extends State<QuizDetails> {
                   SizedBox(
                     height: Resources.dimens.height(context) * 0.02,
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       if (!selectedOptionIndices.containsKey(index)) {
                         setState(() {
@@ -343,14 +344,15 @@ class _QuizDetailsState extends State<QuizDetails> {
                       }
                     },
                     child: Card(
-                      color: selectedOptionIndices[index] == "optionA"
-                          // &&  totalQuestions[index].correctOption == "optionA"
+                      color: selectedOptionIndices.containsKey(index) &&
+                              totalQuestions[index].correctOption == "optionA"
                           ? Colors.green
-                          /*   : selectedOptionIndices[index] == "optionA" &&
+                          : selectedOptionIndices[index] == "optionA" &&
+                                  selectedOptionIndices.containsKey(index) &&
                                   totalQuestions[index].correctOption !=
                                       "optionA"
-                              ? Colors.red*/
-                          : Colors.transparent,
+                              ? Colors.red
+                              : Colors.transparent,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.symmetric(
@@ -362,7 +364,7 @@ class _QuizDetailsState extends State<QuizDetails> {
                   SizedBox(
                     height: Resources.dimens.height(context) * 0.01,
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       if (!selectedOptionIndices.containsKey(index)) {
                         setState(() {
@@ -371,14 +373,15 @@ class _QuizDetailsState extends State<QuizDetails> {
                       }
                     },
                     child: Card(
-                      color: selectedOptionIndices[index] == "optionB"
-                          // &&  totalQuestions[index].correctOption == "optionB"
+                      color: selectedOptionIndices.containsKey(index) &&
+                              totalQuestions[index].correctOption == "optionB"
                           ? Colors.green
-                          /*    : selectedOptionIndices[index] == "optionB" &&
+                          : selectedOptionIndices[index] == "optionB" &&
+                                  selectedOptionIndices.containsKey(index) &&
                                   totalQuestions[index].correctOption !=
                                       "optionB"
-                              ? Colors.red*/
-                          : Colors.transparent,
+                              ? Colors.red
+                              : Colors.transparent,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.symmetric(
@@ -391,7 +394,7 @@ class _QuizDetailsState extends State<QuizDetails> {
                     ),
                   ),
                   const SizedBox(),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       if (!selectedOptionIndices.containsKey(index)) {
                         setState(() {
@@ -400,14 +403,15 @@ class _QuizDetailsState extends State<QuizDetails> {
                       }
                     },
                     child: Card(
-                      color: selectedOptionIndices[index] ==
-                              "optionC" //&& totalQuestions[index].correctOption == "optionC"
+                      color: selectedOptionIndices.containsKey(index) &&
+                              totalQuestions[index].correctOption == "optionC"
                           ? Colors.green
-                          /*: selectedOptionIndices[index] == "optionC" &&
+                          : selectedOptionIndices[index] == "optionC" &&
+                                  selectedOptionIndices.containsKey(index) &&
                                   totalQuestions[index].correctOption !=
                                       "optionC"
-                              ? Colors.red*/
-                          : Colors.transparent,
+                              ? Colors.red
+                              : Colors.transparent,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.symmetric(
@@ -419,7 +423,7 @@ class _QuizDetailsState extends State<QuizDetails> {
                   SizedBox(
                     height: Resources.dimens.height(context) * 0.01,
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       if (!selectedOptionIndices.containsKey(index)) {
                         setState(() {
@@ -428,14 +432,15 @@ class _QuizDetailsState extends State<QuizDetails> {
                       }
                     },
                     child: Card(
-                      color: selectedOptionIndices[index] ==
-                              "optionD" //&& totalQuestions[index].correctOption == "optionD"
+                      color: selectedOptionIndices.containsKey(index) &&
+                              totalQuestions[index].correctOption == "optionD"
                           ? Colors.green
-                          /* : selectedOptionIndices[index] == "optionD" &&
+                          : selectedOptionIndices[index] == "optionD" &&
+                                  selectedOptionIndices.containsKey(index) &&
                                   totalQuestions[index].correctOption !=
                                       "optionD"
-                              ? Colors.red*/
-                          : Colors.transparent,
+                              ? Colors.red
+                              : Colors.transparent,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.symmetric(
@@ -460,7 +465,7 @@ class _QuizDetailsState extends State<QuizDetails> {
         PrefService.storeAttemptedQuizId(widget.quizzesModel.id.toString());
         // STEP 2 : SAVE ALL ANSWERS RELATED THIS QUIZ ID IN TO DATABASE
 
-        print("selectedOptionIndices : ${selectedOptionIndices}");
+        print("selectedOptionIndices : $selectedOptionIndices");
         print("selectedOptionIndices : ${selectedOptionIndices.keys.length}");
         await QuizDatabaseHelper.insertAttempt(
             int.parse(widget.quizzesModel.id.toString()),

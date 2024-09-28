@@ -15,14 +15,14 @@ class _NotificationsState extends State<Notifications> {
         title: const Text("Notifications"),
       ),
       body: ListView.builder(
-          itemCount: 5,
+          itemCount: 1,
           itemBuilder: (context, index) {
             return Container(
-              padding: EdgeInsets.all(8),
-              margin: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
+              margin: const EdgeInsets.all(8),
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(11)),
-              child: Text("This is test notification"),
+              child: const Text("No Notifications"),
             );
           }),
     );

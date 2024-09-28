@@ -13,6 +13,7 @@ import 'package:formula/bloc/sub_topic/sub_topic_bloc.dart';
 import 'package:formula/bloc/subject/subject_bloc.dart';
 import 'package:formula/bloc/theme/theme_bloc.dart';
 import 'package:formula/bloc/topic/topic_bloc.dart';
+import 'package:formula/data/local/database_helper.dart';
 import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/res/strings.dart';
 import 'package:formula/routes/routes.dart';
@@ -36,7 +37,10 @@ Future<void> main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+  // sharedPreferences init
   await PrefService.init();
+
+  // ads init
   MobileAds.instance.initialize();
   //Remove this method to stop OneSignal Debugging
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formula/bloc/quizzes/quizzes_bloc.dart';
+import 'package:formula/data/local/database_helper.dart';
 import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/model/quizzes_model.dart';
 import 'package:formula/model/result_model.dart';
 import 'package:formula/routes/routes.dart';
 import 'package:formula/routes/routes_path.dart';
+import 'package:formula/views/04_quiz/quiz_details.dart';
+import 'package:formula/views/04_quiz/quiz_re_attempt.dart';
 import 'package:go_router/go_router.dart';
 
 class QuizList extends StatefulWidget {
@@ -73,22 +76,43 @@ class _QuizListState extends State<QuizList> {
                               children: [
                                 InkWell(
                                   onTap: () {
+                                    QuizDatabaseHelper.getAttemptById(
+                                            int.parse(totalQuizzes[index].id!))
+                                        .then((value) {
+                                      print("Babu : $value");
 
-                                    GoRouter.of(context).pushNamed(RoutesName.quizSolutionsRoute, extra: {
-                                      "resultModel": ResultModel(
-                                          totalMarks:0,
-                                          obtainMarks: 0,
-                                          percentage: 0,
-                                          totalQuestions:
-                                          totalQuizzes[index].totalQuestions!.length,
-                                          correctAnswers: 0,
-                                          wrongAnswers: 0,
-                                          notAttempt: 0,
-                                          totalTime: int.parse(totalQuizzes[index].totalTime.toString()),
-                                          selectedOptionIndices: {}),
-                                      "quizModel": totalQuizzes[index],
+                                      // Convert to Map<String, dynamic>
+                                      Map<int, String> convertedAnswers =
+                                          value!.map((key, value) {
+                                        // Convert key to String and keep the value as is
+                                        return MapEntry(
+                                            int.parse(key.toString()),
+                                            value.toString());
+                                      });
+
+                                      GoRouter.of(context).pushNamed(
+                                          RoutesName.quizSolutionsRoute,
+                                          extra: {
+                                            "resultModel": ResultModel(
+                                                totalMarks: 0,
+                                                obtainMarks: 0,
+                                                percentage: 0,
+                                                totalQuestions:
+                                                    totalQuizzes[index]
+                                                        .totalQuestions!
+                                                        .length,
+                                                correctAnswers: 0,
+                                                wrongAnswers: 0,
+                                                notAttempt: 0,
+                                                totalTime: int.parse(
+                                                    totalQuizzes[index]
+                                                        .totalTime
+                                                        .toString()),
+                                                selectedOptionIndices:
+                                                    convertedAnswers),
+                                            "quizModel": totalQuizzes[index],
+                                          });
                                     });
-
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
@@ -105,9 +129,14 @@ class _QuizListState extends State<QuizList> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    GoRouter.of(context).push(
-                                        RoutesName.quizDetailsRoute,
-                                        extra: totalQuizzes[index]);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => QuizReattempt(
+                                                  quizzesModel:
+                                                      totalQuizzes[index],
+                                                  isReAttempt: true,
+                                                )));
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
