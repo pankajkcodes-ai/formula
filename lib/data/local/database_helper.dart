@@ -99,10 +99,10 @@ class QuizDatabaseHelper {
     Database db = await database;
     List<Map<String, dynamic>> attempts = await db.query(
       'quiz_attempt',
-      where: 'id = ?',
+      where: 'quizId = ?',
       whereArgs: [id],
     );
-    print("attempts=> ${attempts[0]['answers']}");
+    // print("attempts=> ${attempts[0]['answers']}");
     if (attempts.isNotEmpty) {
       // Decode answers field from JSON to map
       return json.decode((attempts[0]

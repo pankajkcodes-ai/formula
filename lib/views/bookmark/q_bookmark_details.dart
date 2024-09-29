@@ -23,6 +23,9 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
   }
 
   bool isAnswered = false;
+
+  Map<int, String> selectedOptionIndices = {};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,62 +59,114 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
               SizedBox(
                 height: Resources.dimens.height(context) * 0.02,
               ),
-              Card(
-                color: totalQuestions[index].correctOption == "optionA" &&
-                        isAnswered
-                    ? Colors.green
-                    : Colors.transparent,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                  child: HtmlWidget(totalQuestions[index].optionA),
+              InkWell(
+                onTap: () {
+                  if (!selectedOptionIndices.containsKey(index)) {
+                    setState(() {
+                      selectedOptionIndices[index] = "optionA";
+                    });
+                  }
+                },
+                child: Card(
+                  color: selectedOptionIndices.containsKey(index) &&
+                          totalQuestions[index].correctOption == "optionA"
+                      ? Colors.green
+                      : selectedOptionIndices[index] == "optionA" &&
+                              selectedOptionIndices.containsKey(index) &&
+                              totalQuestions[index].correctOption != "optionA"
+                          ? Colors.red
+                          : Colors.transparent,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 15),
+                    child: HtmlWidget(totalQuestions[index].optionA),
+                  ),
                 ),
               ),
               SizedBox(
                 height: Resources.dimens.height(context) * 0.01,
               ),
-              Card(
-                color: totalQuestions[index].correctOption == "optionB" &&
-                        isAnswered
-                    ? Colors.green
-                    : Colors.transparent,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                  child: HtmlWidget(totalQuestions[index].optionB),
-                  /*child: Text(
-                        'B. ${totalQuestions[index].optionB}',
-                      ),*/
+              InkWell(
+                onTap: () {
+                  if (!selectedOptionIndices.containsKey(index)) {
+                    setState(() {
+                      selectedOptionIndices[index] = "optionB";
+                    });
+                  }
+                },
+                child: Card(
+                  color: selectedOptionIndices.containsKey(index) &&
+                          totalQuestions[index].correctOption == "optionB"
+                      ? Colors.green
+                      : selectedOptionIndices[index] == "optionB" &&
+                              selectedOptionIndices.containsKey(index) &&
+                              totalQuestions[index].correctOption != "optionB"
+                          ? Colors.red
+                          : Colors.transparent,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 15),
+                    child: HtmlWidget(totalQuestions[index].optionB),
+                    /*child: Text(
+                          'B. ${totalQuestions[index].optionB}',
+                        ),*/
+                  ),
                 ),
               ),
               const SizedBox(),
-              Card(
-                color: totalQuestions[index].correctOption == "optionC" &&
-                        isAnswered
-                    ? Colors.green
-                    : Colors.transparent,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                  child: HtmlWidget(totalQuestions[index].optionC),
+              InkWell(
+                onTap: () {
+                  if (!selectedOptionIndices.containsKey(index)) {
+                    setState(() {
+                      selectedOptionIndices[index] = "optionC";
+                    });
+                  }
+                },
+                child: Card(
+                  color: selectedOptionIndices.containsKey(index) &&
+                          totalQuestions[index].correctOption == "optionC"
+                      ? Colors.green
+                      : selectedOptionIndices[index] == "optionC" &&
+                              selectedOptionIndices.containsKey(index) &&
+                              totalQuestions[index].correctOption != "optionC"
+                          ? Colors.red
+                          : Colors.transparent,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 15),
+                    child: HtmlWidget(totalQuestions[index].optionC),
+                  ),
                 ),
               ),
               SizedBox(
                 height: Resources.dimens.height(context) * 0.01,
               ),
-              Card(
-                color: totalQuestions[index].correctOption == "optionD" &&
-                        isAnswered
-                    ? Colors.green
-                    : Colors.transparent,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                  child: HtmlWidget(totalQuestions[index].optionD),
+              InkWell(
+                onTap: () {
+                  if (!selectedOptionIndices.containsKey(index)) {
+                    setState(() {
+                      selectedOptionIndices[index] = "optionD";
+                    });
+                  }
+                },
+                child: Card(
+                  color: selectedOptionIndices.containsKey(index) &&
+                          totalQuestions[index].correctOption == "optionD"
+                      ? Colors.green
+                      : selectedOptionIndices[index] == "optionD" &&
+                              selectedOptionIndices.containsKey(index) &&
+                              totalQuestions[index].correctOption != "optionD"
+                          ? Colors.red
+                          : Colors.transparent,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 15),
+                    child: HtmlWidget(totalQuestions[index].optionD),
+                  ),
                 ),
               ),
               isAnswered

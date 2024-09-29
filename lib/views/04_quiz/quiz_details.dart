@@ -457,53 +457,55 @@ class _QuizDetailsState extends State<QuizDetails> {
     return GestureDetector(
       onTap: () async {
         // STEP 1 : SAVE QUIZ ID IN TO DATABASE
-        PrefService.storeAttemptedQuizId(widget.quizzesModel.id.toString());
+
         // STEP 2 : SAVE ALL ANSWERS RELATED THIS QUIZ ID IN TO DATABASE
 
         print("selectedOptionIndices : ${selectedOptionIndices}");
         print("selectedOptionIndices : ${selectedOptionIndices.keys.length}");
         await QuizDatabaseHelper.insertAttempt(
             int.parse(widget.quizzesModel.id.toString()),
-            selectedOptionIndices);
+            selectedOptionIndices).then((v){
+          PrefService.storeAttemptedQuizId(widget.quizzesModel.id.toString());        print("totalQuestions : $totalQuestions");
+          print("totalQuestions : ${totalQuestions.length}");
+          var notAttempt =
+              totalQuestions.length - selectedOptionIndices.keys.length;
 
-        print("totalQuestions : $totalQuestions");
-        print("totalQuestions : ${totalQuestions.length}");
-        var notAttempt =
-            totalQuestions.length - selectedOptionIndices.keys.length;
-
-        var correctAnswers = 0;
-        var wrongAnswers = 0;
-        for (var e in selectedOptionIndices.entries) {
-          print("e : ${e.key} : ${e.value}");
-          if (e.value == totalQuestions[e.key].correctOption) {
-            correctAnswers++;
-          } else {
-            wrongAnswers++;
+          var correctAnswers = 0;
+          var wrongAnswers = 0;
+          for (var e in selectedOptionIndices.entries) {
+            print("e : ${e.key} : ${e.value}");
+            if (e.value == totalQuestions[e.key].correctOption) {
+              correctAnswers++;
+            } else {
+              wrongAnswers++;
+            }
           }
-        }
 
-        double obtainMarks =
-            (double.parse(widget.quizzesModel.totalPoints.toString()) /
-                    int.parse(widget.quizzesModel.totalQuestions.toString())) *
-                correctAnswers;
+          double obtainMarks =
+              (double.parse(widget.quizzesModel.totalPoints.toString()) /
+                  int.parse(widget.quizzesModel.totalQuestions.toString())) *
+                  correctAnswers;
 
-        context.read<CountDownTimerBloc>().add(ResetTimer());
+          context.read<CountDownTimerBloc>().add(ResetTimer());
 
-        GoRouter.of(context).pushNamed(RoutesName.resultSummaryRoute, extra: {
-          "resultModel": ResultModel(
-              totalMarks:
-                  double.parse(widget.quizzesModel.totalPoints.toString()),
-              obtainMarks: obtainMarks,
-              percentage: obtainMarks * 100 / totalMarks,
-              totalQuestions:
-                  int.parse(widget.quizzesModel.totalQuestions.toString()),
-              correctAnswers: correctAnswers,
-              wrongAnswers: wrongAnswers,
-              notAttempt: notAttempt,
-              totalTime: totalTime,
-              selectedOptionIndices: selectedOptionIndices),
-          "quizModel": widget.quizzesModel
+          GoRouter.of(context).pushReplacementNamed(RoutesName.resultSummaryRoute, extra: {
+            "resultModel": ResultModel(
+                totalMarks:
+                double.parse(widget.quizzesModel.totalPoints.toString()),
+                obtainMarks: obtainMarks,
+                percentage: obtainMarks * 100 / totalMarks,
+                totalQuestions:
+                int.parse(widget.quizzesModel.totalQuestions.toString()),
+                correctAnswers: correctAnswers,
+                wrongAnswers: wrongAnswers,
+                notAttempt: notAttempt,
+                totalTime: totalTime,
+                selectedOptionIndices: selectedOptionIndices),
+            "quizModel": widget.quizzesModel
+          });
         });
+
+
       },
       child: Container(
         height: Resources.dimens.height(context) * 0.04,

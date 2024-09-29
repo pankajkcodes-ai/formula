@@ -30,6 +30,14 @@ class _QuizListState extends State<QuizList> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Quiz"),
+        /*  actions: [
+            IconButton(onPressed: () async {
+             await QuizDatabaseHelper.getAttempts().then((v){
+               print("Attempts : $v");
+             });
+
+            }, icon: Icon( Icons.search_rounded)),
+          ],*/
         ),
         body: BlocConsumer<QuizzesBloc, QuizzesState>(
           listener: (context, state) {
@@ -70,6 +78,7 @@ class _QuizListState extends State<QuizList> {
                       ),
                       trailing: PrefService.isQuizAttempted(
                               totalQuizzes[index].id.toString())
+
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -79,39 +88,65 @@ class _QuizListState extends State<QuizList> {
                                     QuizDatabaseHelper.getAttemptById(
                                             int.parse(totalQuizzes[index].id!))
                                         .then((value) {
-                                      print("Babu : $value");
+                                      print("getAttemptById : $value");
 
-                                      // Convert to Map<String, dynamic>
-                                      Map<int, String> convertedAnswers =
-                                          value!.map((key, value) {
-                                        // Convert key to String and keep the value as is
-                                        return MapEntry(
-                                            int.parse(key.toString()),
-                                            value.toString());
-                                      });
+                                      if(value!=null){
+                                        // Convert to Map<String, dynamic>
+                                        Map<int, String> convertedAnswers =
+                                        value!.map((key, value) {
+                                          // Convert key to String and keep the value as is
+                                          return MapEntry(
+                                              int.parse(key.toString()),
+                                              value.toString());
+                                        });
 
-                                      GoRouter.of(context).pushNamed(
-                                          RoutesName.quizSolutionsRoute,
-                                          extra: {
-                                            "resultModel": ResultModel(
-                                                totalMarks: 0,
-                                                obtainMarks: 0,
-                                                percentage: 0,
-                                                totalQuestions:
-                                                    totalQuizzes[index]
-                                                        .totalQuestions!
-                                                        .length,
-                                                correctAnswers: 0,
-                                                wrongAnswers: 0,
-                                                notAttempt: 0,
-                                                totalTime: int.parse(
-                                                    totalQuizzes[index]
-                                                        .totalTime
-                                                        .toString()),
-                                                selectedOptionIndices:
-                                                    convertedAnswers),
-                                            "quizModel": totalQuizzes[index],
-                                          });
+                                        GoRouter.of(context).pushNamed(
+                                            RoutesName.quizSolutionsRoute,
+                                            extra: {
+                                              "resultModel": ResultModel(
+                                                  totalMarks: 0,
+                                                  obtainMarks: 0,
+                                                  percentage: 0,
+                                                  totalQuestions:
+                                                  totalQuizzes[index]
+                                                      .totalQuestions!
+                                                      .length,
+                                                  correctAnswers: 0,
+                                                  wrongAnswers: 0,
+                                                  notAttempt: 0,
+                                                  totalTime: int.parse(
+                                                      totalQuizzes[index]
+                                                          .totalTime
+                                                          .toString()),
+                                                  selectedOptionIndices:
+                                                  convertedAnswers),
+                                              "quizModel": totalQuizzes[index],
+                                            });
+                                      }else{
+                                        GoRouter.of(context).pushNamed(
+                                            RoutesName.quizSolutionsRoute,
+                                            extra: {
+                                              "resultModel": ResultModel(
+                                                  totalMarks: 0,
+                                                  obtainMarks: 0,
+                                                  percentage: 0,
+                                                  totalQuestions:
+                                                  totalQuizzes[index]
+                                                      .totalQuestions!
+                                                      .length,
+                                                  correctAnswers: 0,
+                                                  wrongAnswers: 0,
+                                                  notAttempt: 0,
+                                                  totalTime: int.parse(
+                                                      totalQuizzes[index]
+                                                          .totalTime
+                                                          .toString()),
+                                                  selectedOptionIndices:
+                                                  {}),
+                                              "quizModel": totalQuizzes[index],
+                                            });
+                                      }
+
                                     });
                                   },
                                   child: Container(
@@ -154,10 +189,12 @@ class _QuizListState extends State<QuizList> {
                               ],
                             )
                           : InkWell(
-                              onTap: () {
-                                GoRouter.of(context).push(
+                              onTap: () async {
+                               await GoRouter.of(context).push(
                                     RoutesName.quizDetailsRoute,
-                                    extra: totalQuizzes[index]);
+                                    extra: totalQuizzes[index]).then((v){
+                                   context.read<QuizzesBloc>().add(QuizzesGetEvent());
+                               });
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(

@@ -11,16 +11,15 @@ class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {
   Repository repository = Repository();
 
   QuestionsBloc() : super(QuestionsInitialState()) {
-    on<QuestionsEvent>((event, emit) {
-    });
+    on<QuestionsEvent>((event, emit) {});
     on<QuestionsGetEvent>(getQuestions);
   }
 
   Future<void> getQuestions(
       QuestionsGetEvent event, Emitter<QuestionsState> state) async {
-
-
-    repository.getQuestions(event.quizId, idList: event.idList).then((List<QuestionModel> questions) {
+    repository
+        .getQuestions(event.quizId, idList: event.idList)
+        .then((List<QuestionModel> questions) {
       emit(QuestionsGetState(questions: questions));
     }).catchError((e) {
       emit(QuestionsErrorState(e: e));

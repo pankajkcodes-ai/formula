@@ -36,28 +36,31 @@ class _QuestionBookmarkListState extends State<QuestionBookmarkList> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            }
-
-            if (state is QuestionsErrorState) {
+            } else if (state is QuestionsErrorState) {
               return Center(
                 child: Text(state.e),
               );
-            }
-            if (state is QuestionsGetState) {
+            } else if (state is QuestionsGetState) {
               print("state.questions : ${state.questions}");
-              if (state.questions.isNotEmpty) {
+              if (state.questions.isEmpty) {
+                return const Center(child: Text("No Data"));
+              } else {
                 return ListView.builder(
                     itemCount: state.questions.length,
                     itemBuilder: (context, index) {
                       var data = state.questions[index];
                       return InkWell(
                         onTap: () async {
-                         await GoRouter.of(context).pushNamed(
-                              RoutesName.qBookmarkDetailsRoute,
-                              extra: data.id.toString()).then((v){
-                           BlocProvider.of<QuestionsBloc>(context).add(QuestionsGetEvent(
-                               quizId: '', idList: PrefService.getBookmarkedQuestions()));
-                         });
+                          await GoRouter.of(context)
+                              .pushNamed(RoutesName.qBookmarkDetailsRoute,
+                                  extra: data.id.toString())
+                              .then((v) {
+                            BlocProvider.of<QuestionsBloc>(context).add(
+                                QuestionsGetEvent(
+                                    quizId: '',
+                                    idList:
+                                        PrefService.getBookmarkedQuestions()));
+                          });
                         },
                         child: Container(
                             padding: const EdgeInsets.all(5),
@@ -91,8 +94,6 @@ class _QuestionBookmarkListState extends State<QuestionBookmarkList> {
                             )),
                       );
                     });
-              } else {
-                return const Center(child: Text("No Data"));
               }
             }
             return const SizedBox.shrink();
