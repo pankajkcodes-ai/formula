@@ -19,9 +19,7 @@ import 'package:go_router/go_router.dart';
 
 class QuizDetails extends StatefulWidget {
   final QuizzesModel quizzesModel;
-  final bool? isReAttempt;
-  const QuizDetails(
-      {super.key, required this.quizzesModel, this.isReAttempt});
+  const QuizDetails({super.key, required this.quizzesModel});
 
   @override
   State<QuizDetails> createState() => _QuizDetailsState();
@@ -462,10 +460,12 @@ class _QuizDetailsState extends State<QuizDetails> {
 
         print("selectedOptionIndices : ${selectedOptionIndices}");
         print("selectedOptionIndices : ${selectedOptionIndices.keys.length}");
-        await QuizDatabaseHelper.insertAttempt(
-            int.parse(widget.quizzesModel.id.toString()),
-            selectedOptionIndices).then((v){
-          PrefService.storeAttemptedQuizId(widget.quizzesModel.id.toString());        print("totalQuestions : $totalQuestions");
+        await QuizDatabaseHelper.insertOrUpdateAttempt(
+                int.parse(widget.quizzesModel.id.toString()),
+                selectedOptionIndices)
+            .then((v) {
+          PrefService.storeAttemptedQuizId(widget.quizzesModel.id.toString());
+          print("totalQuestions : $totalQuestions");
           print("totalQuestions : ${totalQuestions.length}");
           var notAttempt =
               totalQuestions.length - selectedOptionIndices.keys.length;
@@ -481,21 +481,22 @@ class _QuizDetailsState extends State<QuizDetails> {
             }
           }
 
-          double obtainMarks =
-              (double.parse(widget.quizzesModel.totalPoints.toString()) /
+          double obtainMarks = (double.parse(
+                      widget.quizzesModel.totalPoints.toString()) /
                   int.parse(widget.quizzesModel.totalQuestions.toString())) *
-                  correctAnswers;
+              correctAnswers;
 
           context.read<CountDownTimerBloc>().add(ResetTimer());
 
-          GoRouter.of(context).pushReplacementNamed(RoutesName.resultSummaryRoute, extra: {
+          GoRouter.of(context)
+              .pushReplacementNamed(RoutesName.resultSummaryRoute, extra: {
             "resultModel": ResultModel(
                 totalMarks:
-                double.parse(widget.quizzesModel.totalPoints.toString()),
+                    double.parse(widget.quizzesModel.totalPoints.toString()),
                 obtainMarks: obtainMarks,
                 percentage: obtainMarks * 100 / totalMarks,
                 totalQuestions:
-                int.parse(widget.quizzesModel.totalQuestions.toString()),
+                    int.parse(widget.quizzesModel.totalQuestions.toString()),
                 correctAnswers: correctAnswers,
                 wrongAnswers: wrongAnswers,
                 notAttempt: notAttempt,
@@ -504,8 +505,6 @@ class _QuizDetailsState extends State<QuizDetails> {
             "quizModel": widget.quizzesModel
           });
         });
-
-
       },
       child: Container(
         height: Resources.dimens.height(context) * 0.04,

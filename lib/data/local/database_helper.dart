@@ -32,6 +32,7 @@ class QuizDatabaseHelper {
     ''');
   }
 
+/*
   // Insert a quiz attempt with quizId and answers as JSON
   static Future<int> insertAttempt(int quizId, Map<int, String> answers) async {
     Database db = await database;
@@ -50,6 +51,47 @@ class QuizDatabaseHelper {
       'answers': answersJson,
     };
     return await db.insert('quiz_attempt', quizAttempt);
+  }
+*/
+  static Future<int> insertOrUpdateAttempt(int quizId, Map<int, String> answers) async {
+    Database db = await database;
+
+    // Convert to Map<String, dynamic>
+    Map<String, dynamic> convertedAnswers = answers.map((key, value) {
+      // Convert key to String and keep the value as is
+      return MapEntry(key.toString(), value);
+    });
+    print("convertedAnswers : $convertedAnswers");
+
+    String answersJson = jsonEncode(convertedAnswers); // Serialize answers map to JSON string
+    print("jsonAnswer : $answersJson");
+
+    // Check if the quizId already exists
+    List<Map<String, dynamic>> existingAttempts = await db.query(
+      'quiz_attempt',
+      where: 'quizId = ?',
+      whereArgs: [quizId],
+    );
+
+    Map<String, dynamic> quizAttempt = {
+      'quizId': quizId,
+      'answers': answersJson,
+    };
+
+    if (existingAttempts.isNotEmpty) {
+      // Update the existing attempt
+      print('Quiz attempt already exists, updating...');
+      return await db.update(
+        'quiz_attempt',
+        quizAttempt,
+        where: 'quizId = ?',
+        whereArgs: [quizId],
+      );
+    } else {
+      // Insert a new attempt
+      print('Quiz attempt not found, inserting...');
+      return await db.insert('quiz_attempt', quizAttempt);
+    }
   }
 
   // Get all quiz attempts

@@ -8,7 +8,6 @@ import 'package:formula/model/result_model.dart';
 import 'package:formula/routes/routes.dart';
 import 'package:formula/routes/routes_path.dart';
 import 'package:formula/views/04_quiz/quiz_details.dart';
-import 'package:formula/views/04_quiz/quiz_re_attempt.dart';
 import 'package:go_router/go_router.dart';
 
 class QuizList extends StatefulWidget {
@@ -163,15 +162,12 @@ class _QuizListState extends State<QuizList> {
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => QuizReattempt(
-                                                  quizzesModel:
-                                                      totalQuizzes[index],
-                                                  isReAttempt: true,
-                                                )));
+                                  onTap: () async {
+                                    await GoRouter.of(context).push(
+                                        RoutesName.quizDetailsRoute,
+                                        extra: totalQuizzes[index]).then((v){
+                                      context.read<QuizzesBloc>().add(QuizzesGetEvent());
+                                    });
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
