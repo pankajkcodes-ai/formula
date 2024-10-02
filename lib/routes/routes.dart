@@ -44,7 +44,7 @@ class AppRoutes {
             name: RoutesName.feedbackRoute,
             path: RoutesName.feedbackRoute,
             builder: (BuildContext context, GoRouterState state) {
-              return const Feedback();
+              return const MyFeedback();
             }),
         GoRoute(
             name: RoutesName.quizListRoute,

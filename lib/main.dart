@@ -16,6 +16,7 @@ import 'package:formula/bloc/topic/topic_bloc.dart';
 import 'package:formula/data/local/database_helper.dart';
 import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/res/strings.dart';
+import 'package:formula/res/theme.dart';
 import 'package:formula/routes/routes.dart';
 import 'package:formula/utils/utils.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -76,6 +77,8 @@ class MyApp extends StatelessWidget {
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {
+            TextTheme textTheme = createTextTheme(context, "Lato", "Lato");
+            MaterialTheme theme = MaterialTheme(textTheme);
             bool isDark = false;
             if (state is ThemeChangeState) {
               isDark = state.isDark;
@@ -83,14 +86,7 @@ class MyApp extends StatelessWidget {
             return MaterialApp.router(
               title: 'Formula',
               themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
-              theme: ThemeData(
-                  brightness: Brightness.light,
-                  useMaterial3: true,
-                  fontFamily: "Lato"),
-              darkTheme: ThemeData(
-                  brightness: Brightness.dark,
-                  useMaterial3: true,
-                  fontFamily: "Lato"),
+              theme: !isDark ? theme.light() : theme.dark(),
               routeInformationParser: AppRoutes.router.routeInformationParser,
               routerDelegate: AppRoutes.router.routerDelegate,
               routeInformationProvider:

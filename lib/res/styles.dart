@@ -187,9 +187,16 @@ class AppStyles {
         border: Border.all(color: Colors.black, width: 1));
   }
 
-  BoxDecoration kBoxBorderDecorationR3() {
+  BoxDecoration kBoxBorderDecorationR3(BuildContext context) {
     return BoxDecoration(
-        borderRadius: BorderRadius.circular(5), border: Border.all(width: 1));
+      color: Theme
+          .of(context)
+          .colorScheme
+          .onPrimaryFixedVariant,
+        borderRadius: BorderRadius.circular(5), border: Border.all(
+        color: Theme.of(context)
+            .colorScheme
+            .tertiary,width: 1));
   }
 
   BoxDecoration kBoxBorderDecorationR4() {

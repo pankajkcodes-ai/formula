@@ -78,6 +78,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: const DrawerPage(),
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.tertiaryFixed,
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
         toolbarHeight: Resources.dimens.height(context) * 0.08,
         actions: [
           Padding(
@@ -97,7 +101,13 @@ class _HomePageState extends State<HomePage> {
                     : Icons.dark_mode)),
           )
         ],
-        title: Text(Resources.strings.appName, textAlign: TextAlign.center),
+        centerTitle: true,
+        title: Text(
+          Resources.strings.appName,
+          textAlign: TextAlign.center,
+          style: Resources.styles
+              .kTextStyle18(Theme.of(context).colorScheme.tertiaryFixed),
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -131,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   mainAxisSpacing: 15,
-                                  childAspectRatio: 1.1,
+                                  childAspectRatio: 1,
                                   crossAxisSpacing: 15),
                           itemBuilder: (BuildContext context, int index) {
                             if (index < data.subjects.length) {
@@ -169,10 +179,18 @@ class _HomePageState extends State<HomePage> {
                                   }
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.all(4),
+                                  padding: const EdgeInsets.all(11),
                                   decoration: BoxDecoration(
+                                      color: index == 1
+                                          ? const Color(0xffF0FFC3)
+                                          : index == 2
+                                              ? const Color(0xffE09DFF)
+                                              : Color(0xff9EFFFA),
                                       borderRadius: BorderRadius.circular(11),
-                                      border: Border.all()),
+                                      border: Border.all(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary,width: 2)),
                                   child: Column(
                                     children: [
                                       Container(
@@ -189,8 +207,10 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       Text(
                                           data.subjects[index].title.toString(),
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold))
+                                          style: Resources.styles
+                                              .kTextStyle18B6(Theme.of(context)
+                                                  .colorScheme
+                                                  .scrim))
                                     ],
                                   ),
                                 ),
@@ -200,14 +220,17 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 GoRouter.of(context).pushNamed(
                                   RoutesName.qBookmarkListRoute,
-
                                 );
                               },
                               child: Container(
-                                padding: const EdgeInsets.all(4),
+                                padding: const EdgeInsets.all(14),
                                 decoration: BoxDecoration(
+                                    color: Color(0xffffee8b),
                                     borderRadius: BorderRadius.circular(11),
-                                    border: Border.all()),
+                                    border: Border.all(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,width: 2)),
                                 child: Column(
                                   children: [
                                     Container(
@@ -221,11 +244,11 @@ class _HomePageState extends State<HomePage> {
                                       height: Resources.dimens.height(context) *
                                           0.01,
                                     ),
-                                    const Text(
-                                      "Bookmarks",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )
+                                    Text("Bookmarks",
+                                        style: Resources.styles.kTextStyle18B6(
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .scrim))
                                   ],
                                 ),
                               ),

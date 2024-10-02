@@ -26,8 +26,14 @@ class _QuestionBookmarkListState extends State<QuestionBookmarkList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         appBar: AppBar(
-          title: const Text("Bookmark List"),
+          title:  Text("Bookmark List",  style: Resources.styles
+              .kTextStyle18(Theme.of(context).colorScheme.tertiaryFixed),),
+          iconTheme: IconThemeData(
+            color: Theme.of(context).colorScheme.tertiaryFixed,
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: BlocBuilder<QuestionsBloc, QuestionsState>(
           builder: (context, state) {

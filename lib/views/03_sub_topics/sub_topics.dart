@@ -30,10 +30,15 @@ class _SubTopicsState extends State<SubTopics> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.tertiaryFixed,
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
         toolbarHeight: Resources.dimens.height(context) * 0.08,
         title: Text(
           "${widget.topicModel.title}",
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          style: Resources.styles
+              .kTextStyle18(Theme.of(context).colorScheme.tertiaryFixed),
         ),
       ),
       body: Padding(
@@ -62,13 +67,13 @@ class _SubTopicsState extends State<SubTopics> {
                             horizontal: 10, vertical: 5),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 10),
-                        decoration: Resources.styles.kBoxBorderDecorationR4(),
+                        decoration: Resources.styles.kBoxBorderDecorationR3(context),
                         child: Row(
                           children: [
                             Text(
                               "${index + 1}.",
-                              style: const TextStyle(
-                                  fontSize: 11, fontWeight: FontWeight.bold),
+                              style: Resources.styles
+                                  .kTextStyle12B5(Theme.of(context).colorScheme.tertiaryFixed),
                             ),
                             SizedBox(
                               width: Resources.dimens.width(context) * 0.02,
@@ -77,8 +82,8 @@ class _SubTopicsState extends State<SubTopics> {
                               width: Resources.dimens.width(context) * 0.7,
                               child: Text(
                                 data.subTopics[index].title ?? "",
-                                style: const TextStyle(
-                                    fontSize: 11, fontWeight: FontWeight.bold),
+                                style: Resources.styles
+                                    .kTextStyle12B5(Theme.of(context).colorScheme.tertiaryFixed),
                               ),
                             ),
                           ],

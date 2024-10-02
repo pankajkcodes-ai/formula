@@ -3,14 +3,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class Feedback extends StatefulWidget {
-  const Feedback({super.key});
+class MyFeedback extends StatefulWidget {
+  const MyFeedback({super.key});
 
   @override
-  State<Feedback> createState() => _FeedbackState();
+  State<MyFeedback> createState() => _MyFeedbackState();
 }
 
-class _FeedbackState extends State<Feedback> {
+class _MyFeedbackState extends State<MyFeedback> {
   final _feedbackController = TextEditingController();
 
   @override

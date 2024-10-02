@@ -48,10 +48,15 @@ class _WebViewFormulaPageState extends State<WebViewFormulaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.tertiaryFixed,
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
         toolbarHeight: Resources.dimens.height(context) * 0.08,
         title: Text(
           widget.title,
-          style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+          style: Resources.styles
+              .kTextStyle18(Theme.of(context).colorScheme.tertiaryFixed),
         ),
       ),
       body: SafeArea(
