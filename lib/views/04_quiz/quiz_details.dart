@@ -218,8 +218,12 @@ class _QuizDetailsState extends State<QuizDetails> {
                   child: Container(
                     height: Resources.dimens.height(context) * 0.04,
                     width: Resources.dimens.width(context) * 0.3,
-                    decoration: Resources.styles.kBoxBorderDecoration(),
-                    child: const Center(child: Text('Clear Response')),
+                    decoration:
+                        Resources.styles.kBoxBorderDecorationR3(context),
+                    child: Center(child: Text('Clear Response', style: Resources.styles.kTextStyle14(
+                        Theme.of(context)
+                            .colorScheme
+                            .tertiaryFixed))),
                   ),
                 ),
                 GestureDetector(
@@ -236,8 +240,12 @@ class _QuizDetailsState extends State<QuizDetails> {
                   child: Container(
                     height: Resources.dimens.height(context) * 0.04,
                     width: Resources.dimens.width(context) * 0.25,
-                    decoration: Resources.styles.kBoxBorderDecoration(),
-                    child: const Center(child: Text('Previous')),
+                    decoration:
+                        Resources.styles.kBoxBorderDecorationR3(context),
+                    child:  Center(child: Text('Previous', style: Resources.styles.kTextStyle14(
+                        Theme.of(context)
+                            .colorScheme
+                            .tertiaryFixed))),
                   ),
                 ),
                 totalQuestions.length - 1 == selectedQuestionIndex
@@ -258,17 +266,24 @@ class _QuizDetailsState extends State<QuizDetails> {
                         child: Container(
                           height: Resources.dimens.height(context) * 0.04,
                           width: Resources.dimens.width(context) * 0.25,
-                          decoration: Resources.styles.kBoxBorderDecoration(),
-                          child: const Center(child: Text('Next')),
+                          decoration:
+                              Resources.styles.kBoxBorderDecorationR3(context),
+                          child:  Center(child: Text('Next', style: Resources.styles.kTextStyle14(
+                              Theme.of(context)
+                                  .colorScheme
+                                  .tertiaryFixed))),
                         ),
                       ),
               ],
             ),
           ),
           appBar: AppBar(
-            automaticallyImplyLeading: false,
             iconTheme: IconThemeData(
-                color: Theme.of(context).colorScheme.onBackground),
+              color: Theme.of(context).colorScheme.tertiaryFixed,
+            ),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            automaticallyImplyLeading: false,
+
             title: BlocBuilder<CountDownTimerBloc, CountDownTimerState>(
               builder: (context, state) {
                 if (kDebugMode) {
@@ -509,8 +524,11 @@ class _QuizDetailsState extends State<QuizDetails> {
       child: Container(
         height: Resources.dimens.height(context) * 0.04,
         width: Resources.dimens.width(context) * 0.3,
-        decoration: Resources.styles.kBoxBorderDecoration(),
-        child: const Center(child: Text('Submit')),
+        decoration: Resources.styles.kBoxBorderDecorationR3(context),
+        child:  Center(child: Text('Submit', style: Resources.styles.kTextStyle14(
+            Theme.of(context)
+                .colorScheme
+                .tertiaryFixed),)),
       ),
     );
   }

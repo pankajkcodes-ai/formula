@@ -22,7 +22,7 @@ class _NotificationsState extends State<Notifications> {
               margin: const EdgeInsets.all(8),
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(11)),
-              child: const Text("No Notifications"),
+              child: Center(child: const Text("No Notifications")),
             );
           }),
     );

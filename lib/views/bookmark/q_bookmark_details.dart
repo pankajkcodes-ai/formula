@@ -25,11 +25,15 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
   bool isAnswered = false;
 
   Map<int, String> selectedOptionIndices = {};
-
+  var totalQuestions = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.tertiaryFixed,
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text("Bookmark Details"),
       ),
       body: BlocConsumer<QuestionsBloc, QuestionsState>(
@@ -38,7 +42,7 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
         },
         builder: (context, state) {
           print("State : $state");
-          var totalQuestions = [];
+
           if (state is QuestionsGetState) {
             totalQuestions = state.questions;
           }
@@ -200,8 +204,12 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
         },
       ),
       bottomNavigationBar: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.onPrimary
+        ),
           onPressed: () {
             setState(() {
+              selectedOptionIndices [ 0] = totalQuestions[0].correctOption;
               isAnswered = !isAnswered;
             });
           },

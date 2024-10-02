@@ -179,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                                   }
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.all(11),
+                                  padding: const EdgeInsets.all(7),
                                   decoration: BoxDecoration(
                                       color: index == 1
                                           ? const Color(0xffF0FFC3)
@@ -208,7 +208,7 @@ class _HomePageState extends State<HomePage> {
                                       Text(
                                           data.subjects[index].title.toString(),
                                           style: Resources.styles
-                                              .kTextStyle18B6(Theme.of(context)
+                                              .kTextStyle16B6(Theme.of(context)
                                                   .colorScheme
                                                   .scrim))
                                     ],
@@ -223,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                               child: Container(
-                                padding: const EdgeInsets.all(14),
+                                padding: const EdgeInsets.all(11),
                                 decoration: BoxDecoration(
                                     color: Color(0xffffee8b),
                                     borderRadius: BorderRadius.circular(11),
@@ -245,7 +245,7 @@ class _HomePageState extends State<HomePage> {
                                           0.01,
                                     ),
                                     Text("Bookmarks",
-                                        style: Resources.styles.kTextStyle18B6(
+                                        style: Resources.styles.kTextStyle16B6(
                                             Theme.of(context)
                                                 .colorScheme
                                                 .scrim))
