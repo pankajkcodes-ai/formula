@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
               PrefService().setThemeMode(isDark);
             }
             return MaterialApp.router(
-              title: 'Formula',
+              title: 'Math Formula',
               themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
               theme: !isDark ? theme.light() : theme.dark(),
               routeInformationParser: AppRoutes.router.routeInformationParser,

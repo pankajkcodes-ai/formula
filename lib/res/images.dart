@@ -1,6 +1,6 @@
 class AppImages {
   //Images
-  String splashImage = "assets/images/splash_icon.png";
+  String splashImage = "assets/images/splashImage.png";
   String backgroundImage = "assets/images/splash_bg.png";
 
   //Icon
