@@ -207,7 +207,8 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 15),
-                    child: HtmlWidget(totalQuestions[index].optionD),
+                    child: HtmlWidget(totalQuestions[index].optionD,
+                    ),
                   ),
                 ),
               ),
@@ -228,7 +229,7 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                             width: Resources.dimens.width(context),
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 15),
-                            child: HtmlWidget(totalQuestions[index].solution),
+                            child: HtmlWidget(totalQuestions[index].solution,),
                           ),
                         ),
                       ],

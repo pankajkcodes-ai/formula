@@ -90,23 +90,22 @@ class _ResultSummaryState extends State<ResultSummary> {
                     });
                   },
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     width: Resources.dimens.width(context) * 0.4,
                     decoration:
-                        Resources.styles.kBoxBorderDecoration(radius: 2),
-                    child: const Row(
+                    Resources.styles.kBoxBorderDecorationR3(context),
+                    child:  Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           'Solutions',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                            style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed)
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
-                        Padding(
+                        const Padding(
                             padding: EdgeInsets.only(top: 4.0),
                             child: Icon(
                                 size: 14, Icons.arrow_forward_ios_rounded)),
@@ -126,20 +125,19 @@ class _ResultSummaryState extends State<ResultSummary> {
                     padding: EdgeInsets.all(10),
                     width: Resources.dimens.width(context) * 0.4,
                     decoration:
-                    Resources.styles.kBoxBorderDecoration(radius: 2),
-                    child: const Row(
+                    Resources.styles.kBoxBorderDecorationR3(context),
+                    child:  Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           '      Done    ',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                            style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed)
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
-                        Padding(
+                        const Padding(
                             padding: EdgeInsets.only(top: 4.0),
                             child: Icon(
                                 size: 14, Icons.arrow_forward_ios_rounded)),
