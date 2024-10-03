@@ -218,12 +218,9 @@ class _QuizDetailsState extends State<QuizDetails> {
                   child: Container(
                     height: Resources.dimens.height(context) * 0.04,
                     width: Resources.dimens.width(context) * 0.3,
-                    decoration:
-                        Resources.styles.kBoxBorderDecorationR3(context),
-                    child: Center(child: Text('Clear Response', style: Resources.styles.kTextStyle14(
-                        Theme.of(context)
-                            .colorScheme
-                            .tertiaryFixed))),
+                    decoration: Resources.styles.kBoxBorderDecorationR3(context),
+                    child: Center(child: Text('Clear Response',
+                        style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed))),
                   ),
                 ),
                 GestureDetector(
@@ -242,10 +239,8 @@ class _QuizDetailsState extends State<QuizDetails> {
                     width: Resources.dimens.width(context) * 0.25,
                     decoration:
                         Resources.styles.kBoxBorderDecorationR3(context),
-                    child:  Center(child: Text('Previous', style: Resources.styles.kTextStyle14(
-                        Theme.of(context)
-                            .colorScheme
-                            .tertiaryFixed))),
+                    child:  Center(child: Text('Previous',
+                        style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed))),
                   ),
                 ),
                 totalQuestions.length - 1 == selectedQuestionIndex
@@ -268,10 +263,8 @@ class _QuizDetailsState extends State<QuizDetails> {
                           width: Resources.dimens.width(context) * 0.25,
                           decoration:
                               Resources.styles.kBoxBorderDecorationR3(context),
-                          child:  Center(child: Text('Next', style: Resources.styles.kTextStyle14(
-                              Theme.of(context)
-                                  .colorScheme
-                                  .tertiaryFixed))),
+                          child:  Center(child: Text('Next',
+                              style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed))),
                         ),
                       ),
               ],
@@ -337,6 +330,13 @@ class _QuizDetailsState extends State<QuizDetails> {
                 padding: const EdgeInsets.all(8.0),
                 children: [
                   Card(
+                    clipBehavior: Clip.none,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1.0,
+                        )),
                     child: Container(
                       width: Resources.dimens.width(context),
                       margin: const EdgeInsets.symmetric(
@@ -356,6 +356,13 @@ class _QuizDetailsState extends State<QuizDetails> {
                       }
                     },
                     child: Card(
+                      clipBehavior: Clip.none,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 1.0,
+                          )),
                       color: selectedOptionIndices[index] == "optionA"
                           // &&  totalQuestions[index].correctOption == "optionA"
                           ? Colors.green
@@ -363,7 +370,7 @@ class _QuizDetailsState extends State<QuizDetails> {
                                   totalQuestions[index].correctOption !=
                                       "optionA"
                               ? Colors.red*/
-                          : Colors.transparent,
+                          : Theme.of(context).colorScheme.surfaceContainerLow,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.symmetric(
@@ -384,6 +391,13 @@ class _QuizDetailsState extends State<QuizDetails> {
                       }
                     },
                     child: Card(
+                      clipBehavior: Clip.none,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 1.0,
+                          )),
                       color: selectedOptionIndices[index] == "optionB"
                           // &&  totalQuestions[index].correctOption == "optionB"
                           ? Colors.green
@@ -391,7 +405,7 @@ class _QuizDetailsState extends State<QuizDetails> {
                                   totalQuestions[index].correctOption !=
                                       "optionB"
                               ? Colors.red*/
-                          : Colors.transparent,
+                          : Theme.of(context).colorScheme.surfaceContainerLow,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.symmetric(
@@ -413,6 +427,13 @@ class _QuizDetailsState extends State<QuizDetails> {
                       }
                     },
                     child: Card(
+                      clipBehavior: Clip.none,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 1.0,
+                          )),
                       color: selectedOptionIndices[index] ==
                               "optionC" //&& totalQuestions[index].correctOption == "optionC"
                           ? Colors.green
@@ -420,7 +441,7 @@ class _QuizDetailsState extends State<QuizDetails> {
                                   totalQuestions[index].correctOption !=
                                       "optionC"
                               ? Colors.red*/
-                          : Colors.transparent,
+                          : Theme.of(context).colorScheme.surfaceContainerLow,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.symmetric(
@@ -441,6 +462,13 @@ class _QuizDetailsState extends State<QuizDetails> {
                       }
                     },
                     child: Card(
+                      clipBehavior: Clip.none,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 1.0,
+                          )),
                       color: selectedOptionIndices[index] ==
                               "optionD" //&& totalQuestions[index].correctOption == "optionD"
                           ? Colors.green
@@ -448,7 +476,7 @@ class _QuizDetailsState extends State<QuizDetails> {
                                   totalQuestions[index].correctOption !=
                                       "optionD"
                               ? Colors.red*/
-                          : Colors.transparent,
+                          :Theme.of(context).colorScheme.surfaceContainerLow,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.symmetric(
@@ -473,22 +501,32 @@ class _QuizDetailsState extends State<QuizDetails> {
 
         // STEP 2 : SAVE ALL ANSWERS RELATED THIS QUIZ ID IN TO DATABASE
 
-        print("selectedOptionIndices : ${selectedOptionIndices}");
-        print("selectedOptionIndices : ${selectedOptionIndices.keys.length}");
+        if (kDebugMode) {
+          print("selectedOptionIndices : $selectedOptionIndices");
+        }
+        if (kDebugMode) {
+          print("selectedOptionIndices : ${selectedOptionIndices.keys.length}");
+        }
         await QuizDatabaseHelper.insertOrUpdateAttempt(
                 int.parse(widget.quizzesModel.id.toString()),
                 selectedOptionIndices)
             .then((v) {
           PrefService.storeAttemptedQuizId(widget.quizzesModel.id.toString());
-          print("totalQuestions : $totalQuestions");
-          print("totalQuestions : ${totalQuestions.length}");
+          if (kDebugMode) {
+            print("totalQuestions : $totalQuestions");
+          }
+          if (kDebugMode) {
+            print("totalQuestions : ${totalQuestions.length}");
+          }
           var notAttempt =
               totalQuestions.length - selectedOptionIndices.keys.length;
 
           var correctAnswers = 0;
           var wrongAnswers = 0;
           for (var e in selectedOptionIndices.entries) {
-            print("e : ${e.key} : ${e.value}");
+            if (kDebugMode) {
+              print("e : ${e.key} : ${e.value}");
+            }
             if (e.value == totalQuestions[e.key].correctOption) {
               correctAnswers++;
             } else {
@@ -525,10 +563,8 @@ class _QuizDetailsState extends State<QuizDetails> {
         height: Resources.dimens.height(context) * 0.04,
         width: Resources.dimens.width(context) * 0.3,
         decoration: Resources.styles.kBoxBorderDecorationR3(context),
-        child:  Center(child: Text('Submit', style: Resources.styles.kTextStyle14(
-            Theme.of(context)
-                .colorScheme
-                .tertiaryFixed),)),
+        child:  Center(child: Text('Submit',
+          style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed),)),
       ),
     );
   }

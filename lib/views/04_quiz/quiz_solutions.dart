@@ -224,8 +224,12 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                   child: Container(
                     height: Resources.dimens.height(context) * 0.04,
                     width: Resources.dimens.width(context) * 0.3,
-                    decoration: Resources.styles.kBoxBorderDecoration(),
-                    child: const Center(child: Text('Previous')),
+                    decoration:
+                    Resources.styles.kBoxBorderDecorationR3(context),
+                    child:  Center(child: Text(
+                        'Previous',
+                        style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed)
+                    )),
                   ),
                 ),
                 SizedBox(
@@ -249,8 +253,11 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                         child: Container(
                           height: Resources.dimens.height(context) * 0.04,
                           width: Resources.dimens.width(context) * 0.3,
-                          decoration: Resources.styles.kBoxBorderDecoration(),
-                          child: const Center(child: Text('Next')),
+                          decoration:
+                          Resources.styles.kBoxBorderDecorationR3(context),
+                          child:  Center(child: Text('Next',
+                              style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed)
+                          )),
                         ),
                       ),
               ],
@@ -259,11 +266,13 @@ class _QuizSolutionsState extends State<QuizSolutions> {
           appBar: AppBar(
             automaticallyImplyLeading: false,
             iconTheme: IconThemeData(
-                color: Theme.of(context).colorScheme.onBackground),
+              color: Theme.of(context).colorScheme.tertiaryFixed,
+            ),
+            backgroundColor: Theme.of(context).colorScheme.primary,
             title: Text(
               "Total time : ${AppUtils.formatTime(widget.resultModel.totalTime)}",
               style: Resources.styles
-                  .kTextStyle16B5(Theme.of(context).colorScheme.onBackground),
+                  .kTextStyle16B5(Theme.of(context).colorScheme.tertiaryFixed),
             ),  actions: [
             totalQuestions.isNotEmpty
                 ? PrefService.isQuestionBookmarked(
@@ -302,6 +311,13 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                 padding: const EdgeInsets.all(8.0),
                 children: [
                   Card(
+                    clipBehavior: Clip.none,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1.0,
+                        )),
                     child: Container(
                       width: Resources.dimens.width(context),
                       margin: const EdgeInsets.symmetric(
@@ -313,6 +329,13 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                     height: Resources.dimens.height(context) * 0.02,
                   ),
                   Card(
+                    clipBehavior: Clip.none,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1.0,
+                        )),
                     color: //selectedOptionIndices[index] == "optionA" &&
                         totalQuestions[index].correctOption == "optionA"
                             ? Colors.green
@@ -320,7 +343,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                                     totalQuestions[index].correctOption !=
                                         "optionA"
                                 ? Colors.red
-                                : Colors.transparent,
+                                : Theme.of(context).colorScheme.surfaceContainerLow,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(
@@ -332,6 +355,13 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                     height: Resources.dimens.height(context) * 0.01,
                   ),
                   Card(
+                    clipBehavior: Clip.none,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1.0,
+                        )),
                     color: //selectedOptionIndices[index] == "optionB" &&
                         totalQuestions[index].correctOption == "optionB"
                             ? Colors.green
@@ -339,7 +369,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                                     totalQuestions[index].correctOption !=
                                         "optionB"
                                 ? Colors.red
-                                : Colors.transparent,
+                                : Theme.of(context).colorScheme.surfaceContainerLow,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(
@@ -352,6 +382,13 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                   ),
                   const SizedBox(),
                   Card(
+                    clipBehavior: Clip.none,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1.0,
+                        )),
                     color: //selectedOptionIndices[index] == "optionC" &&
                         totalQuestions[index].correctOption == "optionC"
                             ? Colors.green
@@ -359,7 +396,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                                     totalQuestions[index].correctOption !=
                                         "optionC"
                                 ? Colors.red
-                                : Colors.transparent,
+                                :Theme.of(context).colorScheme.surfaceContainerLow,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(
@@ -371,6 +408,13 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                     height: Resources.dimens.height(context) * 0.01,
                   ),
                   Card(
+                    clipBehavior: Clip.none,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1.0,
+                        )),
                     color: // selectedOptionIndices[index] == "optionD" &&
                         totalQuestions[index].correctOption == "optionD"
                             ? Colors.green
@@ -378,7 +422,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                                     totalQuestions[index].correctOption !=
                                         "optionD"
                                 ? Colors.red
-                                : Colors.transparent,
+                                : Theme.of(context).colorScheme.surfaceContainerLow,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(
@@ -391,13 +435,20 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                     child: Text(
                       "Solution  : ",
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Colors.green,
                       ),
                     ),
                   ),
                   Card(
+                    clipBehavior: Clip.none,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1.0,
+                        )),
                     child: Container(
                       width: Resources.dimens.width(context),
                       margin: const EdgeInsets.symmetric(
@@ -425,8 +476,11 @@ class _QuizSolutionsState extends State<QuizSolutions> {
       child: Container(
         height: Resources.dimens.height(context) * 0.04,
         width: Resources.dimens.width(context) * 0.3,
-        decoration: Resources.styles.kBoxBorderDecoration(),
-        child: const Center(child: Text('Done')),
+        decoration:
+        Resources.styles.kBoxBorderDecorationR3(context),
+        child:  Center(child: Text('Done',
+            style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed)
+        )),
       ),
     );
   }

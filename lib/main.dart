@@ -79,9 +79,10 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             TextTheme textTheme = createTextTheme(context, "Lato", "Lato");
             MaterialTheme theme = MaterialTheme(textTheme);
-            bool isDark = false;
+            bool isDark = PrefService().getThemeMode()??false;
             if (state is ThemeChangeState) {
               isDark = state.isDark;
+              PrefService().setThemeMode(isDark);
             }
             return MaterialApp.router(
               title: 'Formula',

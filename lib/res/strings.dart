@@ -14,6 +14,7 @@ class AppStrings {
   /// Shared Preference Keys ///
 
   static String regIdKey = "regIdKey";
+  static String themeKey = "themeKey";
   static String mobileNoKey = "mobileNoKey";
   static String tokenKey = "tokenKey";
   static String userSessionKey = "userSessionKey";

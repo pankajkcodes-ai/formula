@@ -39,6 +39,17 @@ class AppUtils{
             // Handle any errors that occur during the flexible update
             print("Flexible update failed: $e");
           });
+        }else{
+          // Handle other cases or errors
+          // print("Update not available or other error occurred.");
+          // InAppUpdate.performImmediateUpdate().then((appUpdateResult) {
+          //   if (appUpdateResult == AppUpdateResult.success) {
+          //     // App Update successful
+          //   }
+          // }).catchError((e) {
+          //   // Handle any errors that occur during the immediate update
+          //   print("Immediate update failed: $e");
+          //});
         }
       }
     }).catchError((e) {

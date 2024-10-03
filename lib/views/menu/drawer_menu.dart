@@ -25,9 +25,26 @@ class _DrawerPageState extends State<DrawerPage> {
             BorderRadius.zero, // Rectangular shape with zero border radius
       ),
       child: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+                child:Row(
+                  children: [
+                    Image.asset(Resources.images.splashImage,height: Resources.dimens.height(context) * 0.12,)
+                    ,SizedBox(width: Resources.dimens.width(context) * 0.02,),
+                     SizedBox(
+                       width: Resources.dimens.width(context) * 0.3,
+                       child: const Center(
+                         child: Text("Simplify Your Formula Journey",
+                           style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                         ),
+                       ),
+                     )
+                  ],
+                )
+               ),
             ListTile(
               onTap: () {
                 GoRouter.of(context).push(RoutesName.notificationRoute);
@@ -106,6 +123,32 @@ class _DrawerPageState extends State<DrawerPage> {
               title: const Text(
                 'Share',
               ),
+            ),
+            const Spacer(),
+            GestureDetector(
+              onTap: () async {
+                const url = 'https://upsoftech.com/';
+                if (await canLaunchUrl(Uri.parse(url))) {
+                await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+                } else {
+                throw 'Could not launch $url';
+                }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Crafted with  ',
+                style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.primary),),
+                  const Icon(Icons.favorite,color:Colors.red,size: 9,),
+                  Text(
+                    '  upsoftech.com',
+                    style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.primary),)
+                ],
+              ),
+            ),
+            SizedBox(
+              height: Resources.dimens.height(context) * 0.02,
             ),
           ],
         ),

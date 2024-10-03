@@ -34,7 +34,10 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
           color: Theme.of(context).colorScheme.tertiaryFixed,
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text("Bookmark Details"),
+        title:  Text("Bookmark Details",
+          style: Resources.styles
+              .kTextStyle18(Theme.of(context).colorScheme.tertiaryFixed),
+        ),
       ),
       body: BlocConsumer<QuestionsBloc, QuestionsState>(
         listener: (context, state) {
@@ -53,6 +56,13 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
             padding: const EdgeInsets.all(8.0),
             children: [
               Card(
+                clipBehavior: Clip.none,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 1.0,
+                    )),
                 child: Container(
                   width: Resources.dimens.width(context),
                   margin:
@@ -72,6 +82,13 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                   }
                 },
                 child: Card(
+                  clipBehavior: Clip.none,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 1.0,
+                      )),
                   color: selectedOptionIndices.containsKey(index) &&
                           totalQuestions[index].correctOption == "optionA"
                       ? Colors.green
@@ -79,7 +96,7 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                               selectedOptionIndices.containsKey(index) &&
                               totalQuestions[index].correctOption != "optionA"
                           ? Colors.red
-                          : Colors.transparent,
+                          : Theme.of(context).colorScheme.surfaceContainerLow,
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.symmetric(
@@ -100,6 +117,13 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                   }
                 },
                 child: Card(
+                  clipBehavior: Clip.none,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 1.0,
+                      )),
                   color: selectedOptionIndices.containsKey(index) &&
                           totalQuestions[index].correctOption == "optionB"
                       ? Colors.green
@@ -107,7 +131,7 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                               selectedOptionIndices.containsKey(index) &&
                               totalQuestions[index].correctOption != "optionB"
                           ? Colors.red
-                          : Colors.transparent,
+                          : Theme.of(context).colorScheme.surfaceContainerLow,
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.symmetric(
@@ -129,6 +153,13 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                   }
                 },
                 child: Card(
+                  clipBehavior: Clip.none,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 1.0,
+                      )),
                   color: selectedOptionIndices.containsKey(index) &&
                           totalQuestions[index].correctOption == "optionC"
                       ? Colors.green
@@ -136,7 +167,7 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                               selectedOptionIndices.containsKey(index) &&
                               totalQuestions[index].correctOption != "optionC"
                           ? Colors.red
-                          : Colors.transparent,
+                          :Theme.of(context).colorScheme.surfaceContainerLow,
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.symmetric(
@@ -157,6 +188,13 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                   }
                 },
                 child: Card(
+                  clipBehavior: Clip.none,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 1.0,
+                      )),
                   color: selectedOptionIndices.containsKey(index) &&
                           totalQuestions[index].correctOption == "optionD"
                       ? Colors.green
@@ -164,7 +202,7 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                               selectedOptionIndices.containsKey(index) &&
                               totalQuestions[index].correctOption != "optionD"
                           ? Colors.red
-                          : Colors.transparent,
+                          : Theme.of(context).colorScheme.surfaceContainerLow,
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.symmetric(
@@ -181,10 +219,7 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                           padding: EdgeInsets.all(8.0),
                           child: Text(
                             "Solution  : ",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green,
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green,
                             ),
                           ),
                         ),
@@ -203,22 +238,23 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
           );
         },
       ),
-      bottomNavigationBar: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.onPrimary
+      bottomNavigationBar:GestureDetector(
+        onTap: (){
+      setState(() {
+                 selectedOptionIndices [ 0] = totalQuestions[0].correctOption;
+                isAnswered = !isAnswered;
+              });
+        },
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+          height: Resources.dimens.height(context) * 0.06,
+          width: Resources.dimens.width(context) ,
+          decoration: Resources.styles.kBoxBorderDecorationR3(context),
+          child: Center(child: Text(
+              'View Solution',
+              style: Resources.styles.kTextStyle14(Theme.of(context).colorScheme.tertiaryFixed))),
         ),
-          onPressed: () {
-            setState(() {
-              selectedOptionIndices [ 0] = totalQuestions[0].correctOption;
-              isAnswered = !isAnswered;
-            });
-          },
-          child: Text(
-            isAnswered ? "Hide Solution" : "View Solution",
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          )),
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -28,7 +29,8 @@ class _QuestionBookmarkListState extends State<QuestionBookmarkList> {
     return Scaffold(
 
         appBar: AppBar(
-          title:  Text("Bookmark List",  style: Resources.styles
+          title:  Text("Bookmark List",
+            style: Resources.styles
               .kTextStyle18(Theme.of(context).colorScheme.tertiaryFixed),),
           iconTheme: IconThemeData(
             color: Theme.of(context).colorScheme.tertiaryFixed,
@@ -37,7 +39,9 @@ class _QuestionBookmarkListState extends State<QuestionBookmarkList> {
         ),
         body: BlocBuilder<QuestionsBloc, QuestionsState>(
           builder: (context, state) {
-            print("state $state ");
+            if (kDebugMode) {
+              print("state $state ");
+            }
             if (state is QuestionsLoadingState) {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -47,9 +51,15 @@ class _QuestionBookmarkListState extends State<QuestionBookmarkList> {
                 child: Text(state.e),
               );
             } else if (state is QuestionsGetState) {
-              print("state.questions : ${state.questions}");
+              if (kDebugMode) {
+                print("state.questions : ${state.questions}");
+              }
               if (state.questions.isEmpty) {
-                return const Center(child: Text("No Data"));
+                return  Center(child: Text(
+                    "No Data",
+                    style: Resources.styles.kTextStyle14(
+                        Theme.of(context).colorScheme.tertiaryFixed)
+                ));
               } else {
                 return ListView.builder(
                     itemCount: state.questions.length,
@@ -72,10 +82,8 @@ class _QuestionBookmarkListState extends State<QuestionBookmarkList> {
                             padding: const EdgeInsets.all(5),
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 14, vertical: 5),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            decoration: Resources.styles
+                                .kBoxBorderDecorationR3B(context),
                             child: Row(
                               children: [
                                 SizedBox(

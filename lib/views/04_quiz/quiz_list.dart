@@ -57,12 +57,11 @@ class _QuizListState extends State<QuizList> {
               itemBuilder: (BuildContext context, int index) {
                 return Card(
                   clipBehavior: Clip.none,
-                  elevation: 5.0,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       side: BorderSide(
                         color: Theme.of(context).colorScheme.primary,
-                        width: 2.0,
+                        width: 1.0,
                       )),
                   child: ListTile(
                       contentPadding:
