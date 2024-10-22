@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/bloc/questions/questions_bloc.dart';
 import 'package:formula/bloc/questions/questions_bloc.dart';
 import 'package:formula/data/local/pref_service.dart';
@@ -89,7 +90,7 @@ class _QuestionBookmarkListState extends State<QuestionBookmarkList> {
                                 SizedBox(
                                     width:
                                         Resources.dimens.width(context) * 0.7,
-                                    child: HtmlWidget("${data.question}")),
+                                    child: HtmlWidget("${selectedLanguage==LanguageEnums.hindi?data.question_hi:data.question}")),
                                 const SizedBox(
                                   width: 10,
                                 ),

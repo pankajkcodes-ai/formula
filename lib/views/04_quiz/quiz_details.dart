@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/bloc/questions/questions_bloc.dart';
 import 'package:formula/bloc/quizzes/countdown_time_bloc.dart';
 import 'package:formula/data/local/database_helper.dart';
@@ -289,7 +290,7 @@ class _QuizDetailsState extends State<QuizDetails> {
                 return Text(
                   AppUtils.formatTime(state.duration),
                   style: Resources.styles.kTextStyle16B5(
-                      Theme.of(context).colorScheme.onBackground),
+                      Theme.of(context).colorScheme.tertiaryFixed),
                 );
               },
             ),
@@ -341,7 +342,7 @@ class _QuizDetailsState extends State<QuizDetails> {
                       width: Resources.dimens.width(context),
                       margin: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 15),
-                      child: HtmlWidget(totalQuestions[index].question),
+                      child: HtmlWidget(selectedLanguage==LanguageEnums.hindi?totalQuestions[index].question_hi:totalQuestions[index].question),
                     ),
                   ),
                   SizedBox(

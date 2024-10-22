@@ -3,11 +3,14 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/bloc/subject/subject_bloc.dart';
 import 'package:formula/bloc/theme/theme_bloc.dart';
+import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/res/app_urls.dart';
 import 'package:formula/res/resources.dart';
 import 'package:formula/routes/routes_path.dart';
+import 'package:formula/utils/admob_helper.dart';
 import 'package:formula/views/menu/drawer_menu.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -28,49 +31,37 @@ class _HomePageState extends State<HomePage> {
     {"image": Resources.images.mathIcon, "title": 'Unit Converter'},
     {"image": Resources.images.mathIcon, "title": 'Quiz'},
   ];
-  BannerAd? _bannerAd;
-  bool _isLoaded = false;
 
-  // TODO: replace this test ad unit with your own ad unit.
-  final adUnitId = Platform.isAndroid
-      ? 'ca-app-pub-3940256099942544/6300978111'
-      : 'ca-app-pub-3940256099942544/2934735716';
+  AdmobHelper admobHelper = AdmobHelper();
+
+  BannerAd? _bannerAd;
+
+  final PrefService _prefService = PrefService();
 
   /// Loads a banner ad.
   void loadAd() {
-    _bannerAd = BannerAd(
-      adUnitId: adUnitId,
-      request: const AdRequest(),
-      size: AdSize.largeBanner,
-      listener: BannerAdListener(
-        // Called when an ad is successfully received.
-        onAdLoaded: (ad) {
-          debugPrint('$ad loaded.');
-          setState(() {
-            _isLoaded = true;
-          });
-        },
-        // Called when an ad request failed.
-        onAdFailedToLoad: (ad, err) {
-          debugPrint('BannerAd failed to load: $err');
-          // Dispose the ad here to free resources.
-          ad.dispose();
-        },
-        // Called when an ad opens an overlay that covers the screen.
-        onAdOpened: (Ad ad) {},
-        // Called when an ad removes an overlay that covers the screen.
-        onAdClosed: (Ad ad) {},
-        // Called when an impression occurs on the ad.
-        onAdImpression: (Ad ad) {},
-      ),
-    )..load();
+    _bannerAd = AdmobHelper.getBannerAd()..load();
   }
 
   @override
   void initState() {
     context.read<SubjectBloc>().add(SubjectGetEvent());
+
+    _setLanguage();
     loadAd();
     super.initState();
+  }
+
+  void _setLanguage() {
+    String? language = _prefService.getLanguage();
+
+    if (language == "_hi") {
+      selectedLanguage = LanguageEnums.hindi;
+    } else {
+      selectedLanguage = LanguageEnums.english;
+    }
+
+    print("language$language");
   }
 
   @override
@@ -85,7 +76,7 @@ class _HomePageState extends State<HomePage> {
         toolbarHeight: Resources.dimens.height(context) * 0.08,
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 18.0),
+            padding: const EdgeInsets.only(right: 1.0),
             child: IconButton(
                 onPressed: () {
                   Theme.of(context).brightness == Brightness.dark
@@ -99,6 +90,80 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(Theme.of(context).brightness == Brightness.dark
                     ? Icons.light_mode
                     : Icons.dark_mode)),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 18.0),
+            child: BlocBuilder<LanguageBloc, LanguageState>(
+                builder: (context, state) {
+              print("language State : $state");
+              if (state is LanguageChangeState) {
+                selectedLanguage =
+                    state.language; // Access selected language from state
+              }
+
+              return IconButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return BlocBuilder<LanguageBloc, LanguageState>(
+                              builder: (context, state) {
+                            if (state is LanguageChangeState) {
+                              selectedLanguage = state
+                                  .language; // Access selected language from state
+                            }
+                            return AlertDialog(
+                              content: SizedBox(
+                                height: Resources.dimens.height(context) * 0.13,
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      title: const Text('English'),
+                                      leading: Radio(
+                                        value: LanguageEnums.english,
+                                        groupValue: selectedLanguage,
+                                        onChanged: (LanguageEnums? value) {
+                                          _prefService.setLanguage("");
+
+                                          context.read<LanguageBloc>().add(
+                                              LanguageChangeEvent(
+                                                  language:
+                                                      LanguageEnums.english));
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: const Text('Hindi'),
+                                      leading: Radio(
+                                        value: LanguageEnums.hindi,
+                                        groupValue: selectedLanguage,
+                                        onChanged: (LanguageEnums? value) {
+                                          _prefService.setLanguage("_hi");
+
+                                          context.read<LanguageBloc>().add(
+                                              LanguageChangeEvent(
+                                                  language:
+                                                      LanguageEnums.hindi));
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          });
+                        });
+                  },
+                  icon: Image.asset(
+                    selectedLanguage == LanguageEnums.hindi
+                        ? "assets/icons/translate.png"
+                        : "assets/icons/translate-reverse.png",
+                    height: 31,
+                    color: Colors.white,
+                  ));
+            }),
           )
         ],
         centerTitle: true,
@@ -185,12 +250,13 @@ class _HomePageState extends State<HomePage> {
                                           ? const Color(0xffF0FFC3)
                                           : index == 2
                                               ? const Color(0xffE09DFF)
-                                              : Color(0xff9EFFFA),
+                                              : const Color(0xff9EFFFA),
                                       borderRadius: BorderRadius.circular(11),
                                       border: Border.all(
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .tertiary,width: 2)),
+                                              .tertiary,
+                                          width: 2)),
                                   child: Column(
                                     children: [
                                       Container(
@@ -205,12 +271,21 @@ class _HomePageState extends State<HomePage> {
                                             Resources.dimens.height(context) *
                                                 0.01,
                                       ),
-                                      Text(
-                                          data.subjects[index].title.toString(),
-                                          style: Resources.styles
-                                              .kTextStyle16B6(Theme.of(context)
-                                                  .colorScheme
-                                                  .scrim))
+                                      BlocBuilder<LanguageBloc, LanguageState>(
+                                          builder: (context, state) {
+                                        return Text(
+                                            selectedLanguage ==
+                                                    LanguageEnums.hindi
+                                                ? data.subjects[index].title_hi
+                                                    .toString()
+                                                : data.subjects[index].title
+                                                    .toString(),
+                                            style: Resources.styles
+                                                .kTextStyle16B6(
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .scrim));
+                                      })
                                     ],
                                   ),
                                 ),
@@ -225,12 +300,13 @@ class _HomePageState extends State<HomePage> {
                               child: Container(
                                 padding: const EdgeInsets.all(11),
                                 decoration: BoxDecoration(
-                                    color: Color(0xffffee8b),
+                                    color: const Color(0xffffee8b),
                                     borderRadius: BorderRadius.circular(11),
                                     border: Border.all(
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .tertiary,width: 2)),
+                                            .tertiary,
+                                        width: 2)),
                                 child: Column(
                                   children: [
                                     Container(
@@ -244,11 +320,18 @@ class _HomePageState extends State<HomePage> {
                                       height: Resources.dimens.height(context) *
                                           0.01,
                                     ),
-                                    Text("Bookmarks",
-                                        style: Resources.styles.kTextStyle16B6(
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .scrim))
+                                    BlocBuilder<LanguageBloc, LanguageState>(
+                                        builder: (context, value) {
+                                      return Text(
+                                          selectedLanguage ==
+                                                  LanguageEnums.hindi
+                                              ? "बुकमार्क"
+                                              : "Bookmarks",
+                                          style: Resources.styles
+                                              .kTextStyle16B6(Theme.of(context)
+                                                  .colorScheme
+                                                  .scrim));
+                                    })
                                   ],
                                 ),
                               ),
@@ -260,7 +343,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                child: _bannerAd == null
+                child: _bannerAd != null
                     ? Align(
                         alignment: Alignment.bottomCenter,
                         child: SafeArea(
@@ -272,7 +355,17 @@ class _HomePageState extends State<HomePage> {
                         ),
                       )
                     : const SizedBox(),
-              )
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    admobHelper.loadRewardedAd();
+                  },
+                  child: Text("Load Rewarded Ads")),
+              ElevatedButton(
+                  onPressed: () {
+                    admobHelper.showRewaredAd();
+                  },
+                  child: Text("Show Rewarded Ads")),
             ],
           ),
         ),

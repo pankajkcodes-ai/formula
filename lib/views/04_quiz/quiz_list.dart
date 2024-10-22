@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/bloc/quizzes/quizzes_bloc.dart';
 import 'package:formula/data/local/database_helper.dart';
 import 'package:formula/data/local/pref_service.dart';
@@ -67,7 +68,7 @@ class _QuizListState extends State<QuizList> {
                       contentPadding:
                           const EdgeInsets.symmetric(horizontal: 7.0),
                       title: Text(
-                        "${totalQuizzes[index].title}",
+                        selectedLanguage==LanguageEnums.hindi ?"${totalQuizzes[index].title_hi}":"${totalQuizzes[index].title}",
                         style: const TextStyle(
                             fontSize: 14, fontWeight: FontWeight.bold),
                       ),

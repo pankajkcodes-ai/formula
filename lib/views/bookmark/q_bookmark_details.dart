@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/bloc/questions/questions_bloc.dart';
 import 'package:formula/res/resources.dart';
 
@@ -34,7 +35,8 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
           color: Theme.of(context).colorScheme.tertiaryFixed,
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title:  Text("Bookmark Details",
+        title: Text(
+          "Bookmark Details",
           style: Resources.styles
               .kTextStyle18(Theme.of(context).colorScheme.tertiaryFixed),
         ),
@@ -67,7 +69,9 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                   width: Resources.dimens.width(context),
                   margin:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                  child: HtmlWidget(totalQuestions[index].question),
+                  child: HtmlWidget(selectedLanguage == LanguageEnums.hindi
+                      ? totalQuestions[index].question_hi
+                      : totalQuestions[index].question),
                 ),
               ),
               SizedBox(
@@ -167,7 +171,7 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                               selectedOptionIndices.containsKey(index) &&
                               totalQuestions[index].correctOption != "optionC"
                           ? Colors.red
-                          :Theme.of(context).colorScheme.surfaceContainerLow,
+                          : Theme.of(context).colorScheme.surfaceContainerLow,
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.symmetric(
@@ -207,7 +211,8 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 15),
-                    child: HtmlWidget(totalQuestions[index].optionD,
+                    child: HtmlWidget(
+                      totalQuestions[index].optionD,
                     ),
                   ),
                 ),
@@ -220,7 +225,10 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                           padding: EdgeInsets.all(8.0),
                           child: Text(
                             "Solution  : ",
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
                             ),
                           ),
                         ),
@@ -229,7 +237,11 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
                             width: Resources.dimens.width(context),
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 15),
-                            child: HtmlWidget(totalQuestions[index].solution,),
+                            child: HtmlWidget(
+                              selectedLanguage == LanguageEnums.hindi
+                                  ? totalQuestions[index].solution_hi
+                                  : totalQuestions[index].solution,
+                            ),
                           ),
                         ),
                       ],
@@ -239,21 +251,22 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
           );
         },
       ),
-      bottomNavigationBar:GestureDetector(
-        onTap: (){
-      setState(() {
-                 selectedOptionIndices [ 0] = totalQuestions[0].correctOption;
-                isAnswered = !isAnswered;
-              });
+      bottomNavigationBar: GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedOptionIndices[0] = totalQuestions[0].correctOption;
+            isAnswered = !isAnswered;
+          });
         },
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           height: Resources.dimens.height(context) * 0.06,
-          width: Resources.dimens.width(context) ,
+          width: Resources.dimens.width(context),
           decoration: Resources.styles.kBoxBorderDecorationR3(context),
-          child: Center(child: Text(
-              'View Solution',
-              style: Resources.styles.kTextStyle14(Theme.of(context).colorScheme.tertiaryFixed))),
+          child: Center(
+              child: Text('View Solution',
+                  style: Resources.styles.kTextStyle14(
+                      Theme.of(context).colorScheme.tertiaryFixed))),
         ),
       ),
     );

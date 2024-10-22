@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/bloc/sub_topic/sub_topic_bloc.dart';
 import 'package:formula/model/topic_model.dart';
 import 'package:formula/res/app_urls.dart';
@@ -67,13 +68,14 @@ class _SubTopicsState extends State<SubTopics> {
                             horizontal: 10, vertical: 5),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 10),
-                        decoration: Resources.styles.kBoxBorderDecorationR3(context),
+                        decoration:
+                            Resources.styles.kBoxBorderDecorationR3(context),
                         child: Row(
                           children: [
                             Text(
                               "${index + 1}.",
-                              style: Resources.styles
-                                  .kTextStyle12B5(Theme.of(context).colorScheme.tertiaryFixed),
+                              style: Resources.styles.kTextStyle12B5(
+                                  Theme.of(context).colorScheme.tertiaryFixed),
                             ),
                             SizedBox(
                               width: Resources.dimens.width(context) * 0.02,
@@ -81,9 +83,13 @@ class _SubTopicsState extends State<SubTopics> {
                             SizedBox(
                               width: Resources.dimens.width(context) * 0.7,
                               child: Text(
-                                data.subTopics[index].title ?? "",
-                                style: Resources.styles
-                                    .kTextStyle12B5(Theme.of(context).colorScheme.tertiaryFixed),
+                                selectedLanguage == LanguageEnums.hindi
+                                    ? data.subTopics[index].title_hi.toString()
+                                    : data.subTopics[index].title.toString(),
+                                style: Resources.styles.kTextStyle12B5(
+                                    Theme.of(context)
+                                        .colorScheme
+                                        .tertiaryFixed),
                               ),
                             ),
                           ],

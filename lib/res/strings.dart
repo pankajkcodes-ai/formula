@@ -15,6 +15,7 @@ class AppStrings {
 
   static String regIdKey = "regIdKey";
   static String themeKey = "themeKey";
+  static String languageKey = "languageKey";
   static String mobileNoKey = "mobileNoKey";
   static String tokenKey = "tokenKey";
   static String userSessionKey = "userSessionKey";

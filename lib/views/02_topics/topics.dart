@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/bloc/topic/topic_bloc.dart';
 import 'package:formula/model/subject_model.dart';
 import 'package:formula/res/resources.dart';
@@ -103,7 +104,7 @@ class _TopicsState extends State<Topics> {
                               ),
                               Expanded(
                                 child: Text(
-                                  data.topics[index].title ?? "",
+                                  selectedLanguage==LanguageEnums.hindi?data.topics[index].title_hi.toString() :data.topics[index].title.toString() ,
                                   style: Resources.styles.kTextStyle12B5(
                                       Theme.of(context)
                                           .colorScheme

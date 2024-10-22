@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/bloc/questions/questions_bloc.dart';
 import 'package:formula/bloc/quizzes/countdown_time_bloc.dart';
 import 'package:formula/bloc/quizzes/quizzes_bloc.dart';
@@ -18,6 +19,7 @@ import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/res/strings.dart';
 import 'package:formula/res/theme.dart';
 import 'package:formula/routes/routes.dart';
+import 'package:formula/utils/admob_helper.dart';
 import 'package:formula/utils/utils.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:in_app_update/in_app_update.dart';
@@ -41,8 +43,8 @@ Future<void> main() async {
   // sharedPreferences init
   await PrefService.init();
 
-  // ads init
-  MobileAds.instance.initialize();
+  // admob ad init
+  AdmobHelper.initialization();
   //Remove this method to stop OneSignal Debugging
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
 
@@ -71,6 +73,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => TopicBloc()),
           BlocProvider(create: (_) => SubTopicBloc()),
           BlocProvider(create: (_) => ThemeBloc()),
+          BlocProvider(create: (_) => LanguageBloc()),
           BlocProvider(create: (_) => QuizzesBloc()),
           BlocProvider(create: (_) => QuestionsBloc()),
           BlocProvider(create: (_) => CountDownTimerBloc()),
@@ -79,7 +82,7 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             TextTheme textTheme = createTextTheme(context, "Lato", "Lato");
             MaterialTheme theme = MaterialTheme(textTheme);
-            bool isDark = PrefService().getThemeMode()??false;
+            bool isDark = PrefService().getThemeMode() ?? false;
             if (state is ThemeChangeState) {
               isDark = state.isDark;
               PrefService().setThemeMode(isDark);

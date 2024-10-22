@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/bloc/questions/questions_bloc.dart';
 import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/model/quizzes_model.dart';
@@ -225,11 +226,11 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                     height: Resources.dimens.height(context) * 0.04,
                     width: Resources.dimens.width(context) * 0.3,
                     decoration:
-                    Resources.styles.kBoxBorderDecorationR3(context),
-                    child:  Center(child: Text(
-                        'Previous',
-                        style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed)
-                    )),
+                        Resources.styles.kBoxBorderDecorationR3(context),
+                    child: Center(
+                        child: Text('Previous',
+                            style: Resources.styles.kTextStyle14B5(
+                                Theme.of(context).colorScheme.tertiaryFixed))),
                   ),
                 ),
                 SizedBox(
@@ -254,10 +255,13 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                           height: Resources.dimens.height(context) * 0.04,
                           width: Resources.dimens.width(context) * 0.3,
                           decoration:
-                          Resources.styles.kBoxBorderDecorationR3(context),
-                          child:  Center(child: Text('Next',
-                              style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed)
-                          )),
+                              Resources.styles.kBoxBorderDecorationR3(context),
+                          child: Center(
+                              child: Text('Next',
+                                  style: Resources.styles.kTextStyle14B5(
+                                      Theme.of(context)
+                                          .colorScheme
+                                          .tertiaryFixed))),
                         ),
                       ),
               ],
@@ -273,33 +277,33 @@ class _QuizSolutionsState extends State<QuizSolutions> {
               "Total time : ${AppUtils.formatTime(widget.resultModel.totalTime)}",
               style: Resources.styles
                   .kTextStyle16B5(Theme.of(context).colorScheme.tertiaryFixed),
-            ),  actions: [
-            totalQuestions.isNotEmpty
-                ? PrefService.isQuestionBookmarked(
-                totalQuestions[_currentPage].id.toString())
-                ? IconButton(
-              onPressed: () {
-                PrefService.removeBookmarkQuestionId(
-                    totalQuestions[_currentPage].id.toString());
-                setState(() {});
-              },
-              icon: const Icon(Icons.bookmark),
-            )
-                : IconButton(
-                onPressed: () {
-                  PrefService.storeBookmarkQuestionId(
-                      totalQuestions[_currentPage].id.toString());
-                  setState(() {});
-                },
-                icon: const Icon(Icons.bookmark_border_outlined))
-                : const SizedBox.shrink(),
-            IconButton(
-                onPressed: () {
-                  scaffoldKey.currentState?.openEndDrawer();
-                },
-                icon: const Icon(Icons.menu)),
-          ],
-
+            ),
+            actions: [
+              totalQuestions.isNotEmpty
+                  ? PrefService.isQuestionBookmarked(
+                          totalQuestions[_currentPage].id.toString())
+                      ? IconButton(
+                          onPressed: () {
+                            PrefService.removeBookmarkQuestionId(
+                                totalQuestions[_currentPage].id.toString());
+                            setState(() {});
+                          },
+                          icon: const Icon(Icons.bookmark),
+                        )
+                      : IconButton(
+                          onPressed: () {
+                            PrefService.storeBookmarkQuestionId(
+                                totalQuestions[_currentPage].id.toString());
+                            setState(() {});
+                          },
+                          icon: const Icon(Icons.bookmark_border_outlined))
+                  : const SizedBox.shrink(),
+              IconButton(
+                  onPressed: () {
+                    scaffoldKey.currentState?.openEndDrawer();
+                  },
+                  icon: const Icon(Icons.menu)),
+            ],
           ),
           body: PageView.builder(
             physics: const NeverScrollableScrollPhysics(),
@@ -322,7 +326,9 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                       width: Resources.dimens.width(context),
                       margin: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 15),
-                      child: HtmlWidget(totalQuestions[index].question),
+                      child: HtmlWidget(selectedLanguage == LanguageEnums.hindi
+                          ? totalQuestions[index].question_hi
+                          : totalQuestions[index].question),
                     ),
                   ),
                   SizedBox(
@@ -343,7 +349,9 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                                     totalQuestions[index].correctOption !=
                                         "optionA"
                                 ? Colors.red
-                                : Theme.of(context).colorScheme.surfaceContainerLow,
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainerLow,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(
@@ -369,7 +377,9 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                                     totalQuestions[index].correctOption !=
                                         "optionB"
                                 ? Colors.red
-                                : Theme.of(context).colorScheme.surfaceContainerLow,
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainerLow,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(
@@ -396,7 +406,9 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                                     totalQuestions[index].correctOption !=
                                         "optionC"
                                 ? Colors.red
-                                :Theme.of(context).colorScheme.surfaceContainerLow,
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainerLow,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(
@@ -422,7 +434,9 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                                     totalQuestions[index].correctOption !=
                                         "optionD"
                                 ? Colors.red
-                                : Theme.of(context).colorScheme.surfaceContainerLow,
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainerLow,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(
@@ -453,7 +467,9 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                       width: Resources.dimens.width(context),
                       margin: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 15),
-                      child: HtmlWidget(totalQuestions[index].solution),
+                      child: HtmlWidget(selectedLanguage == LanguageEnums.hindi
+                          ? totalQuestions[index].solution_hi
+                          : totalQuestions[index].solution),
                     ),
                   ),
                 ],
@@ -476,11 +492,11 @@ class _QuizSolutionsState extends State<QuizSolutions> {
       child: Container(
         height: Resources.dimens.height(context) * 0.04,
         width: Resources.dimens.width(context) * 0.3,
-        decoration:
-        Resources.styles.kBoxBorderDecorationR3(context),
-        child:  Center(child: Text('Done',
-            style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed)
-        )),
+        decoration: Resources.styles.kBoxBorderDecorationR3(context),
+        child: Center(
+            child: Text('Done',
+                style: Resources.styles.kTextStyle14B5(
+                    Theme.of(context).colorScheme.tertiaryFixed))),
       ),
     );
   }

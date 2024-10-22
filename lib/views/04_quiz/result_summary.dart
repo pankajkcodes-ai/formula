@@ -93,54 +93,62 @@ class _ResultSummaryState extends State<ResultSummary> {
                     padding: const EdgeInsets.all(10),
                     width: Resources.dimens.width(context) * 0.4,
                     decoration:
-                    Resources.styles.kBoxBorderDecorationR3(context),
-                    child:  Row(
+                        Resources.styles.kBoxBorderDecorationR3(context),
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Solutions',
-                            style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed)
-                        ),
+                        Text('Solutions',
+                            style: Resources.styles.kTextStyle14B5(
+                                Theme.of(context).colorScheme.tertiaryFixed)),
                         const SizedBox(
                           width: 10,
                         ),
-                        const Padding(
-                            padding: EdgeInsets.only(top: 4.0),
+                        Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
                             child: Icon(
-                                size: 14, Icons.arrow_forward_ios_rounded)),
+                              size: 14,
+                              Icons.arrow_forward_ios_rounded,
+                              color:
+                                  Theme.of(context).colorScheme.tertiaryFixed,
+                            )),
                       ],
                     ),
                   ),
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.popUntil(context, (route) => route.settings.name == RoutesName.quizListRoute);
+                    Navigator.popUntil(
+                        context,
+                        (route) =>
+                            route.settings.name == RoutesName.quizListRoute);
 
-                    GoRouter.of(context).pushReplacement(RoutesName.quizListRoute);
-
-
+                    GoRouter.of(context)
+                        .pushReplacement(RoutesName.quizListRoute);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     width: Resources.dimens.width(context) * 0.4,
                     decoration:
-                    Resources.styles.kBoxBorderDecorationR3(context),
-                    child:  Row(
+                        Resources.styles.kBoxBorderDecorationR3(context),
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          '      Done    ',
-                            style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed)
-                        ),
+                        Text('      Done    ',
+                            style: Resources.styles.kTextStyle14B5(
+                                Theme.of(context).colorScheme.tertiaryFixed)),
                         const SizedBox(
                           width: 10,
                         ),
-                        const Padding(
-                            padding: EdgeInsets.only(top: 4.0),
+                        Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
                             child: Icon(
-                                size: 14, Icons.arrow_forward_ios_rounded)),
+                              size: 14,
+                              Icons.arrow_forward_ios_rounded,
+                              color:
+                                  Theme.of(context).colorScheme.tertiaryFixed,
+                            )),
                       ],
                     ),
                   ),

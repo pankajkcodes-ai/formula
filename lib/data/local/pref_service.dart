@@ -14,6 +14,9 @@ class PrefService {
   setRegId(String regId) {
     return setString(AppStrings.regIdKey, regId);
   }
+  getRegId() {
+    return getString(AppStrings.regIdKey);
+  }
   setThemeMode(bool isDarkMode) {
     return setBool(AppStrings.themeKey, isDarkMode);
   }
@@ -21,9 +24,15 @@ class PrefService {
   getThemeMode() {
     return getBool(AppStrings.themeKey);
   }
-  getRegId() {
-    return getString(AppStrings.regIdKey);
+
+  setLanguage(String language) {
+    return setString(AppStrings.languageKey, language);
   }
+
+  getLanguage() {
+    return getString(AppStrings.languageKey);
+  }
+
 
   setMobile(String mobile) {
     return setString(AppStrings.mobileNoKey, mobile);
