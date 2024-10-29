@@ -2,6 +2,7 @@ import 'package:formula/model/quizzes_model.dart';
 import 'package:formula/model/result_model.dart';
 import 'package:formula/model/subject_model.dart';
 import 'package:formula/model/topic_model.dart';
+import 'package:formula/views/widgets/coming_soon.dart';
 import 'package:formula/views/04_quiz/quiz_details.dart';
 import 'package:formula/views/04_quiz/quiz_list.dart';
 import 'package:formula/views/04_quiz/quiz_solutions.dart';
@@ -33,6 +34,12 @@ class AppRoutes {
             path: RoutesName.homeScreenRoute,
             builder: (BuildContext context, GoRouterState state) {
               return const HomePage();
+            }),
+        GoRoute(
+            name: RoutesName.comingSoonScreenRoute,
+            path: RoutesName.comingSoonScreenRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return const ComingSoon();
             }),
         GoRoute(
             name: RoutesName.notificationRoute,

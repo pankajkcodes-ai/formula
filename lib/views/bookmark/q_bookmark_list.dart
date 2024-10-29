@@ -8,6 +8,8 @@ import 'package:formula/bloc/questions/questions_bloc.dart';
 import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/res/resources.dart';
 import 'package:formula/routes/routes_path.dart';
+import 'package:formula/utils/admob_helper.dart';
+import 'package:formula/views/widgets/no_data.dart';
 import 'package:go_router/go_router.dart';
 
 class QuestionBookmarkList extends StatefulWidget {
@@ -18,8 +20,14 @@ class QuestionBookmarkList extends StatefulWidget {
 }
 
 class _QuestionBookmarkListState extends State<QuestionBookmarkList> {
+  AdmobHelper admobHelper = AdmobHelper();
+
   @override
   void initState() {
+    admobHelper.createInterstitialAd();
+    Future.delayed(const Duration(seconds: 2), () {
+      admobHelper.loadInterstitialAd();
+    });
     super.initState();
     BlocProvider.of<QuestionsBloc>(context).add(QuestionsGetEvent(
         quizId: '', idList: PrefService.getBookmarkedQuestions()));
@@ -28,11 +36,12 @@ class _QuestionBookmarkListState extends State<QuestionBookmarkList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         appBar: AppBar(
-          title:  Text("Bookmark List",
+          title: Text(
+            "Bookmark List",
             style: Resources.styles
-              .kTextStyle18(Theme.of(context).colorScheme.tertiaryFixed),),
+                .kTextStyle18(Theme.of(context).colorScheme.tertiaryFixed),
+          ),
           iconTheme: IconThemeData(
             color: Theme.of(context).colorScheme.tertiaryFixed,
           ),
@@ -56,11 +65,7 @@ class _QuestionBookmarkListState extends State<QuestionBookmarkList> {
                 print("state.questions : ${state.questions}");
               }
               if (state.questions.isEmpty) {
-                return  Center(child: Text(
-                    "No Data",
-                    style: Resources.styles.kTextStyle14(
-                        Theme.of(context).colorScheme.tertiaryFixed)
-                ));
+                return NoData();
               } else {
                 return ListView.builder(
                     itemCount: state.questions.length,
@@ -90,7 +95,8 @@ class _QuestionBookmarkListState extends State<QuestionBookmarkList> {
                                 SizedBox(
                                     width:
                                         Resources.dimens.width(context) * 0.7,
-                                    child: HtmlWidget("${selectedLanguage==LanguageEnums.hindi?data.question_hi:data.question}")),
+                                    child: HtmlWidget(
+                                        "${selectedLanguage == LanguageEnums.hindi ? data.question_hi : data.question}")),
                                 const SizedBox(
                                   width: 10,
                                 ),

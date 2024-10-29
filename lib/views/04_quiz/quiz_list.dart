@@ -9,6 +9,7 @@ import 'package:formula/model/result_model.dart';
 import 'package:formula/res/resources.dart';
 import 'package:formula/routes/routes.dart';
 import 'package:formula/routes/routes_path.dart';
+import 'package:formula/utils/admob_helper.dart';
 import 'package:formula/views/04_quiz/quiz_details.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,8 +21,13 @@ class QuizList extends StatefulWidget {
 }
 
 class _QuizListState extends State<QuizList> {
+
+  final AdmobHelper _admobHelper = AdmobHelper();
+
+
   @override
   void initState() {
+    _admobHelper.loadRewardedAd();
     context.read<QuizzesBloc>().add(QuizzesGetEvent());
     super.initState();
   }
@@ -188,6 +194,9 @@ class _QuizListState extends State<QuizList> {
                             )
                           : InkWell(
                               onTap: () async {
+                                _admobHelper.loadRewardedAd();
+                                _admobHelper.showRewardAd();
+
                                 await GoRouter.of(context)
                                     .push(RoutesName.quizDetailsRoute,
                                         extra: totalQuizzes[index])

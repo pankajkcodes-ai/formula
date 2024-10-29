@@ -2,6 +2,7 @@ class RoutesName {
   static const String splashRoute = 'splash-screen-route';
   static const String loginScreenRoute = '/login-screen-route';
   static const String homeScreenRoute = '/home-screen-route';
+  static const String comingSoonScreenRoute = '/coming-soon-screen-route';
   static const String topicsRoute = '/topic-route';
   static const String subTopicsRoute = '/sub-topic-route';
   static const String htmlViewRoute = '/html-view-route';

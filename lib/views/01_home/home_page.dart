@@ -160,13 +160,13 @@ class _HomePageState extends State<HomePage> {
                     selectedLanguage == LanguageEnums.hindi
                         ? "assets/icons/translate.png"
                         : "assets/icons/translate-reverse.png",
-                    height: 31,
+                    height: 23,
                     color: Colors.white,
+
                   ));
             }),
           )
         ],
-        centerTitle: true,
         title: Text(
           Resources.strings.appName,
           textAlign: TextAlign.center,
@@ -217,9 +217,9 @@ class _HomePageState extends State<HomePage> {
                                       "data.subjects : ${data.subjects[index]}");
 
                                   if (data.subjects[index].title
-                                          .toString()
-                                          .toUpperCase() ==
-                                      "QUIZ") {
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains("quiz")) {
                                     GoRouter.of(context).pushNamed(
                                       RoutesName.quizListRoute,
                                       extra: data.subjects[index],
@@ -236,9 +236,17 @@ class _HomePageState extends State<HomePage> {
                                         "title": "Unit Converter",
                                       },
                                     );
-                                  } else {
+                                  } else if (data.subjects[index].title
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains("formula")) {
                                     GoRouter.of(context).pushNamed(
                                       RoutesName.topicsRoute,
+                                      extra: data.subjects[index],
+                                    );
+                                  } else {
+                                    GoRouter.of(context).pushNamed(
+                                      RoutesName.comingSoonScreenRoute,
                                       extra: data.subjects[index],
                                     );
                                   }
@@ -250,7 +258,11 @@ class _HomePageState extends State<HomePage> {
                                           ? const Color(0xffF0FFC3)
                                           : index == 2
                                               ? const Color(0xffE09DFF)
-                                              : const Color(0xff9EFFFA),
+                                              : index == 3
+                                                  ? const Color(0xffc99dff)
+                                                  : index == 4
+                                                      ? const Color(0xff9d96f8)
+                                                      : const Color(0xff9EFFFA),
                                       borderRadius: BorderRadius.circular(11),
                                       border: Border.all(
                                           color: Theme.of(context)
@@ -356,16 +368,6 @@ class _HomePageState extends State<HomePage> {
                       )
                     : const SizedBox(),
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    admobHelper.loadRewardedAd();
-                  },
-                  child: Text("Load Rewarded Ads")),
-              ElevatedButton(
-                  onPressed: () {
-                    admobHelper.showRewaredAd();
-                  },
-                  child: Text("Show Rewarded Ads")),
             ],
           ),
         ),

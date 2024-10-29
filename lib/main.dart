@@ -32,6 +32,9 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // admob ad init
+  AdmobHelper.initialization();
+  // firebase crashlytics init
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
@@ -43,8 +46,6 @@ Future<void> main() async {
   // sharedPreferences init
   await PrefService.init();
 
-  // admob ad init
-  AdmobHelper.initialization();
   //Remove this method to stop OneSignal Debugging
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
 
