@@ -14,7 +14,8 @@ import 'package:formula/views/04_quiz/quiz_details.dart';
 import 'package:go_router/go_router.dart';
 
 class QuizList extends StatefulWidget {
-  const QuizList({super.key});
+  const QuizList({super.key, this.type});
+  final String? type;
 
   @override
   State<QuizList> createState() => _QuizListState();
@@ -28,7 +29,7 @@ class _QuizListState extends State<QuizList> {
   @override
   void initState() {
     _admobHelper.loadRewardedAd();
-    context.read<QuizzesBloc>().add(QuizzesGetEvent());
+    context.read<QuizzesBloc>().add(QuizzesGetEvent(type: widget.type??""));
     super.initState();
   }
 
@@ -175,7 +176,7 @@ class _QuizListState extends State<QuizList> {
                                         .then((v) {
                                       context
                                           .read<QuizzesBloc>()
-                                          .add(QuizzesGetEvent());
+                                          .add(QuizzesGetEvent(type: widget.type??''));
                                     });
                                   },
                                   child: Container(
@@ -194,8 +195,8 @@ class _QuizListState extends State<QuizList> {
                             )
                           : InkWell(
                               onTap: () async {
-                                _admobHelper.loadRewardedAd();
-                                _admobHelper.showRewardAd();
+                                // _admobHelper.loadRewardedAd();
+                                // _admobHelper.showRewardAd();
 
                                 await GoRouter.of(context)
                                     .push(RoutesName.quizDetailsRoute,
@@ -203,7 +204,7 @@ class _QuizListState extends State<QuizList> {
                                     .then((v) {
                                   context
                                       .read<QuizzesBloc>()
-                                      .add(QuizzesGetEvent());
+                                      .add(QuizzesGetEvent(type:widget.type??''));
                                 });
                               },
                               child: Container(

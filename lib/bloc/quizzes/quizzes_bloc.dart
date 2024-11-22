@@ -17,7 +17,7 @@ class QuizzesBloc extends Bloc<QuizzesEvent, QuizzesState> {
 
   Future<void> getQuizzes(
       QuizzesGetEvent event, Emitter<QuizzesState> state) async {
-    repository.getQuizzes().then((List<QuizzesModel> quizzes) {
+    repository.getQuizzes(event.type).then((List<QuizzesModel> quizzes) {
       emit(QuizzesGetState(quizzes: quizzes));
     }).catchError((e) {
       emit(QuizzesErrorState(e: e));

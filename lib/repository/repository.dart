@@ -108,12 +108,12 @@ class Repository {
   }
 
   // GET QUIZZES
-  Future<List<QuizzesModel>> getQuizzes() async {
+  Future<List<QuizzesModel>> getQuizzes(String type) async {
     try {
       List<QuizzesModel> list = [];
       var url = AppUrls.quizzedEndPoint;
 
-      dynamic response = await _apiServices.getApiResponse("$url?orderBy=desc");
+      dynamic response = await _apiServices.getApiResponse("$url?orderBy=desc&type=$type");
 
       if (kDebugMode) {
         print("Response get brand name: $response");

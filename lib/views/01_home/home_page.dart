@@ -14,6 +14,7 @@ import 'package:formula/utils/admob_helper.dart';
 import 'package:formula/views/menu/drawer_menu.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,15 +24,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Map<String, dynamic>> subjectList = [
-    {"image": Resources.images.mathIcon, "title": 'Math Formula'},
-    {"image": Resources.images.mathIcon, "title": 'Physics'},
-    {"image": Resources.images.mathIcon, "title": 'Chemistry'},
-    {"image": Resources.images.mathIcon, "title": 'Biology'},
-    {"image": Resources.images.mathIcon, "title": 'Unit Converter'},
-    {"image": Resources.images.mathIcon, "title": 'Quiz'},
-  ];
-
   AdmobHelper admobHelper = AdmobHelper();
 
   BannerAd? _bannerAd;
@@ -60,8 +52,6 @@ class _HomePageState extends State<HomePage> {
     } else {
       selectedLanguage = LanguageEnums.english;
     }
-
-    print("language$language");
   }
 
   @override
@@ -162,7 +152,6 @@ class _HomePageState extends State<HomePage> {
                         : "assets/icons/translate-reverse.png",
                     height: 23,
                     color: Colors.white,
-
                   ));
             }),
           )
@@ -175,31 +164,26 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(15),
+        child: Container(
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
-              SizedBox(
-                height: Resources.dimens.height(context) * 0.02,
-              ),
-              SizedBox(
-                height: Resources.dimens.height(context) * 0.7,
-                child: BlocConsumer<SubjectBloc, SubjectState>(
-                  listener: (context, state) {
-                    if (kDebugMode) {
-                      print("State : $state");
-                    }
-                  },
-                  builder: (context, state) {
-                    if (kDebugMode) {
-                      print("State : $state");
-                    }
-                    if (state is SubjectGetState) {
-                      var data = state;
-                      if (kDebugMode) {
-                        print("Data : ${data.subjects}");
-                      }
-                      return GridView.builder(
+              BlocConsumer<SubjectBloc, SubjectState>(
+                listener: (context, state) {
+                  print("listener State : $state");
+                },
+                builder: (context, state) {
+                  print("builder State : $state");
+                  if (state is SubjectErrorState) {
+                    return HomeShimmer();
+                  } else if (state is SubjectLoadingState) {
+                    return HomeShimmer();
+                  } else if (state is SubjectGetState) {
+                    var data = state;
+
+                    return Expanded(
+                      flex: 1,
+                      child: GridView.builder(
                           itemCount: data.subjects.length + 1,
                           physics: const BouncingScrollPhysics(),
                           gridDelegate:
@@ -222,7 +206,39 @@ class _HomePageState extends State<HomePage> {
                                       .contains("quiz")) {
                                     GoRouter.of(context).pushNamed(
                                       RoutesName.quizListRoute,
-                                      extra: data.subjects[index],
+                                      extra: '',
+                                    );
+                                  } else if (data.subjects[index].title
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains("cbse")) {
+                                    GoRouter.of(context).pushNamed(
+                                      RoutesName.quizListRoute,
+                                      extra: 'cbse',
+                                    );
+                                  } else if (data.subjects[index].title
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains("up")) {
+                                    GoRouter.of(context).pushNamed(
+                                      RoutesName.quizListRoute,
+                                      extra: 'up',
+                                    );
+                                  } else if (data.subjects[index].title
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains("bseb")) {
+                                    GoRouter.of(context).pushNamed(
+                                      RoutesName.quizListRoute,
+                                      extra: 'bseb',
+                                    );
+                                  } else if (data.subjects[index].title
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains("bser")) {
+                                    GoRouter.of(context).pushNamed(
+                                      RoutesName.quizListRoute,
+                                      extra: 'bser',
                                     );
                                   } else if (data.subjects[index].title
                                       .toString()
@@ -348,11 +364,11 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             );
-                          });
-                    }
-                    return const SizedBox();
-                  },
-                ),
+                          }),
+                    );
+                  }
+                  return HomeShimmer();
+                },
               ),
               Container(
                 child: _bannerAd != null
@@ -366,12 +382,43 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       )
-                    : const SizedBox(),
+                    : const SizedBox.shrink(),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class HomeShimmer extends StatelessWidget {
+  const HomeShimmer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 1,
+      child: GridView.builder(
+          itemCount: 6,
+          physics: const BouncingScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 15,
+              childAspectRatio: 1,
+              crossAxisSpacing: 15),
+          itemBuilder: (BuildContext context, int index) {
+            return Shimmer.fromColors(
+              baseColor: Color(0xff006973),
+              highlightColor: Colors.grey[200]!,
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(11), color: Colors.red),
+              ),
+            );
+          }),
     );
   }
 }

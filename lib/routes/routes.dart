@@ -57,7 +57,8 @@ class AppRoutes {
             name: RoutesName.quizListRoute,
             path: RoutesName.quizListRoute,
             builder: (BuildContext context, GoRouterState state) {
-              return const QuizList();
+              final String type = state.extra as String;
+              return QuizList(type: type);
             }),
         GoRoute(
             name: RoutesName.quizDetailsRoute,
@@ -115,7 +116,7 @@ class AppRoutes {
             path: RoutesName.qBookmarkDetailsRoute,
             builder: (BuildContext context, GoRouterState state) {
               var id = state.extra as String;
-              return  QuestionBookmarkDetails(id: id);
+              return QuestionBookmarkDetails(id: id);
             }),
         GoRoute(
             name: RoutesName.htmlViewRoute,

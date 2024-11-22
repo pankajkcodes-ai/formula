@@ -124,7 +124,7 @@ class _ResultSummaryState extends State<ResultSummary> {
                             route.settings.name == RoutesName.quizListRoute);
 
                     GoRouter.of(context)
-                        .pushReplacement(RoutesName.quizListRoute);
+                        .pushReplacement(RoutesName.quizListRoute,extra: '');
                   },
                   child: Container(
                     padding: const EdgeInsets.all(10),
