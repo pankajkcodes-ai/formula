@@ -18,9 +18,10 @@ import 'package:go_router/go_router.dart';
 class QuizSolutions extends StatefulWidget {
   final QuizzesModel quizzesModel;
   final ResultModel resultModel;
+  final String? type;
 
   const QuizSolutions(
-      {super.key, required this.quizzesModel, required this.resultModel});
+      {super.key, required this.quizzesModel, required this.resultModel, this.type});
 
   @override
   State<QuizSolutions> createState() => _QuizSolutionsState();
@@ -57,7 +58,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
     super.initState();
     context
         .read<QuestionsBloc>()
-        .add(QuestionsGetEvent(quizId: widget.quizzesModel.id!));
+        .add(QuestionsGetEvent(quizId: widget.quizzesModel.id!, type: widget.type??""));
     // startTimer();
     _pageController = PageController(initialPage: 0);
     _pageController.addListener(() {
@@ -487,7 +488,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
         Navigator.popUntil(context,
             (route) => route.settings.name == RoutesName.quizListRoute);
 
-        GoRouter.of(context).pushReplacement(RoutesName.quizListRoute);
+        GoRouter.of(context).pushReplacement(RoutesName.quizListRoute,extra: widget.type);
       },
       child: Container(
         height: Resources.dimens.height(context) * 0.04,

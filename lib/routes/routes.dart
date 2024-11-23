@@ -64,9 +64,12 @@ class AppRoutes {
             name: RoutesName.quizDetailsRoute,
             path: RoutesName.quizDetailsRoute,
             builder: (BuildContext context, GoRouterState state) {
-              final QuizzesModel quizModel = state.extra as QuizzesModel;
+              final Map<String, dynamic> data =
+                  state.extra as Map<String, dynamic>;
+
               return QuizDetails(
-                quizzesModel: quizModel,
+                quizzesModel: data["quizModel"],
+                type: data['type'],
               );
             }),
         GoRoute(
@@ -78,6 +81,7 @@ class AppRoutes {
               return QuizSolutions(
                 quizzesModel: data["quizModel"],
                 resultModel: data["resultModel"],
+                type: data["type"],
               );
             }),
         GoRoute(
@@ -89,6 +93,7 @@ class AppRoutes {
               return ResultSummary(
                 resultModel: data["resultModel"],
                 quizzesModel: data["quizModel"],
+                type: data["type"],
               );
             }),
         GoRoute(
@@ -115,8 +120,10 @@ class AppRoutes {
             name: RoutesName.qBookmarkDetailsRoute,
             path: RoutesName.qBookmarkDetailsRoute,
             builder: (BuildContext context, GoRouterState state) {
-              var id = state.extra as String;
-              return QuestionBookmarkDetails(id: id);
+              final Map<String, dynamic> data =
+              state.extra as Map<String, dynamic>;
+
+              return QuestionBookmarkDetails(id: data['id'],type: data['type'],);
             }),
         GoRoute(
             name: RoutesName.htmlViewRoute,

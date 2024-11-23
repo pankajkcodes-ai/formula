@@ -9,9 +9,10 @@ import 'package:go_router/go_router.dart';
 class ResultSummary extends StatefulWidget {
   final ResultModel resultModel;
   final QuizzesModel quizzesModel;
+  final String? type;
 
   const ResultSummary(
-      {super.key, required this.resultModel, required this.quizzesModel});
+      {super.key, required this.resultModel, required this.quizzesModel, this.type});
 
   @override
   State<ResultSummary> createState() => _ResultSummaryState();
@@ -124,7 +125,7 @@ class _ResultSummaryState extends State<ResultSummary> {
                             route.settings.name == RoutesName.quizListRoute);
 
                     GoRouter.of(context)
-                        .pushReplacement(RoutesName.quizListRoute,extra: '');
+                        .pushReplacement(RoutesName.quizListRoute,extra: widget.type);
                   },
                   child: Container(
                     padding: const EdgeInsets.all(10),

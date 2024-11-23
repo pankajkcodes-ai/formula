@@ -22,14 +22,12 @@ class QuizList extends StatefulWidget {
 }
 
 class _QuizListState extends State<QuizList> {
-
   final AdmobHelper _admobHelper = AdmobHelper();
-
 
   @override
   void initState() {
     _admobHelper.loadRewardedAd();
-    context.read<QuizzesBloc>().add(QuizzesGetEvent(type: widget.type??""));
+    context.read<QuizzesBloc>().add(QuizzesGetEvent(type: widget.type ?? ""));
     super.initState();
   }
 
@@ -38,7 +36,7 @@ class _QuizListState extends State<QuizList> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Quizzes",
+            "${widget.type.toString()=="" ? 'Quizzes' :  '${widget.type.toString().toUpperCase()} PYQ' } ",
             style: Resources.styles
                 .kTextStyle18(Theme.of(context).colorScheme.tertiaryFixed),
           ),
@@ -75,7 +73,9 @@ class _QuizListState extends State<QuizList> {
                       contentPadding:
                           const EdgeInsets.symmetric(horizontal: 7.0),
                       title: Text(
-                        selectedLanguage==LanguageEnums.hindi ?"${totalQuizzes[index].title_hi}":"${totalQuizzes[index].title}",
+                        selectedLanguage == LanguageEnums.hindi
+                            ? "${totalQuizzes[index].title_hi}"
+                            : "${totalQuizzes[index].title}",
                         style: const TextStyle(
                             fontSize: 14, fontWeight: FontWeight.bold),
                       ),
@@ -130,6 +130,7 @@ class _QuizListState extends State<QuizList> {
                                                   selectedOptionIndices:
                                                       convertedAnswers),
                                               "quizModel": totalQuizzes[index],
+                                              "type": widget.type
                                             });
                                       } else {
                                         GoRouter.of(context).pushNamed(
@@ -152,6 +153,7 @@ class _QuizListState extends State<QuizList> {
                                                           .toString()),
                                                   selectedOptionIndices: {}),
                                               "quizModel": totalQuizzes[index],
+                                              "type": widget.type
                                             });
                                       }
                                     });
@@ -161,7 +163,7 @@ class _QuizListState extends State<QuizList> {
                                         horizontal: 7.0, vertical: 1),
                                     decoration: Resources.styles
                                         .kBoxBorderDecorationR3(context),
-                                    child:  Text("Solutions",
+                                    child: Text("Solutions",
                                         style: Resources.styles.kTextStyle14(
                                             Theme.of(context)
                                                 .colorScheme
@@ -170,13 +172,15 @@ class _QuizListState extends State<QuizList> {
                                 ),
                                 InkWell(
                                   onTap: () async {
-                                    await GoRouter.of(context)
-                                        .push(RoutesName.quizDetailsRoute,
-                                            extra: totalQuizzes[index])
-                                        .then((v) {
-                                      context
-                                          .read<QuizzesBloc>()
-                                          .add(QuizzesGetEvent(type: widget.type??''));
+                                    await GoRouter.of(context).push(
+                                        RoutesName.quizDetailsRoute,
+                                        extra: {
+                                          "quizModel": totalQuizzes[index],
+                                          "type": widget.type ?? '',
+                                        }).then((v) {
+                                      context.read<QuizzesBloc>().add(
+                                          QuizzesGetEvent(
+                                              type: widget.type ?? ''));
                                     });
                                   },
                                   child: Container(
@@ -184,7 +188,7 @@ class _QuizListState extends State<QuizList> {
                                         horizontal: 7.0, vertical: 1),
                                     decoration: Resources.styles
                                         .kBoxBorderDecorationR3(context),
-                                    child:  Text("ReAttempt",
+                                    child: Text("ReAttempt",
                                         style: Resources.styles.kTextStyle14(
                                             Theme.of(context)
                                                 .colorScheme
@@ -199,12 +203,12 @@ class _QuizListState extends State<QuizList> {
                                 // _admobHelper.showRewardAd();
 
                                 await GoRouter.of(context)
-                                    .push(RoutesName.quizDetailsRoute,
-                                        extra: totalQuizzes[index])
-                                    .then((v) {
-                                  context
-                                      .read<QuizzesBloc>()
-                                      .add(QuizzesGetEvent(type:widget.type??''));
+                                    .push(RoutesName.quizDetailsRoute, extra: {
+                                  "quizModel": totalQuizzes[index],
+                                  "type": widget.type ?? '',
+                                }).then((v) {
+                                  context.read<QuizzesBloc>().add(
+                                      QuizzesGetEvent(type: widget.type ?? ''));
                                 });
                               },
                               child: Container(
@@ -212,7 +216,7 @@ class _QuizListState extends State<QuizList> {
                                     horizontal: 7.0, vertical: 2),
                                 decoration: Resources.styles
                                     .kBoxBorderDecorationR3(context),
-                                child:  Text("Start",
+                                child: Text("Start",
                                     style: Resources.styles.kTextStyle14(
                                         Theme.of(context)
                                             .colorScheme

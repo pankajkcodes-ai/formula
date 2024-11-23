@@ -11,5 +11,6 @@ class QuestionsGetEvent extends QuestionsEvent {
 
   final String quizId;
   final List<String>? idList;
-  QuestionsGetEvent({required this.quizId, this.idList});
+  final String type;
+  QuestionsGetEvent( {required this.quizId, this.idList,required this.type,});
 }

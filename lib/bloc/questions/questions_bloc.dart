@@ -18,7 +18,7 @@ class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {
   Future<void> getQuestions(
       QuestionsGetEvent event, Emitter<QuestionsState> state) async {
     repository
-        .getQuestions(event.quizId, idList: event.idList)
+        .getQuestions(event.quizId,event.type, idList: event.idList)
         .then((List<QuestionModel> questions) {
       emit(QuestionsGetState(questions: questions));
     }).catchError((e) {

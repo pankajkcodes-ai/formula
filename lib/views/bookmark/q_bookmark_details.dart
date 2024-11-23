@@ -7,8 +7,9 @@ import 'package:formula/res/resources.dart';
 
 class QuestionBookmarkDetails extends StatefulWidget {
   final String id;
+  final String type;
 
-  const QuestionBookmarkDetails({super.key, required this.id});
+  const QuestionBookmarkDetails({super.key, required this.id, required this.type});
 
   @override
   State<QuestionBookmarkDetails> createState() =>
@@ -19,7 +20,7 @@ class _QuestionBookmarkDetailsState extends State<QuestionBookmarkDetails> {
   @override
   void initState() {
     BlocProvider.of<QuestionsBloc>(context)
-        .add(QuestionsGetEvent(quizId: '', idList: [widget.id.toString()]));
+        .add(QuestionsGetEvent(quizId: '', idList: [widget.id.toString()], type: widget.type));
     super.initState();
   }
 

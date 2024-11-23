@@ -20,7 +20,9 @@ import 'package:go_router/go_router.dart';
 
 class QuizDetails extends StatefulWidget {
   final QuizzesModel quizzesModel;
-  const QuizDetails({super.key, required this.quizzesModel});
+  final String? type;
+  const QuizDetails(
+      {super.key, required this.quizzesModel, required this.type});
 
   @override
   State<QuizDetails> createState() => _QuizDetailsState();
@@ -56,9 +58,8 @@ class _QuizDetailsState extends State<QuizDetails> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<QuestionsBloc>()
-        .add(QuestionsGetEvent(quizId: widget.quizzesModel.id!));
+    context.read<QuestionsBloc>().add(QuestionsGetEvent(
+        quizId: widget.quizzesModel.id!, type: widget.type ?? ""));
     context.read<CountDownTimerBloc>().add(
         StartTimer(int.parse(widget.quizzesModel.totalTime.toString()) * 60));
 
@@ -219,9 +220,12 @@ class _QuizDetailsState extends State<QuizDetails> {
                   child: Container(
                     height: Resources.dimens.height(context) * 0.04,
                     width: Resources.dimens.width(context) * 0.3,
-                    decoration: Resources.styles.kBoxBorderDecorationR3(context),
-                    child: Center(child: Text('Clear Response',
-                        style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed))),
+                    decoration:
+                        Resources.styles.kBoxBorderDecorationR3(context),
+                    child: Center(
+                        child: Text('Clear Response',
+                            style: Resources.styles.kTextStyle14B5(
+                                Theme.of(context).colorScheme.tertiaryFixed))),
                   ),
                 ),
                 GestureDetector(
@@ -240,8 +244,10 @@ class _QuizDetailsState extends State<QuizDetails> {
                     width: Resources.dimens.width(context) * 0.25,
                     decoration:
                         Resources.styles.kBoxBorderDecorationR3(context),
-                    child:  Center(child: Text('Previous',
-                        style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed))),
+                    child: Center(
+                        child: Text('Previous',
+                            style: Resources.styles.kTextStyle14B5(
+                                Theme.of(context).colorScheme.tertiaryFixed))),
                   ),
                 ),
                 totalQuestions.length - 1 == selectedQuestionIndex
@@ -264,8 +270,12 @@ class _QuizDetailsState extends State<QuizDetails> {
                           width: Resources.dimens.width(context) * 0.25,
                           decoration:
                               Resources.styles.kBoxBorderDecorationR3(context),
-                          child:  Center(child: Text('Next',
-                              style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed))),
+                          child: Center(
+                              child: Text('Next',
+                                  style: Resources.styles.kTextStyle14B5(
+                                      Theme.of(context)
+                                          .colorScheme
+                                          .tertiaryFixed))),
                         ),
                       ),
               ],
@@ -277,7 +287,6 @@ class _QuizDetailsState extends State<QuizDetails> {
             ),
             backgroundColor: Theme.of(context).colorScheme.primary,
             automaticallyImplyLeading: false,
-
             title: BlocBuilder<CountDownTimerBloc, CountDownTimerState>(
               builder: (context, state) {
                 if (kDebugMode) {
@@ -297,11 +306,11 @@ class _QuizDetailsState extends State<QuizDetails> {
             actions: [
               totalQuestions.isNotEmpty
                   ? PrefService.isQuestionBookmarked(
-                          totalQuestions[_currentPage].id.toString())
+                          totalQuestions[_currentPage].id.toString(),type: widget.type)
                       ? IconButton(
                           onPressed: () {
                             PrefService.removeBookmarkQuestionId(
-                                totalQuestions[_currentPage].id.toString());
+                                totalQuestions[_currentPage].id.toString(),type: widget.type);
                             setState(() {});
                           },
                           icon: const Icon(Icons.bookmark),
@@ -309,7 +318,7 @@ class _QuizDetailsState extends State<QuizDetails> {
                       : IconButton(
                           onPressed: () {
                             PrefService.storeBookmarkQuestionId(
-                                totalQuestions[_currentPage].id.toString());
+                                totalQuestions[_currentPage].id.toString(),type: widget.type);
                             setState(() {});
                           },
                           icon: const Icon(Icons.bookmark_border_outlined))
@@ -342,7 +351,9 @@ class _QuizDetailsState extends State<QuizDetails> {
                       width: Resources.dimens.width(context),
                       margin: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 15),
-                      child: HtmlWidget(selectedLanguage==LanguageEnums.hindi?totalQuestions[index].question_hi:totalQuestions[index].question),
+                      child: HtmlWidget(selectedLanguage == LanguageEnums.hindi
+                          ? totalQuestions[index].question_hi
+                          : totalQuestions[index].question),
                     ),
                   ),
                   SizedBox(
@@ -477,7 +488,7 @@ class _QuizDetailsState extends State<QuizDetails> {
                                   totalQuestions[index].correctOption !=
                                       "optionD"
                               ? Colors.red*/
-                          :Theme.of(context).colorScheme.surfaceContainerLow,
+                          : Theme.of(context).colorScheme.surfaceContainerLow,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.symmetric(
@@ -556,7 +567,8 @@ class _QuizDetailsState extends State<QuizDetails> {
                 notAttempt: notAttempt,
                 totalTime: totalTime,
                 selectedOptionIndices: selectedOptionIndices),
-            "quizModel": widget.quizzesModel
+            "quizModel": widget.quizzesModel,
+            "type": widget.type
           });
         });
       },
@@ -564,8 +576,12 @@ class _QuizDetailsState extends State<QuizDetails> {
         height: Resources.dimens.height(context) * 0.04,
         width: Resources.dimens.width(context) * 0.3,
         decoration: Resources.styles.kBoxBorderDecorationR3(context),
-        child:  Center(child: Text('Submit',
-          style: Resources.styles.kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed),)),
+        child: Center(
+            child: Text(
+          'Submit',
+          style: Resources.styles
+              .kTextStyle14B5(Theme.of(context).colorScheme.tertiaryFixed),
+        )),
       ),
     );
   }

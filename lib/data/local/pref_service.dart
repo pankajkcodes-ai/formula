@@ -111,36 +111,36 @@ class PrefService {
   }
 
   // Store question in shared preferences
-  static void storeBookmarkQuestionId(String questionId) async {
+  static void storeBookmarkQuestionId(String questionId,{String? type}) async {
     List<String>? bookmarkedQuestions =
-        _prefs.getStringList('bookmarkedQuestions') ?? [];
+        _prefs.getStringList(type!=null?'bookmarkedQuestions$type':'bookmarkedQuestions') ?? [];
 
     // Add new quiz ID if it's not already in the list
     if (!bookmarkedQuestions.contains(questionId.toString())) {
       bookmarkedQuestions.add(questionId.toString());
-      await _prefs.setStringList('bookmarkedQuestions', bookmarkedQuestions);
+      await _prefs.setStringList(type!=null?'bookmarkedQuestions$type':'bookmarkedQuestions', bookmarkedQuestions);
     }
   }
 
   // Remove question from shared preferences
-  static void removeBookmarkQuestionId(String questionId) async {
+  static void removeBookmarkQuestionId(String questionId, {String? type}) async {
     List<String>? bookmarkedQuestions =
-        _prefs.getStringList('bookmarkedQuestions') ?? [];
+        _prefs.getStringList(type!=null?'bookmarkedQuestions$type':'bookmarkedQuestions') ?? [];
 
     bookmarkedQuestions.remove(questionId.toString());
-    await _prefs.setStringList('bookmarkedQuestions', bookmarkedQuestions);
+    await _prefs.setStringList(type!=null?'bookmarkedQuestions$type':'bookmarkedQuestions', bookmarkedQuestions);
   }
 
   // Check if question is bookmarked
-  static bool isQuestionBookmarked(String questionId) {
+  static bool isQuestionBookmarked(String questionId,{String? type}) {
     List<String>? bookmarkedQuestions =
-        _prefs.getStringList('bookmarkedQuestions') ?? [];
+        _prefs.getStringList(type!=null?'bookmarkedQuestions$type':'bookmarkedQuestions') ?? [];
 
     return bookmarkedQuestions.contains(questionId.toString());
   }
 
   // Get bookmarked questions
-  static dynamic getBookmarkedQuestions() {
-    return getStringList('bookmarkedQuestions');
+  static dynamic getBookmarkedQuestions({String? type}) {
+    return getStringList(type!=null?'bookmarkedQuestions$type':'bookmarkedQuestions');
   }
 }

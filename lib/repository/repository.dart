@@ -139,16 +139,16 @@ class Repository {
   }
 
   // GET QUESTIONS
-  Future<List<QuestionModel>> getQuestions(String quizId,
+  Future<List<QuestionModel>> getQuestions(String quizId,String type,
       {List<String>? idList = const []}) async {
     try {
       List<QuestionModel> list = [];
       var url = AppUrls.questionsEndPoint;
 
       if (quizId != "") {
-        url = "$url?quizId=$quizId";
+        url = "$url?quizId=$quizId&type=$type";
       } else if (idList!=null&& idList.isNotEmpty && quizId == "" ) {
-        url = "$url?idList=$idList";
+        url = "$url?idList=$idList&type=$type";
       }else {
         url = "$url?quizId=-1";
       }

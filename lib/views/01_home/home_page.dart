@@ -175,9 +175,9 @@ class _HomePageState extends State<HomePage> {
                 builder: (context, state) {
                   print("builder State : $state");
                   if (state is SubjectErrorState) {
-                    return HomeShimmer();
+                    return const HomeShimmer();
                   } else if (state is SubjectLoadingState) {
-                    return HomeShimmer();
+                    return const HomeShimmer();
                   } else if (state is SubjectGetState) {
                     var data = state;
 
