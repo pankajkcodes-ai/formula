@@ -90,8 +90,8 @@ class AppStyles {
     return TextStyle(fontSize: 16, color: color, fontWeight: FontWeight.w500);
   }
 
-  TextStyle kTextStyle16B6(Color? color) {
-    return TextStyle(fontSize: 16, color: color, fontWeight: FontWeight.w600);
+  TextStyle kTextStyle15B6(Color? color) {
+    return TextStyle(fontSize: 15, color: color, fontWeight: FontWeight.w600);
   }
 
   TextStyle kTextStyle16U(Color? color) {

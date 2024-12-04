@@ -10,6 +10,9 @@ class RoutesName {
   static const String feedbackRoute = '/feedback-route';
   static const String rateUsRoute = '/rate-us-route';
   static const String quizListRoute = '/quiz-list-route';
+  static const String pyqListRoute = '/pyq-list-route';
+  static const String pdfCategoryListRoute = '/pdf-category-list-route';
+  static const String pdfListRoute = '/pdf-list-route';
   static const String quizDetailsRoute = '/quiz-details-route';
   static const String quizSolutionsRoute = '/quiz-solutions-route';
   static const String resultSummaryRoute = '/result-summary-route';

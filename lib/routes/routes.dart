@@ -1,7 +1,11 @@
+import 'package:formula/model/pdf_category_model.dart';
 import 'package:formula/model/quizzes_model.dart';
 import 'package:formula/model/result_model.dart';
 import 'package:formula/model/subject_model.dart';
 import 'package:formula/model/topic_model.dart';
+import 'package:formula/views/01_home/pdf_category_list.dart';
+import 'package:formula/views/01_home/pdf_list.dart';
+import 'package:formula/views/01_home/pyq_list.dart';
 import 'package:formula/views/widgets/coming_soon.dart';
 import 'package:formula/views/04_quiz/quiz_details.dart';
 import 'package:formula/views/04_quiz/quiz_list.dart';
@@ -59,6 +63,27 @@ class AppRoutes {
             builder: (BuildContext context, GoRouterState state) {
               final String type = state.extra as String;
               return QuizList(type: type);
+            }),
+        GoRoute(
+            name: RoutesName.pyqListRoute,
+            path: RoutesName.pyqListRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              // final String type = state.extra as String;
+              return PyqList();
+            }),
+        GoRoute(
+            name: RoutesName.pdfCategoryListRoute,
+            path: RoutesName.pdfCategoryListRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              // final String type = state.extra as String;
+              return PdfCategoryList();
+            }),
+        GoRoute(
+            name: RoutesName.pdfListRoute,
+            path: RoutesName.pdfListRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              final PdfCategoryModel type = state.extra as PdfCategoryModel;
+              return PdfList(pdfCategoryModel: type,);
             }),
         GoRoute(
             name: RoutesName.quizDetailsRoute,
@@ -121,9 +146,12 @@ class AppRoutes {
             path: RoutesName.qBookmarkDetailsRoute,
             builder: (BuildContext context, GoRouterState state) {
               final Map<String, dynamic> data =
-              state.extra as Map<String, dynamic>;
+                  state.extra as Map<String, dynamic>;
 
-              return QuestionBookmarkDetails(id: data['id'],type: data['type'],);
+              return QuestionBookmarkDetails(
+                id: data['id'],
+                type: data['type'],
+              );
             }),
         GoRoute(
             name: RoutesName.htmlViewRoute,

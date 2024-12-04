@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
+import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/data/network/base_api_service.dart';
 import 'package:formula/data/network/network_api_service.dart';
+import 'package:formula/model/pdf_category_model.dart';
+import 'package:formula/model/pdf_model.dart';
 import 'package:formula/model/question_model.dart';
 import 'package:formula/model/quizzes_model.dart';
 import 'package:formula/model/sub_topic_model.dart';
@@ -113,7 +116,8 @@ class Repository {
       List<QuizzesModel> list = [];
       var url = AppUrls.quizzedEndPoint;
 
-      dynamic response = await _apiServices.getApiResponse("$url?orderBy=desc&type=$type");
+      dynamic response =
+          await _apiServices.getApiResponse("$url?orderBy=desc&type=$type");
 
       if (kDebugMode) {
         print("Response get brand name: $response");
@@ -139,7 +143,7 @@ class Repository {
   }
 
   // GET QUESTIONS
-  Future<List<QuestionModel>> getQuestions(String quizId,String type,
+  Future<List<QuestionModel>> getQuestions(String quizId, String type,
       {List<String>? idList = const []}) async {
     try {
       List<QuestionModel> list = [];
@@ -147,9 +151,9 @@ class Repository {
 
       if (quizId != "") {
         url = "$url?quizId=$quizId&type=$type";
-      } else if (idList!=null&& idList.isNotEmpty && quizId == "" ) {
+      } else if (idList != null && idList.isNotEmpty && quizId == "") {
         url = "$url?idList=$idList&type=$type";
-      }else {
+      } else {
         url = "$url?quizId=-1";
       }
 
@@ -166,6 +170,69 @@ class Repository {
       for (int i = 0; i < result.length; i++) {
         QuestionModel data =
             QuestionModel.fromJson(result[i] as Map<String, dynamic>);
+        list.add(data);
+      }
+
+      return list;
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error : $e");
+      }
+      rethrow;
+    }
+  }
+
+  // GET SUBJECTS
+  Future<List<PdfCategoryModel>> getPdfCategories() async {
+    try {
+      List<PdfCategoryModel> list = [];
+      var url =
+          "${AppUrls.pdfCategoryEndPoint}?status=Active&language=${selectedLanguage == LanguageEnums.english ? 'en' : "hi"}";
+
+      dynamic response = await _apiServices.getApiResponse(url);
+
+      if (kDebugMode) {
+        print("Response get subject name: $response");
+      }
+      if (response["data"]["pdf_categories"] == null) {
+        return [];
+      }
+      List result = response["data"]["pdf_categories"];
+
+      for (int i = 0; i < result.length; i++) {
+        PdfCategoryModel data =
+            PdfCategoryModel.fromJson(result[i] as Map<String, dynamic>);
+        list.add(data);
+      }
+
+      return list;
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error : $e");
+      }
+      rethrow;
+    }
+  }
+
+// GET SUBJECTS
+  Future<List<PdfModel>> getPdfs(String categoryId) async {
+    try {
+      List<PdfModel> list = [];
+      var url =
+          "${AppUrls.uploadsEndPoint}?pdf_category=$categoryId&language=${selectedLanguage == LanguageEnums.english ? 'en' : "hi"}";
+
+      dynamic response = await _apiServices.getApiResponse(url);
+
+      if (kDebugMode) {
+        print("Response get subject name: $response");
+      }
+      if (response["data"]["uploads"] == null) {
+        return [];
+      }
+      List result = response["data"]["uploads"];
+
+      for (int i = 0; i < result.length; i++) {
+        PdfModel data = PdfModel.fromJson(result[i] as Map<String, dynamic>);
         list.add(data);
       }
 

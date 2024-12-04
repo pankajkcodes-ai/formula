@@ -282,11 +282,11 @@ class _QuizSolutionsState extends State<QuizSolutions> {
             actions: [
               totalQuestions.isNotEmpty
                   ? PrefService.isQuestionBookmarked(
-                          totalQuestions[_currentPage].id.toString())
+                          totalQuestions[_currentPage].id.toString(),type: widget.type)
                       ? IconButton(
                           onPressed: () {
                             PrefService.removeBookmarkQuestionId(
-                                totalQuestions[_currentPage].id.toString());
+                                totalQuestions[_currentPage].id.toString(),type: widget.type);
                             setState(() {});
                           },
                           icon: const Icon(Icons.bookmark),
@@ -294,7 +294,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
                       : IconButton(
                           onPressed: () {
                             PrefService.storeBookmarkQuestionId(
-                                totalQuestions[_currentPage].id.toString());
+                                totalQuestions[_currentPage].id.toString(),type: widget.type);
                             setState(() {});
                           },
                           icon: const Icon(Icons.bookmark_border_outlined))

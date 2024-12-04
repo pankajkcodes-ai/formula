@@ -6,4 +6,7 @@ class AppImages {
   //Icon
   String mathIcon = "assets/icons/math.png";
   String bookmarkIcon = "assets/icons/bookmarked.png";
+  String pdfIcon = "assets/icons/pdf_download.png";
+  String pyqIcon = "assets/icons/pyq.png";
+  String bookIcon = "assets/icons/book.png";
 }

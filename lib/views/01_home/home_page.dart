@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                     return Expanded(
                       flex: 1,
                       child: GridView.builder(
-                          itemCount: data.subjects.length + 1,
+                          itemCount: data.subjects.length + 2,
                           physics: const BouncingScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -193,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                                   childAspectRatio: 1,
                                   crossAxisSpacing: 15),
                           itemBuilder: (BuildContext context, int index) {
-                            if (index < data.subjects.length) {
+                            if (index < data.subjects.length - 1) {
                               return GestureDetector(
                                 onTap: () {
                                   /// navigate based on the index
@@ -309,7 +309,104 @@ class _HomePageState extends State<HomePage> {
                                                 : data.subjects[index].title
                                                     .toString(),
                                             style: Resources.styles
-                                                .kTextStyle16B6(
+                                                .kTextStyle15B6(
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .scrim));
+                                      })
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                            if (index == data.subjects.length - 1) {
+                              return GestureDetector(
+                                onTap: () {
+                                  GoRouter.of(context).pushNamed(
+                                    RoutesName.pyqListRoute,
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(11),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xffff9c8b),
+                                      borderRadius: BorderRadius.circular(11),
+                                      border: Border.all(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary,
+                                          width: 2)),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(11),
+                                        child: Image.asset(
+                                            filterQuality: FilterQuality.high,
+                                            height: 77,
+                                            Resources.images.bookIcon),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            Resources.dimens.height(context) *
+                                                0.01,
+                                      ),
+                                      BlocBuilder<LanguageBloc, LanguageState>(
+                                          builder: (context, value) {
+                                        return Text(
+                                            selectedLanguage ==
+                                                    LanguageEnums.hindi
+                                                ? "पिछले वर्ष की प्रश्नोत्तरी"
+                                                : "Previous Year Quiz",
+                                            style: Resources.styles
+                                                .kTextStyle15B6(
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .scrim));
+                                      })
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                            if (index == data.subjects.length) {
+                              return GestureDetector(
+                                onTap: () {
+                                  GoRouter.of(context)
+                                      .pushNamed(RoutesName.pdfCategoryListRoute);
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(11),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xff8beeff),
+                                      borderRadius: BorderRadius.circular(11),
+                                      border: Border.all(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary,
+                                          width: 2)),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(11),
+                                        child: Image.asset(
+                                            filterQuality: FilterQuality.high,
+                                            height: 75,
+                                            Resources.images.pdfIcon),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            Resources.dimens.height(context) *
+                                                0.01,
+                                      ),
+                                      BlocBuilder<LanguageBloc, LanguageState>(
+                                          builder: (context, value) {
+                                        return Text(
+                                            selectedLanguage ==
+                                                    LanguageEnums.hindi
+                                                ? "PDF"
+                                                : "PDF",
+                                            style: Resources.styles
+                                                .kTextStyle15B6(
                                                     Theme.of(context)
                                                         .colorScheme
                                                         .scrim));
@@ -356,7 +453,7 @@ class _HomePageState extends State<HomePage> {
                                               ? "बुकमार्क"
                                               : "Bookmarks",
                                           style: Resources.styles
-                                              .kTextStyle16B6(Theme.of(context)
+                                              .kTextStyle15B6(Theme.of(context)
                                                   .colorScheme
                                                   .scrim));
                                     })

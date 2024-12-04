@@ -7,6 +7,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formula/bloc/language/language_bloc.dart';
+import 'package:formula/bloc/pdf_category/pdf_bloc.dart';
+import 'package:formula/bloc/pdf_category/pdf_category_bloc.dart';
 import 'package:formula/bloc/questions/questions_bloc.dart';
 import 'package:formula/bloc/quizzes/countdown_time_bloc.dart';
 import 'package:formula/bloc/quizzes/quizzes_bloc.dart';
@@ -78,6 +80,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => QuizzesBloc()),
           BlocProvider(create: (_) => QuestionsBloc()),
           BlocProvider(create: (_) => CountDownTimerBloc()),
+          BlocProvider(create: (_) => PdfBloc()),
+          BlocProvider(create: (_) => PdfCategoryBloc()),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {
