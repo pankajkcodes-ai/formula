@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:formula/model/quizzes_model.dart';
 import 'package:formula/model/result_model.dart';
 import 'package:formula/res/resources.dart';
 import 'package:formula/routes/routes_path.dart';
+import 'package:formula/utils/admob_helper.dart';
 import 'package:go_router/go_router.dart';
 
 class ResultSummary extends StatefulWidget {
@@ -19,6 +19,15 @@ class ResultSummary extends StatefulWidget {
 }
 
 class _ResultSummaryState extends State<ResultSummary> {
+
+  AdmobHelper admobHelper = AdmobHelper();
+
+  @override
+  void initState() {
+    admobHelper.createInterstitialAd();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,6 +93,9 @@ class _ResultSummaryState extends State<ResultSummary> {
               children: [
                 InkWell(
                   onTap: () {
+                    Future.delayed(const Duration(microseconds: 200), () {
+                      admobHelper.loadInterstitialAd();
+                    });
                     GoRouter.of(context)
                         .pushNamed(RoutesName.quizSolutionsRoute, extra: {
                       "quizModel": widget.quizzesModel,
@@ -119,6 +131,9 @@ class _ResultSummaryState extends State<ResultSummary> {
                 ),
                 InkWell(
                   onTap: () {
+                    Future.delayed(const Duration(microseconds: 200), () {
+                      admobHelper.loadInterstitialAd();
+                    });
                     Navigator.popUntil(
                         context,
                         (route) =>

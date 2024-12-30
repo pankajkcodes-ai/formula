@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:formula/utils/admob_helper.dart';
 
 class PdfView extends StatefulWidget {
   const PdfView({super.key, required this.url});
@@ -17,9 +18,15 @@ class _HomePage extends State<PdfView> {
   final StreamController<String> _pageCountController =
       StreamController<String>();
 
+  AdmobHelper admobHelper = AdmobHelper();
+
   @override
   void initState() {
     print('Url : ${widget.url}');
+    admobHelper.createInterstitialAd();
+    Future.delayed(const Duration(seconds: 2), () {
+      admobHelper.loadInterstitialAd();
+    });
     super.initState();
   }
 

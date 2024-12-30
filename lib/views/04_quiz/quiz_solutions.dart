@@ -1,10 +1,7 @@
-import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/bloc/questions/questions_bloc.dart';
 import 'package:formula/data/local/pref_service.dart';
@@ -488,7 +485,7 @@ class _QuizSolutionsState extends State<QuizSolutions> {
         Navigator.popUntil(context,
             (route) => route.settings.name == RoutesName.quizListRoute);
 
-        GoRouter.of(context).pushReplacement(RoutesName.quizListRoute,extra: widget.type);
+        GoRouter.of(context).pushReplacement(RoutesName.quizListRoute,extra: widget.type??"");
       },
       child: Container(
         height: Resources.dimens.height(context) * 0.04,

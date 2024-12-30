@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:formula/res/resources.dart';
 import 'package:formula/utils/admob_helper.dart';
+import 'package:formula/views/widgets/ad_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewFormulaPage extends StatefulWidget {
@@ -66,8 +67,15 @@ class _WebViewFormulaPageState extends State<WebViewFormulaPage> {
               .kTextStyle18(Theme.of(context).colorScheme.tertiaryFixed),
         ),
       ),
-      body: SafeArea(
-        child: WebViewWidget(controller: controller),
+      body: Column(
+        children: [
+          Expanded(
+            child: SafeArea(
+              child: WebViewWidget(controller: controller),
+            ),
+          ),
+          const MyBannerAd(),
+        ],
       ),
     );
   }

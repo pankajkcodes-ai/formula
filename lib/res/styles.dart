@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:formula/res/resources.dart';
 
 class AppStyles {
   TextStyle kTextStyle10(Color? color) {

@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/bloc/pdf_category/pdf_bloc.dart';
-import 'package:formula/bloc/pdf_category/pdf_category_bloc.dart';
 import 'package:formula/model/pdf_category_model.dart';
 import 'package:formula/res/app_urls.dart';
 import 'package:formula/res/resources.dart';
-import 'package:formula/routes/routes_path.dart';
 import 'package:formula/views/html_view/pdf_view.dart';
 import 'package:formula/views/widgets/list_shimmer.dart';
 import 'package:formula/views/widgets/no_data.dart';
-import 'package:go_router/go_router.dart';
 
 class PdfList extends StatefulWidget {
   final PdfCategoryModel pdfCategoryModel;
@@ -72,6 +69,9 @@ class _PdfListState extends State<PdfList> {
                           onTap: () {
                             /// navigate based on the index
                             print("data.Pdfs : ${data[index]}");
+
+                            // AdmobHelper().loadRewardedAd();
+                            // AdmobHelper().showRewardAd();
 
                             Navigator.push(
                                 context,

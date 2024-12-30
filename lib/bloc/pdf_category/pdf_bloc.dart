@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:formula/model/pdf_category_model.dart';
 import 'package:formula/model/pdf_model.dart';
 
 import 'package:formula/repository/repository.dart';

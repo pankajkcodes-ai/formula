@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:formula/utils/firestore_service.dart';
@@ -6,7 +5,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter/foundation.dart';
 
 class AdmobHelper extends ChangeNotifier {
-  int _rewardedPoint = 0;
+  final int _rewardedPoint = 0;
 
   int getRewardPoint() => _rewardedPoint;
 
@@ -16,6 +15,10 @@ class AdmobHelper extends ChangeNotifier {
   static String interstitialAdUnitId = 'ca-app-pub-3940256099942544/1033173712';
   static String rewardedAdUnitId = 'ca-app-pub-3940256099942544/5224354917';
   static String nativeAdUnitId = 'ca-app-pub-3940256099942544/2247696110';
+  // static String bannerAdUnitId = 'ca-app-pub-7358540751810641/5064775403';
+  // static String interstitialAdUnitId = 'ca-app-pub-7358540751810641/9630674554';
+  // static String rewardedAdUnitId = 'ca-app-pub-7358540751810641/9427494576';
+  // static String nativeAdUnitId = 'ca-app-pub-7358540751810641/4917435740';
 
   InterstitialAd? _interstitialAd;
 
@@ -27,9 +30,9 @@ class AdmobHelper extends ChangeNotifier {
     // GET APP ID FROM FIRESTORE
     FirestoreService.getCollectionData('AdmobAppId').then((value) {
       if (value != null) {
-        print("AdmobApId ${value}");
-        // Usage
+        print("AdmobApId $value");
         setApplicationId("ca-app-pub-3940256099942544~3347511713");
+        // setApplicationId("ca-app-pub-7358540751810641~3421618726");
       }
     });
 
@@ -55,10 +58,6 @@ class AdmobHelper extends ChangeNotifier {
         nativeAdUnitId = value['adUnitId'];
       }
     });
-
-    if (MobileAds.instance == null) {
-      MobileAds.instance.initialize();
-    }
   }
 
   static Future<void> setApplicationId(String apiKey) async {
@@ -92,7 +91,7 @@ class AdmobHelper extends ChangeNotifier {
         }, onAdOpened: (Ad ad) {
           print('Ad opened');
         }),
-        request: AdRequest());
+        request: const AdRequest());
 
     return bAd;
   }
@@ -103,7 +102,7 @@ class AdmobHelper extends ChangeNotifier {
 
     InterstitialAd.load(
       adUnitId: interstitialAdUnitId,
-      request: AdRequest(),
+      request: const AdRequest(),
       adLoadCallback:
           InterstitialAdLoadCallback(onAdLoaded: (InterstitialAd ad) {
         print("_interstitialAd : onAdLoaded : $ad");
@@ -150,11 +149,11 @@ class AdmobHelper extends ChangeNotifier {
   void loadRewardedAd() {
     RewardedAd.load(
         adUnitId: rewardedAdUnitId,
-        request: AdRequest(),
+        request: const AdRequest(),
         rewardedAdLoadCallback:
             RewardedAdLoadCallback(onAdLoaded: (RewardedAd ad) {
           print("Ad loaded");
-          this._rewardedAd = ad;
+          _rewardedAd = ad;
         }, onAdFailedToLoad: (LoadAdError error) {
           // loadRewardedAd();
         }));

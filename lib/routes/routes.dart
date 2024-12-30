@@ -1,6 +1,4 @@
 import 'package:formula/model/pdf_category_model.dart';
-import 'package:formula/model/quizzes_model.dart';
-import 'package:formula/model/result_model.dart';
 import 'package:formula/model/subject_model.dart';
 import 'package:formula/model/topic_model.dart';
 import 'package:formula/views/01_home/pdf_category_list.dart';
@@ -69,14 +67,14 @@ class AppRoutes {
             path: RoutesName.pyqListRoute,
             builder: (BuildContext context, GoRouterState state) {
               // final String type = state.extra as String;
-              return PyqList();
+              return const PyqList();
             }),
         GoRoute(
             name: RoutesName.pdfCategoryListRoute,
             path: RoutesName.pdfCategoryListRoute,
             builder: (BuildContext context, GoRouterState state) {
               // final String type = state.extra as String;
-              return PdfCategoryList();
+              return const PdfCategoryList();
             }),
         GoRoute(
             name: RoutesName.pdfListRoute,

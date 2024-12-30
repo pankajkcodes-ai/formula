@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/bloc/pdf_category/pdf_category_bloc.dart';
-import 'package:formula/res/app_urls.dart';
+import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/res/resources.dart';
 import 'package:formula/routes/routes_path.dart';
-import 'package:formula/views/html_view/pdf_view.dart';
 import 'package:formula/views/widgets/list_shimmer.dart';
+import 'package:formula/views/widgets/no_data.dart';
 import 'package:go_router/go_router.dart';
 
 class PdfCategoryList extends StatefulWidget {
@@ -17,11 +17,20 @@ class PdfCategoryList extends StatefulWidget {
 }
 
 class _PdfCategoryListState extends State<PdfCategoryList> {
+  String selectedItem = 'All';
+
   @override
   void initState() {
     context.read<PdfCategoryBloc>().add(PdfCategoryGetEvent());
-
+    _setStudentClass();
     super.initState();
+  }
+
+  final PrefService _prefService = PrefService();
+
+  void _setStudentClass() {
+    String? language = _prefService.getStudentClass();
+    selectedItem = language ?? 'All';
   }
 
   @override
@@ -34,10 +43,50 @@ class _PdfCategoryListState extends State<PdfCategoryList> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         toolbarHeight: Resources.dimens.height(context) * 0.08,
         title: Text(
-          'PDF ',
+          'Math PDF',
           style: Resources.styles
               .kTextStyle18(Theme.of(context).colorScheme.tertiaryFixed),
         ),
+        actions: [
+          Container(
+            height: Resources.dimens.height(context) * 0.04,
+            padding: const EdgeInsets.only(left: 10),
+            margin: const EdgeInsets.only(right: 10),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(5)),
+            child: DropdownButton<String>(
+              icon: const Icon(Icons.arrow_drop_down),
+              iconSize: 27,
+              underline: const SizedBox(),
+              value: selectedItem,
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedItem = newValue!;
+                  _prefService.setStudentClass(newValue);
+                });
+                print(newValue);
+              },
+              items: const [
+                DropdownMenuItem(
+                  value: 'All',
+                  child: Text('All'),
+                ),
+                DropdownMenuItem(
+                  value: 'Class 8',
+                  child: Text('Class 8'),
+                ),
+                DropdownMenuItem(
+                  value: 'Class 9',
+                  child: Text('Class 9'),
+                ),
+                DropdownMenuItem(
+                  value: 'Class 10',
+                  child: Text('Class 10'),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
@@ -54,7 +103,15 @@ class _PdfCategoryListState extends State<PdfCategoryList> {
             } else if (state is PdfCategoryGetState) {
               var data = state.pdfCategories;
 
-              return ListView.builder(
+              // Filter data based on selected class
+              if (selectedItem != 'All') {
+                data = data
+                    .where(
+                        (item) => item.title.toString().contains(selectedItem))
+                    .toList();
+              }
+
+              return data.isNotEmpty? ListView.builder(
                   itemCount: data.length,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
@@ -89,7 +146,7 @@ class _PdfCategoryListState extends State<PdfCategoryList> {
                         ),
                       ),
                     );
-                  });
+                  }):const NoData();
             }
             return const ListShimmer();
           },

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -16,15 +15,12 @@ import 'package:formula/bloc/sub_topic/sub_topic_bloc.dart';
 import 'package:formula/bloc/subject/subject_bloc.dart';
 import 'package:formula/bloc/theme/theme_bloc.dart';
 import 'package:formula/bloc/topic/topic_bloc.dart';
-import 'package:formula/data/local/database_helper.dart';
 import 'package:formula/data/local/pref_service.dart';
 import 'package:formula/res/strings.dart';
 import 'package:formula/res/theme.dart';
 import 'package:formula/routes/routes.dart';
 import 'package:formula/utils/admob_helper.dart';
 import 'package:formula/utils/utils.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:in_app_update/in_app_update.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'firebase_options.dart';

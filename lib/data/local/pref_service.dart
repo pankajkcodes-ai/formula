@@ -14,9 +14,11 @@ class PrefService {
   setRegId(String regId) {
     return setString(AppStrings.regIdKey, regId);
   }
+
   getRegId() {
     return getString(AppStrings.regIdKey);
   }
+
   setThemeMode(bool isDarkMode) {
     return setBool(AppStrings.themeKey, isDarkMode);
   }
@@ -33,6 +35,13 @@ class PrefService {
     return getString(AppStrings.languageKey);
   }
 
+  setStudentClass(String c) {
+    return setString(AppStrings.classKey, c);
+  }
+
+  getStudentClass() {
+    return getString(AppStrings.classKey);
+  }
 
   setMobile(String mobile) {
     return setString(AppStrings.mobileNoKey, mobile);
@@ -111,36 +120,48 @@ class PrefService {
   }
 
   // Store question in shared preferences
-  static void storeBookmarkQuestionId(String questionId,{String? type}) async {
-    List<String>? bookmarkedQuestions =
-        _prefs.getStringList(type!=null?'bookmarkedQuestions$type':'bookmarkedQuestions') ?? [];
+  static void storeBookmarkQuestionId(String questionId, {String? type}) async {
+    List<String>? bookmarkedQuestions = _prefs.getStringList(type != null
+            ? 'bookmarkedQuestions$type'
+            : 'bookmarkedQuestions') ??
+        [];
 
     // Add new quiz ID if it's not already in the list
     if (!bookmarkedQuestions.contains(questionId.toString())) {
       bookmarkedQuestions.add(questionId.toString());
-      await _prefs.setStringList(type!=null?'bookmarkedQuestions$type':'bookmarkedQuestions', bookmarkedQuestions);
+      await _prefs.setStringList(
+          type != null ? 'bookmarkedQuestions$type' : 'bookmarkedQuestions',
+          bookmarkedQuestions);
     }
   }
 
   // Remove question from shared preferences
-  static void removeBookmarkQuestionId(String questionId, {String? type}) async {
-    List<String>? bookmarkedQuestions =
-        _prefs.getStringList(type!=null?'bookmarkedQuestions$type':'bookmarkedQuestions') ?? [];
+  static void removeBookmarkQuestionId(String questionId,
+      {String? type}) async {
+    List<String>? bookmarkedQuestions = _prefs.getStringList(type != null
+            ? 'bookmarkedQuestions$type'
+            : 'bookmarkedQuestions') ??
+        [];
 
     bookmarkedQuestions.remove(questionId.toString());
-    await _prefs.setStringList(type!=null?'bookmarkedQuestions$type':'bookmarkedQuestions', bookmarkedQuestions);
+    await _prefs.setStringList(
+        type != null ? 'bookmarkedQuestions$type' : 'bookmarkedQuestions',
+        bookmarkedQuestions);
   }
 
   // Check if question is bookmarked
-  static bool isQuestionBookmarked(String questionId,{String? type}) {
-    List<String>? bookmarkedQuestions =
-        _prefs.getStringList(type!=null?'bookmarkedQuestions$type':'bookmarkedQuestions') ?? [];
+  static bool isQuestionBookmarked(String questionId, {String? type}) {
+    List<String>? bookmarkedQuestions = _prefs.getStringList(type != null
+            ? 'bookmarkedQuestions$type'
+            : 'bookmarkedQuestions') ??
+        [];
 
     return bookmarkedQuestions.contains(questionId.toString());
   }
 
   // Get bookmarked questions
   static dynamic getBookmarkedQuestions({String? type}) {
-    return getStringList(type!=null?'bookmarkedQuestions$type':'bookmarkedQuestions');
+    return getStringList(
+        type != null ? 'bookmarkedQuestions$type' : 'bookmarkedQuestions');
   }
 }

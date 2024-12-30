@@ -33,7 +33,7 @@ class _NotificationsState extends State<Notifications> {
                   BoxDecoration(borderRadius: BorderRadius.circular(11)),
               child: Center(child:  Text("No Notifications",
                 style: Resources.styles
-                    .kTextStyle16B5(Theme.of(context).colorScheme.onBackground),
+                    .kTextStyle16B5(Theme.of(context).colorScheme.onSurface),
               )),
             );
           }),

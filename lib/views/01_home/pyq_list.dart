@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formula/bloc/language/language_bloc.dart';
 import 'package:formula/bloc/subject/subject_bloc.dart';
-import 'package:formula/res/app_urls.dart';
 import 'package:formula/res/resources.dart';
 import 'package:formula/routes/routes_path.dart';
 import 'package:formula/views/widgets/list_shimmer.dart';

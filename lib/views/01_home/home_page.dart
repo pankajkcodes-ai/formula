@@ -1,6 +1,4 @@
-import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formula/bloc/language/language_bloc.dart';
@@ -12,6 +10,7 @@ import 'package:formula/res/resources.dart';
 import 'package:formula/routes/routes_path.dart';
 import 'package:formula/utils/admob_helper.dart';
 import 'package:formula/views/menu/drawer_menu.dart';
+import 'package:formula/views/widgets/ad_widget.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shimmer/shimmer.dart';
@@ -371,8 +370,8 @@ class _HomePageState extends State<HomePage> {
                             if (index == data.subjects.length) {
                               return GestureDetector(
                                 onTap: () {
-                                  GoRouter.of(context)
-                                      .pushNamed(RoutesName.pdfCategoryListRoute);
+                                  GoRouter.of(context).pushNamed(
+                                      RoutesName.pdfCategoryListRoute);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(11),
@@ -403,8 +402,8 @@ class _HomePageState extends State<HomePage> {
                                         return Text(
                                             selectedLanguage ==
                                                     LanguageEnums.hindi
-                                                ? "PDF"
-                                                : "PDF",
+                                                ? "Math PDF"
+                                                : "Math PDF",
                                             style: Resources.styles
                                                 .kTextStyle15B6(
                                                     Theme.of(context)
@@ -464,23 +463,10 @@ class _HomePageState extends State<HomePage> {
                           }),
                     );
                   }
-                  return HomeShimmer();
+                  return const HomeShimmer();
                 },
               ),
-              Container(
-                child: _bannerAd != null
-                    ? Align(
-                        alignment: Alignment.bottomCenter,
-                        child: SafeArea(
-                          child: SizedBox(
-                            width: _bannerAd!.size.width.toDouble(),
-                            height: _bannerAd!.size.height.toDouble(),
-                            child: AdWidget(ad: _bannerAd!),
-                          ),
-                        ),
-                      )
-                    : const SizedBox.shrink(),
-              ),
+              const MyBannerAd(),
             ],
           ),
         ),
@@ -508,7 +494,7 @@ class HomeShimmer extends StatelessWidget {
               crossAxisSpacing: 15),
           itemBuilder: (BuildContext context, int index) {
             return Shimmer.fromColors(
-              baseColor: Color(0xff006973),
+              baseColor: const Color(0xff006973),
               highlightColor: Colors.grey[200]!,
               child: Container(
                 decoration: BoxDecoration(
